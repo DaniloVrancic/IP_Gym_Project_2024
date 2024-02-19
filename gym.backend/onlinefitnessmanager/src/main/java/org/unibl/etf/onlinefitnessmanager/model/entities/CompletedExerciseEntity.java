@@ -17,7 +17,7 @@ public class CompletedExerciseEntity {
     private String type;
     @Basic
     @Column(name = "duration", nullable = false)
-    private Integer duration;
+    private Integer duration; 
     @Basic
     @Column(name = "intensity", nullable = false)
     private Integer intensity;
@@ -30,6 +30,10 @@ public class CompletedExerciseEntity {
     @Basic
     @Column(name = "result_description", nullable = true, length = 64)
     private String resultDescription;
+
+    @Basic
+    @Column(name = "user_id", nullable = false)
+    private Integer user_id;
 
     public Integer getId() {
         return id;
@@ -92,11 +96,11 @@ public class CompletedExerciseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CompletedExerciseEntity that = (CompletedExerciseEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(type, that.type) && Objects.equals(duration, that.duration) && Objects.equals(intensity, that.intensity) && Objects.equals(dayOfCompletion, that.dayOfCompletion) && Objects.equals(weightLoss, that.weightLoss) && Objects.equals(resultDescription, that.resultDescription);
+        return Objects.equals(id, that.id) && Objects.equals(user_id, that.user_id) && Objects.equals(type, that.type) && Objects.equals(duration, that.duration) && Objects.equals(intensity, that.intensity) && Objects.equals(dayOfCompletion, that.dayOfCompletion) && Objects.equals(weightLoss, that.weightLoss) && Objects.equals(resultDescription, that.resultDescription);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, type, duration, intensity, dayOfCompletion, weightLoss, resultDescription);
+        return Objects.hash(id, type, duration, intensity, dayOfCompletion, weightLoss, resultDescription, user_id);
     }
 }

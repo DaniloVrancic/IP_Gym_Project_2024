@@ -11,9 +11,12 @@ public class SubscriptionEntity {
     @Id
     @Column(name = "id", nullable = false)
     private Integer id;
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    private UserEntity subscriber;
+    @Basic
+    @Column(name = "fitness_program_type_id", nullable = false)
+    private Integer fitnessProgramTypeId;
+    @Basic
+    @Column(name = "user_id", nullable = false)
+    private Integer userId;
 
     public Integer getId() {
         return id;
@@ -23,24 +26,32 @@ public class SubscriptionEntity {
         this.id = id;
     }
 
+    public Integer getFitnessProgramTypeId() {
+        return fitnessProgramTypeId;
+    }
+
+    public void setFitnessProgramTypeId(Integer fitnessProgramTypeId) {
+        this.fitnessProgramTypeId = fitnessProgramTypeId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SubscriptionEntity that = (SubscriptionEntity) o;
-        return Objects.equals(id, that.id);
+        return Objects.equals(id, that.id) && Objects.equals(fitnessProgramTypeId, that.fitnessProgramTypeId) && Objects.equals(userId, that.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    public UserEntity getSubscriber() {
-        return subscriber;
-    }
-
-    public void setSubscriber(UserEntity subscriber) {
-        this.subscriber = subscriber;
+        return Objects.hash(id, fitnessProgramTypeId, userId);
     }
 }
