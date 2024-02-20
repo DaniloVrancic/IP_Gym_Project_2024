@@ -3,6 +3,7 @@ package org.unibl.etf.onlinefitnessmanager.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.unibl.etf.onlinefitnessmanager.exception.UserNotFoundException;
 import org.unibl.etf.onlinefitnessmanager.model.entities.UserEntity;
 import org.unibl.etf.onlinefitnessmanager.repositories.UserRepository;
 import java.security.MessageDigest;
@@ -30,6 +31,24 @@ public class UserService {
     public List<UserEntity> findAllUsers() {
         return userRepository.findAll();
     }
+
+    public UserEntity updateUser(UserEntity user)
+    {
+        user.setPassword(hashString(user.getPassword())); //hash newly set password before saving
+        return userRepository.save(user);
+    }
+
+    public void deleteUser(Integer id)
+    {
+        userRepository.deleteById(id);
+    }
+
+    public UserEntity findUserById(Integer id)
+    {
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User ID: [" + id + "], not found in repository."));
+    }
+
+    // PRIVATE METHODS FOR THIS SERVICE'S INTERNAL USE
 
     private static String hashString(String text) {
         try

@@ -1,5 +1,6 @@
 package org.unibl.etf.onlinefitnessmanager.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -19,7 +20,7 @@ public class SpecificProgramAttributeEntity {
     private String value;
     @ManyToOne
     @JoinColumn(name = "fitness_program_type_id", referencedColumnName = "id", nullable = false)
-    private FitnessProgramTypeEntity fitnessProgramTypeByFitnessProgramTypeId;
+    private FitnessProgramTypeEntity fitnessProgramType;
 
     public Integer getId() {
         return id;
@@ -58,11 +59,11 @@ public class SpecificProgramAttributeEntity {
         return Objects.hash(id, name, value);
     }
 
-    public FitnessProgramTypeEntity getFitnessProgramTypeByFitnessProgramTypeId() {
-        return fitnessProgramTypeByFitnessProgramTypeId;
+    public FitnessProgramTypeEntity getFitnessProgramType() {
+        return fitnessProgramType;
     }
 
-    public void setFitnessProgramTypeByFitnessProgramTypeId(FitnessProgramTypeEntity fitnessProgramTypeByFitnessProgramTypeId) {
-        this.fitnessProgramTypeByFitnessProgramTypeId = fitnessProgramTypeByFitnessProgramTypeId;
+    public void setFitnessProgramType(FitnessProgramTypeEntity fitnessProgramType) {
+        this.fitnessProgramType = fitnessProgramType;
     }
 }

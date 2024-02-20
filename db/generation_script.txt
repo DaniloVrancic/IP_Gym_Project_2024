@@ -267,3 +267,8 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+ALTER TABLE `specific_program_attribute` DROP CONSTRAINT `fk_specific_program_attribute_fitness_program_type1`;
+
+ALTER TABLE `specific_program_attribute` ADD CONSTRAINT `fk_specific_program_attribute_fitness_program_type1` FOREIGN KEY(fitness_program_type_id) REFERENCES fitness_program_type(id) ON DELETE CASCADE;
