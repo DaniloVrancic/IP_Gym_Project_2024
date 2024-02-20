@@ -1,5 +1,6 @@
 package org.unibl.etf.onlinefitnessmanager.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public class FitnessProgramEntity {
     @Column(name = "status", nullable = false, length = 8)
     private String status;
     @OneToMany(mappedBy = "targetFitnessProgram")
+    @JsonIgnore
     private List<CommentEntity> comments;
     @ManyToOne
     @JoinColumn(name = "fitness_program_type_id", referencedColumnName = "id", nullable = false)
@@ -45,6 +47,7 @@ public class FitnessProgramEntity {
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private UserEntity user_creator;
     @OneToMany(mappedBy = "fitnessProgramId")
+    @JsonIgnore
     private List<PurchaseEntity> purchasesById;
 
     public Integer getId() {

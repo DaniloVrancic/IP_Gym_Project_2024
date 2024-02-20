@@ -1,5 +1,6 @@
 package org.unibl.etf.onlinefitnessmanager.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
@@ -20,6 +21,7 @@ public class CommentEntity {
     private Timestamp commentTime;
     @ManyToOne
     @JoinColumn(name = "fitness_program_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnore
     private FitnessProgramEntity targetFitnessProgram;
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
