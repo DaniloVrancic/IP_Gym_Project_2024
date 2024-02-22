@@ -2,3 +2,5 @@ INSERT INTO `db_online_fitness`.`user` (`username`, `password`, `first_name`, `l
 
 INSERT INTO `db_online_fitness`.`fitness_program_type` (`name`) VALUES ('Snaga');
 INSERT INTO `db_online_fitness`.`fitness_program_type` (`name`) VALUES ('Kardio');
+
+INSERT INTO `db_online_fitness`.`fitness_program` (`name`, `description`, `location_of_event`, `price`, `duration`, `difficulty_level`, `status`, `fitness_program_type_id`, `user_id`) VALUES ('Jogging', 'A nice, regular excercise.', 'Banja Luka', '39.99', '180', '1', '0', '2', '1');
