@@ -3,22 +3,27 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { User } from './user';
 import { UserService } from './user.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
+  imports: [HttpClientModule],
+  providers: [UserService]
 })
-export class AppComponent{
-  title = 'client-app';
+export class AppComponent implements OnInit{
+  title: string = 'my-fitness-app';
  
   public loggedUser!: User | null; //Can either be null or a User object
-/*
+
   constructor(private userService: UserService){};
 
   ngOnInit() {
-      //this.loggedUser = null;
+      let id : number = 1;
+      this.getLoggedUser(id);
   }
 
   public getLoggedUser(userId: number): void {
@@ -31,7 +36,7 @@ export class AppComponent{
       }
     });
   }
-*/
+
   public logoutUser(): void
   {
     this.loggedUser = null;
