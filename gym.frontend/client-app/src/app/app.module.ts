@@ -5,8 +5,7 @@ import { AppComponent } from "./app.component";
 import { UserService } from "./user.service";
 import { HttpClientModule } from "@angular/common/http";
 import { appConfig } from "./app.config";
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { MaterialModule } from "./material/material.module";
 
 @NgModule({
     declarations: [
@@ -15,8 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
     imports: [
         BrowserModule,
         HttpClientModule,
-        MatButtonModule,
-        MatIconModule
+        MaterialModule
         ],
     providers: [UserService],
     bootstrap: []
