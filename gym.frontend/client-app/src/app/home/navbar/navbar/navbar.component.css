@@ -1,0 +1,70 @@
+.custom-nav {
+    display: flex;
+    color: rgb(17, 17, 0);
+    background-color: var(--primary-color);
+    height: auto; /* Change height to auto */
+    min-height: 2rem;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    border: 0.1rem solid black;
+}
+
+.custom-nav > .title {
+    font-size: 1.75rem;
+    margin-top: 1rem;
+    padding: 1% 0; 
+    flex-grow: 1; 
+    flex-shrink: 0; 
+}
+
+.custom-nav > .options {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    flex-grow: 1;
+    flex-shrink: 2;
+    justify-content: right;
+    margin-top: 1rem;
+}
+
+.options > button {
+    width: 10rem;
+    height: 3rem;
+    min-height: 1rem;
+    margin: 0.5rem;
+    text-wrap: nowrap;
+}
+
+.profile
+{
+    display: inline-flex;
+    border: 0.05rem solid black;
+    position: absolute;
+    top: 0;
+    right: 1rem;
+    background-color: var(--secondary-color);
+    margin: 0.25rem;
+    float: right;
+}
+
+.profile > .menu
+{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    padding: 0.5rem;
+}
+
+.profile > .profile-picture
+{
+    
+    height: 32px;
+    width: auto;
+}

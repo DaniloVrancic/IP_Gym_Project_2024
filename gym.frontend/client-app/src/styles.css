@@ -2,3 +2,46 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+:root
+{
+    --primary-color: hsl(240, 40%, 59%);
+    --secondary-color: hsl(44, 89%, 79%);
+}
+
+.homenaje-regular {
+    font-family: "Homenaje", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .homenaje-strong {
+    font-family: "Homenaje", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  .homenaje-weak {
+    font-family: "Homenaje", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+  }
+
+
+  .montserrat-regular {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .montserrat-strong {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .montserrat-weak {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
