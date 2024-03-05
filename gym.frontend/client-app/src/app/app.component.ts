@@ -10,13 +10,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { NavbarComponent } from './home/navbar/navbar/navbar.component';
 import { MaterialModule } from './material/material.module';
 import { RegisterFormComponent } from './register.form/register/register.form.component';
+import { LoginFormComponent } from './register.form/login.form/login.form.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  imports: [HttpClientModule, MaterialModule, NavbarComponent, RegisterFormComponent],
+  imports: [HttpClientModule, MaterialModule, NavbarComponent, RegisterFormComponent, LoginFormComponent],
   providers: [UserService]
 })
 export class AppComponent implements OnInit{

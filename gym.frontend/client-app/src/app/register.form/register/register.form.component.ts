@@ -11,7 +11,16 @@ import { ErrorStateMatcher } from '@angular/material/core';
   styleUrl: './register.form.component.css'
 })
 export class RegisterFormComponent {
+  firstNameFormControl = new FormControl('', [Validators.required]);
+  lastNameFormControl = new FormControl('', [Validators.required]);
+  usernameFormControl = new FormControl('', [Validators.required]);
+  passwordFormControl = new FormControl('', [Validators.required]);
+  cityFormControl = new FormControl('', [Validators.required]);
   emailFormControl = new FormControl('', [Validators.required, Validators.email]);
+
+  allControls : FormControl[] = [this.firstNameFormControl, this.lastNameFormControl,
+                                 this.usernameFormControl, this.passwordFormControl, 
+                                 this.cityFormControl, this.emailFormControl];
 
   matcher = new MyErrorStateMatcher();
 }
