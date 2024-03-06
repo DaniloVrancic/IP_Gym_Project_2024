@@ -11,13 +11,15 @@ import { NavbarComponent } from './home/navbar/navbar/navbar.component';
 import { MaterialModule } from './material/material.module';
 import { RegisterFormComponent } from './register.form/register/register.form.component';
 import { LoginFormComponent } from './register.form/login.form/login.form.component';
+import { StartPageComponent } from './start-page/start-page/start-page.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  imports: [HttpClientModule, MaterialModule, NavbarComponent, RegisterFormComponent, LoginFormComponent],
+  imports: [HttpClientModule, MaterialModule,
+            NavbarComponent, RegisterFormComponent, LoginFormComponent, StartPageComponent],
   providers: [UserService]
 })
 export class AppComponent implements OnInit{

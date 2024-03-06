@@ -6,6 +6,9 @@ import { UserService } from "./user.service";
 import { HttpClientModule } from "@angular/common/http";
 import { appConfig } from "./app.config";
 import { MaterialModule } from "./material/material.module";
+import { RecaptchaFormsModule, RecaptchaModule } from "ng-recaptcha";
+
+
 
 @NgModule({
     declarations: [
@@ -14,7 +17,9 @@ import { MaterialModule } from "./material/material.module";
     imports: [
         BrowserModule,
         HttpClientModule,
-        MaterialModule
+        MaterialModule,
+        RecaptchaModule,
+        RecaptchaFormsModule
         ],
     providers: [UserService],
     bootstrap: []

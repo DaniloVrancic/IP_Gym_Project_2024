@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroupDirective, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroupDirective, FormsModule, NgForm, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MaterialModule } from '../../material/material.module';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { RecaptchaModule, RecaptchaValueAccessorDirective } from 'ng-recaptcha';
+
 
 @Component({
   selector: 'app-register-form',
   standalone: true,
-  imports: [MaterialModule, FormsModule, ReactiveFormsModule],
+  imports: [MaterialModule, FormsModule, ReactiveFormsModule, RecaptchaModule],
   templateUrl: './register.form.component.html',
-  styleUrl: './register.form.component.css'
+  styleUrl: './register.form.component.css',
+  providers: [RecaptchaValueAccessorDirective]
 })
 export class RegisterFormComponent {
   firstNameFormControl = new FormControl('', [Validators.required]);
@@ -23,6 +26,20 @@ export class RegisterFormComponent {
                                  this.cityFormControl, this.emailFormControl];
 
   matcher = new MyErrorStateMatcher();
+
+  captcha: string | null;
+
+  constructor()
+  {
+    this.captcha = null;
+  }
+
+  resolved(captchaResponse: string | null)
+  {
+    this.captcha = captchaResponse;
+    console.log('Captcha resolved with response: ' + this.captcha);
+  }
+
 }
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -33,5 +50,3 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 
 }
-
-
