@@ -1,0 +1,30 @@
+
+<div class="centered-container">
+
+    <form style="border:1px solid black" class="my-form">
+      <label class="title-label montserrat-strong">Login</label>
+      <div class="form-body">
+        <mat-form-field class="example-full-width">
+          <mat-label>Username</mat-label>
+          <input matInput placeholder="Ex. user1" [formControl]="usernameFormControl" [errorStateMatcher]="matcher">
+          @if (usernameFormControl.hasError('required')) {
+            <mat-error>Log in with your <strong>username</strong></mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" [formControl]="passwordFormControl" [errorStateMatcher]="matcher">
+            @if (passwordFormControl.hasError('required')) {
+              <mat-error>Please log in with your <strong>password</strong>.</mat-error>
+            }
+          </mat-form-field>
+    
+          <button mat-raised-button color="primary" type="submit">Login</button>
+          
+        </div>
+          
+      
+        
+      </form>
+    </div>
+    

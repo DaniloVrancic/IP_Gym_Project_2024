@@ -1,0 +1,31 @@
+<nav class="custom-nav montserrat   -regular">
+    <span class="title">This is the fitness Studio title</span>
+    <div class="options">
+        <button mat-fab extended color="primary">
+            <mat-icon>Subscriptions</mat-icon>
+            Subscriptions
+          </button>
+          <button mat-fab extended color="primary">
+            <mat-icon>book</mat-icon>
+            My Diary
+          </button>
+          
+    </div>
+    
+</nav>
+<div class="profile">
+    <img src="https://material.angul.io/assets/img/examples/shiba2.jpg" 
+     class="profile-picture" 
+     onerror="this.src='https://shorturl.at/oCLVZ'">
+     <div class="menu">
+        <span id="username">USER NOT LOGGED IN!</span>
+        <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+        <mat-menu #menu="matMenu">
+        <button mat-menu-item>Register</button>
+        <button mat-menu-item>Login</button>
+        <button mat-menu-item>Logout</button>
+</mat-menu>
+     
+    </div>
+
+</div>

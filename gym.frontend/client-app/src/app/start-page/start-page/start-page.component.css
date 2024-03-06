@@ -1,0 +1,53 @@
+  
+  .bg-image {
+    
+    background-image: url("./../../../assets/main_menu/GymMainMenu.png");
+    
+    /* Add the blur effect */
+    filter: blur(7px) sepia(80%);
+    -webkit-filter: blur(7px) sepia(80%);
+    
+    /* Full height */
+    height: 100%;
+    width: auto;
+    
+    
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  /* Position text in the middle of the page/image */
+  .bg-text {
+    
+    background-color: rgba(110, 20, 160, 0.4); /* Black w/opacity/see-through */
+    color: var(--secondary-color);
+    
+    border: 3px solid #f1f1f1;
+    position: absolute;
+    
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 80%;
+    padding: 20px;
+    text-align: center;
+    
+  }
+
+  .button-container
+  {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    flex-shrink: 1;
+    justify-content: space-evenly;
+  }
+
+  .button-container > button
+  {
+    scale: 1.3;
+  }
