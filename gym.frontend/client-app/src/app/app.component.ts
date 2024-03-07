@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { User } from './user';
 import { UserService } from './user.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -19,7 +19,9 @@ import { StartPageComponent } from './start-page/start-page/start-page.component
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   imports: [HttpClientModule, MaterialModule,
-            NavbarComponent, RegisterFormComponent, LoginFormComponent, StartPageComponent],
+            NavbarComponent, RegisterFormComponent, 
+            LoginFormComponent, StartPageComponent,
+            RouterLink, RouterOutlet, RouterLinkActive],
   providers: [UserService]
 })
 export class AppComponent implements OnInit{

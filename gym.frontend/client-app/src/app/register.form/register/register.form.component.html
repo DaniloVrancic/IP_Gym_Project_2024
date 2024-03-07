@@ -6,7 +6,7 @@
     <div class="form-body">
       <mat-form-field class="example-full-width">
         <mat-label>Username</mat-label>
-        <input matInput placeholder="Ex. user1" [formControl]="usernameFormControl" [errorStateMatcher]="matcher">
+        <input matInput placeholder="Ex. user1" [formControl]="usernameFormControl" [errorStateMatcher]="matcher" [(ngModel)]="this.userForRegister.username">
         @if (usernameFormControl.hasError('required')) {
           <mat-error>Username is <strong>required</strong></mat-error>
         }
@@ -50,7 +50,7 @@
             <mat-error>Email is <strong>required</strong></mat-error>
           }
         </mat-form-field>
-        <label class="custom-file-upload"><input type="file"/>Upload profile picture</label>
+        <label class="custom-file-upload"><input type="file" accept="image/*" [formControl]="profilePictureFormControl"/>Upload profile picture</label>
       
         <br>
         <!--<recaptcha  [(ngModel)]="captcha" siteKey="6LcYh4wpAAAAAOcqdComLKbQmcS_Gch4XltcXWkl" (resolved)="resolved($event)"></recaptcha>
@@ -64,7 +64,7 @@
  
 
 <br>
-<button mat-raised-button type="submit" color="primary" [disabled]="!this.captcha">Register</button>
+<button mat-raised-button type="submit" color="primary" [disabled]="!this.captcha" (click)="onSubmit()">Register</button>
         
       </div>
         
