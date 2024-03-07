@@ -4,9 +4,6 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { User } from './user';
 import { UserService } from './user.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { BrowserModule } from '@angular/platform-browser';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { NavbarComponent } from './home/navbar/navbar/navbar.component';
 import { MaterialModule } from './material/material.module';
 import { RegisterFormComponent } from './register.form/register/register.form.component';
@@ -22,7 +19,7 @@ import { StartPageComponent } from './start-page/start-page/start-page.component
             NavbarComponent, RegisterFormComponent, 
             LoginFormComponent, StartPageComponent,
             RouterLink, RouterOutlet, RouterLinkActive],
-  providers: [UserService]
+  providers: [UserService],
 })
 export class AppComponent implements OnInit{
   title: string = 'my-fitness-app';

@@ -6,7 +6,6 @@ import { RecaptchaModule, RecaptchaValueAccessorDirective } from 'ng-recaptcha';
 import { UserService } from '../../user.service';
 import { User } from '../../user';
 
-
 @Component({
   selector: 'app-register-form',
   standalone: true,
@@ -22,7 +21,7 @@ export class RegisterFormComponent {
   passwordFormControl = new FormControl('', [Validators.required]);
   cityFormControl = new FormControl('', [Validators.required]);
   emailFormControl = new FormControl('', [Validators.required, Validators.email]);
-  profilePictureFormControl = new FormControl('', []);
+  profilePictureFormControl = new FormControl(null);
 
   allControls : FormControl[] = [this.firstNameFormControl, this.lastNameFormControl,
                                  this.usernameFormControl, this.passwordFormControl, 
@@ -33,10 +32,11 @@ export class RegisterFormComponent {
 
   captcha: string | null;
   userForRegister : User;
+  loggedUser : User;
 
   constructor(private userService: UserService)
   {
-    this.captcha = null;
+    this.captcha = 'a'; //SET TO NULL WHEN PRODUCT IS FINISHED
     this.userForRegister = 
                           {
                             username: "",
@@ -47,6 +47,7 @@ export class RegisterFormComponent {
                             avatar: "",
                             email: "",
                           } as User;
+    this.loggedUser = {} as User;
   }
 
   resolved(captchaResponse: string | null)
@@ -57,11 +58,49 @@ export class RegisterFormComponent {
 
   onSubmit()
   {
-    console.log(this.checkIfFormValid(this.allControls));
 
     if(this.checkIfFormValid(this.allControls))
     {
-      this.userService.addUser(this.userForRegister);
+      this.userForRegister.username = this.usernameFormControl.value;
+      this.userForRegister.password = this.passwordFormControl.value;
+      this.userForRegister.firstName = this.firstNameFormControl.value;
+      this.userForRegister.lastName = this.lastNameFormControl.value;
+      this.userForRegister.city = this.cityFormControl.value;
+      this.userForRegister.email = this.emailFormControl.value;
+
+      if(this.profilePictureFormControl.value != null && (this.profilePictureFormControl.value as string).length > 0)
+      {
+        const file: File = this.profilePictureFormControl.value;
+        const reader = new FileReader();
+        
+        reader.onload = () => {
+          const base64String: string = reader.result as string;
+          console.log(base64String);
+          const base64Image: string = base64String.split(',')[1];
+          console.log(base64Image);
+          this.userForRegister.avatar = base64Image;
+
+        }
+        reader.readAsDataURL(file);
+
+      }
+      else
+      {
+        this.userForRegister.avatar = null;
+      }
+      this.userForRegister.type = 3; // 3 = USER accounts
+      this.userForRegister.activated = 0; // Default value
+      this.userService.addUser(this.userForRegister).subscribe({
+        next: (response: User) => {
+          this.loggedUser = response;
+          console.log("REGISTERED USER: ");
+          console.log(this.loggedUser as User);
+        },
+        error: (error: any) => {
+          console.log(error.message);
+          alert(error.message); 
+        }
+      });
     }
     else
     {
@@ -71,7 +110,6 @@ export class RegisterFormComponent {
 
   private checkIfFormValid(allControls: FormControl[]): boolean
   {
-    console.log(this.userForRegister);
 
     let allValid: boolean = true;
 

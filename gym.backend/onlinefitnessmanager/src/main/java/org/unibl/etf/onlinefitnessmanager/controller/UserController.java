@@ -55,6 +55,7 @@ public class UserController {
             UserEntity user = userService.findUserById(id);
 
             if (user != null) {
+                user.setPassword("");
                 return new ResponseEntity<>(user, HttpStatus.OK); //executes if a user is found
             } else {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT); //if command is executed successfully, but no user found
@@ -67,9 +68,18 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<UserEntity> addUser(@RequestBody UserEntity user)
-    {
-        UserEntity newUser = userService.addUser(user);
+    public ResponseEntity<UserEntity> addUser(@RequestBody UserEntity user) {
+        UserEntity newUser;
+        try
+        {
+            newUser = userService.addUser(user);
+        }
+        catch(Exception ex)
+        {
+            System.out.println(ex.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        newUser.setPassword(""); // To hide password hash
         return new ResponseEntity<>(newUser, HttpStatus.CREATED); //executes if a user is found
     }
 

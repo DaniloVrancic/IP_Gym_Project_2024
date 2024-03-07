@@ -10,5 +10,5 @@ import { RouterLink, RouterLinkActive, RouterLinkWithHref } from '@angular/route
   styleUrl: './start-page.component.css'
 })
 export class StartPageComponent {
-
+  
 }
