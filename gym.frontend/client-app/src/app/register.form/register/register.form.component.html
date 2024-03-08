@@ -1,7 +1,7 @@
 
 <div class="centered-container">
 
-  <form style="border:1px solid black" class="my-form" (ngSubmit)="onSubmit()">
+  <form style="border:1px solid black" class="my-form" enctype="multipart/form-data " method="post" (ngSubmit)="onSubmit()">
     <label class="title-label montserrat-strong">Register user</label>
     <div class="form-body">
       <mat-form-field class="example-full-width">
@@ -50,7 +50,7 @@
             <mat-error>Email is <strong>required</strong></mat-error>
           }
         </mat-form-field>
-        <label class="custom-file-upload"><input type="file" [formControl]="profilePictureFormControl"/>Upload profile picture</label>
+        <label class="custom-file-upload"><input type="file" name="avatar" accept="image/*" [formControl]="profilePictureFormControl" (change)="onChangeFile($event)"/>Upload profile picture</label>
       
         <br>
         

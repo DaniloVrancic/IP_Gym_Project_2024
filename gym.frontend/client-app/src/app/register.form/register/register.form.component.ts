@@ -31,7 +31,7 @@ export class RegisterFormComponent {
   matcher = new MyErrorStateMatcher();
 
   captcha: string | null;
-  userForRegister : User;
+  public userForRegister : User;
   loggedUser : User;
 
   constructor(private userService: UserService)
@@ -56,57 +56,38 @@ export class RegisterFormComponent {
     //console.log('Captcha resolved with response: ' + this.captcha);
   }
 
-  onSubmit()
-  {
-
-    if(this.checkIfFormValid(this.allControls))
-    {
+  onSubmit() {
+    if (this.checkIfFormValid(this.allControls)) {
       this.userForRegister.username = this.usernameFormControl.value;
       this.userForRegister.password = this.passwordFormControl.value;
       this.userForRegister.firstName = this.firstNameFormControl.value;
       this.userForRegister.lastName = this.lastNameFormControl.value;
       this.userForRegister.city = this.cityFormControl.value;
       this.userForRegister.email = this.emailFormControl.value;
-
-      if(this.profilePictureFormControl.value != null && (this.profilePictureFormControl.value as string).length > 0)
-      {
-        const file: File = this.profilePictureFormControl.value;
-        const reader = new FileReader();
-        
-        reader.onload = () => {
-          const base64String: string = reader.result as string;
-          console.log(base64String);
-          const base64Image: string = base64String.split(',')[1];
-          console.log(base64Image);
-          this.userForRegister.avatar = base64Image;
-
-        }
-        reader.readAsDataURL(file);
-
-      }
-      else
-      {
+  
+      if (this.profilePictureFormControl.value != null && (this.profilePictureFormControl.value as string).length > 0) {
+       
+      } else {
         this.userForRegister.avatar = null;
       }
+  
+      console.log(this.userForRegister);
       this.userForRegister.type = 3; // 3 = USER accounts
       this.userForRegister.activated = 0; // Default value
       this.userService.addUser(this.userForRegister).subscribe({
         next: (response: User) => {
           this.loggedUser = response;
-          console.log("REGISTERED USER: ");
+          console.log('REGISTERED USER: ');
           console.log(this.loggedUser as User);
         },
         error: (error: any) => {
           console.log(error.message);
-          alert(error.message); 
-        }
+          alert(error.message);
+        },
       });
     }
-    else
-    {
-
-    }
   }
+  
 
   private checkIfFormValid(allControls: FormControl[]): boolean
   {
@@ -119,6 +100,26 @@ export class RegisterFormComponent {
     }
 
     return allValid;
+  }
+
+  onChangeFile(event: any)
+  {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    let userForRegister = this.userForRegister;
+
+    reader.onloadend = function(event : any) {
+        const imgBase64 = event.target.result as string | null;
+        console.log('BASE64: ', imgBase64);
+
+        // Assign the BASE64 string to this.userForRegister.avatar
+        userForRegister.avatar = imgBase64
+
+        console.log('User: ', userForRegister);
+    };
+
+    reader.readAsDataURL(file);
+    this.userForRegister.avatar = userForRegister.avatar;
   }
 
 }
