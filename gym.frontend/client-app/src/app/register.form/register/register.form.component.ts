@@ -110,12 +110,11 @@ export class RegisterFormComponent {
 
     reader.onloadend = function(event : any) {
         const imgBase64 = event.target.result as string | null;
-        console.log('BASE64: ', imgBase64);
+        
 
         // Assign the BASE64 string to this.userForRegister.avatar
         userForRegister.avatar = imgBase64
 
-        console.log('User: ', userForRegister);
     };
 
     reader.readAsDataURL(file);

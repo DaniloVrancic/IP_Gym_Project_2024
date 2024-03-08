@@ -3,9 +3,11 @@ package org.unibl.etf.onlinefitnessmanager.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.multipart.MultipartFile;
 import org.unibl.etf.onlinefitnessmanager.exception.UserNotFoundException;
 import org.unibl.etf.onlinefitnessmanager.model.entities.UserEntity;
 import org.unibl.etf.onlinefitnessmanager.service.UserService;
@@ -67,12 +69,21 @@ public class UserController {
         }
     }
 
-    @PostMapping("/add")
+    @PostMapping(value = "/add")
     public ResponseEntity<UserEntity> addUser(@RequestBody UserEntity user) {
         UserEntity newUser;
         try
         {
-            newUser = userService.addUser(user);
+            String avatar = user.getAvatar(); //Saves the full raw data into String avatar
+            user.setAvatar(null); //sets the Avatar inside user to null so that it doesn't try to save the whole raw picture data to the database
+            newUser = userService.addUser(user); //saves to Database (without profile picture link)
+
+            if(avatar != null && avatar.length() > 0)
+            {
+                newUser.setAvatar(userService.saveBase64EncodedPhoto(avatar, newUser));
+                userService.updateUser(newUser); //updates the profile with profile picture link
+            }
+
         }
         catch(Exception ex)
         {
