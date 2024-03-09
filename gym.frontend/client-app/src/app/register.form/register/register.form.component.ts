@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroupDirective, FormsModule, NgForm, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MaterialModule } from '../../material/material.module';
 import { ErrorStateMatcher } from '@angular/material/core';
@@ -14,7 +14,7 @@ import { User } from '../../user';
   styleUrl: './register.form.component.css',
   providers: [RecaptchaValueAccessorDirective, UserService]
 })
-export class RegisterFormComponent {
+export class RegisterFormComponent implements OnInit{
   firstNameFormControl = new FormControl('', [Validators.required]);
   lastNameFormControl = new FormControl('', [Validators.required]);
   usernameFormControl = new FormControl('', [Validators.required]);
@@ -33,6 +33,14 @@ export class RegisterFormComponent {
   captcha: string | null;
   public userForRegister : User;
   loggedUser : User;
+
+  ngOnInit(): void {
+      let selectedFile : HTMLElement | null = document.getElementById("file-name");
+      if(selectedFile != undefined && selectedFile?.innerHTML.length < 1)
+      {
+        selectedFile.style.display = 'inline';
+      }
+  }
 
   constructor(private userService: UserService)
   {
@@ -109,8 +117,15 @@ export class RegisterFormComponent {
     let userForRegister = this.userForRegister;
 
     let fileNameElement = document.getElementById("file-name") as HTMLElement | null;
-    if (fileNameElement) {
-      fileNameElement.innerHTML = "[" + file.name + "]"; // Assuming you want to display the file name
+    console.log(file);
+    if(file === undefined)
+    {
+      (fileNameElement as HTMLElement).innerHTML = "";
+      (fileNameElement as HTMLElement).style.display = 'inline';
+    }
+    else if (file != undefined && fileNameElement) {
+      fileNameElement.innerHTML = file.name; // Assuming you want to display the file name
+      fileNameElement.style.display = 'inline-block';
     } else {
       console.error("File name element not found.");
     }
@@ -125,8 +140,17 @@ export class RegisterFormComponent {
 
     };
 
+    if(file != undefined)
+    {
     reader.readAsDataURL(file);
     this.userForRegister.avatar = userForRegister.avatar;
+    }
+    else
+    {
+      this.userForRegister.avatar = null;
+    }
+
+    console.log(this.userForRegister);
   }
 
 }

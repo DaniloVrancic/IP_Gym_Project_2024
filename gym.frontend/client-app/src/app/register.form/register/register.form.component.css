@@ -60,10 +60,22 @@
     padding: 12px;
     cursor: pointer;
     width: 30%;
+    
 
     margin-bottom: 1rem;
     
 }
+
+#file-name{
+  display: inline;
+  font-size: x-small;
+  white-space: nowrap; 
+  overflow-x: hidden;
+  white-space: nowrap; /* Don't forget this one */
+  text-overflow: ellipsis;
+  width: 80%;
+}
+
 
 .custom-file-upload:hover {
   color: ghostwhite;
