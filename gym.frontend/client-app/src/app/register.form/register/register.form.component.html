@@ -50,7 +50,7 @@
             <mat-error>Email is <strong>required</strong></mat-error>
           }
         </mat-form-field>
-        <label class="custom-file-upload"><input type="file" name="avatar" accept="image/*" [formControl]="profilePictureFormControl" (change)="onChangeFile($event)"/>Upload profile picture</label>
+        <label class="custom-file-upload"><input type="file" name="avatar" accept="image/*" [formControl]="profilePictureFormControl" (change)="onChangeFile($event)"/>Upload profile picture <span id="file-name"></span></label>
       
         <br>
         

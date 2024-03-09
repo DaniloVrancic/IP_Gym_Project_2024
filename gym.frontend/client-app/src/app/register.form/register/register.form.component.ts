@@ -108,6 +108,14 @@ export class RegisterFormComponent {
     const reader = new FileReader();
     let userForRegister = this.userForRegister;
 
+    let fileNameElement = document.getElementById("file-name") as HTMLElement | null;
+    if (fileNameElement) {
+      fileNameElement.innerHTML = "[" + file.name + "]"; // Assuming you want to display the file name
+    } else {
+      console.error("File name element not found.");
+    }
+    
+
     reader.onloadend = function(event : any) {
         const imgBase64 = event.target.result as string | null;
         
