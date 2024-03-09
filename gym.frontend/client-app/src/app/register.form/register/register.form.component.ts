@@ -79,17 +79,14 @@ export class RegisterFormComponent implements OnInit{
         this.userForRegister.avatar = null;
       }
   
-      console.log(this.userForRegister);
+      
       this.userForRegister.type = 3; // 3 = USER accounts
       this.userForRegister.activated = 0; // Default value
       this.userService.addUser(this.userForRegister).subscribe({
         next: (response: User) => {
           this.loggedUser = response;
-          console.log('REGISTERED USER: ');
-          console.log(this.loggedUser as User);
         },
         error: (error: any) => {
-          console.log(error.message);
           alert(error.message);
         },
       });
@@ -117,7 +114,7 @@ export class RegisterFormComponent implements OnInit{
     let userForRegister = this.userForRegister;
 
     let fileNameElement = document.getElementById("file-name") as HTMLElement | null;
-    console.log(file);
+
     if(file === undefined)
     {
       (fileNameElement as HTMLElement).innerHTML = "";
@@ -150,7 +147,6 @@ export class RegisterFormComponent implements OnInit{
       this.userForRegister.avatar = null;
     }
 
-    console.log(this.userForRegister);
   }
 
 }

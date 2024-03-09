@@ -13,7 +13,8 @@ public class SubscriptionEntity {
     private Integer id;
     @Basic
     @Column(name = "fitness_program_type_id", nullable = false)
-    private Integer fitnessProgramTypeId;
+    private Integer fitnessProgramTypeId; // Id of referenced program
+    
     @Basic
     @Column(name = "user_id", nullable = false)
     private Integer userId;
