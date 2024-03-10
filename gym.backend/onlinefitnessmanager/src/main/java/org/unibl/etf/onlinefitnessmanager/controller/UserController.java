@@ -108,6 +108,8 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK); //executes if a user is found
     }
 
+    //TODO: MAKE A /verify with activationUUID mapping
+
 
 
 }
