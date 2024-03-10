@@ -1,6 +1,7 @@
 package org.unibl.etf.onlinefitnessmanager.service;
 
 
+import jakarta.persistence.Entity;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,9 +36,9 @@ public class UserService {
 
 
     //////////////////// SECTION RESERVED ONLY FOR THE verificationTokens METHODS
-    Map<VerificationToken, UserEntity> verificationTokens = new HashMap(); //Stores all the active verification tokens (expired Tokens and validated accounts will have these tokens removed from here)
-    private final String hashMapFilePath = "./verificationTokens.ser"; // File to store serialized HashMap
-    private final long HOURS_DEADLINE = 168L; //Number of hours that entries will keep existing in map after expiration date is over
+    Map<VerificationToken, UserEntity> verificationTokens; //Stores all the active verification tokens (expired Tokens and validated accounts will have these tokens removed from here)
+    private final String hashMapFilePath = "./verification/verificationTokens.ser"; // File to store serialized HashMap
+    private final long HOURS_DEADLINE = 24L; //Number of hours that entries will keep existing in map after expiration date is over
 
     // Serialize HashMap to a file
     private void serializeHashMap(Map<VerificationToken, UserEntity> map) {
@@ -62,7 +63,7 @@ public class UserService {
     }
 
     private void removeActivatedUsers() { //No need to keep users which are already activated in the verification map
-        verificationTokens.entrySet().removeIf(entry -> entry.getValue().getActivated() == 1);
+        verificationTokens.entrySet().removeIf(entry -> entry.getValue().getActivated().equals((byte)1));
     }
 
     private void removeExpiredUsers(long hours) //removes all entries if they are hanging in the map longer than this amount of hours
@@ -75,6 +76,12 @@ public class UserService {
     {
      removeActivatedUsers();
      removeExpiredUsers(this.HOURS_DEADLINE);
+     serializeHashMap(verificationTokens);
+    }
+
+    private void printMapEntries(Map<VerificationToken, UserEntity> verificationTokens)
+    {
+        verificationTokens.forEach((key, value) -> System.out.println("TOKEN:" + key.getToken() + " USER: " + value.getId() +"\t" + value.getUsername() + "\t" + value.getEmail() + "\tPASSWORD:" + value.getPassword() +"\tActivated: " + value.getActivated()));
     }
 
     //////////////////// END_OF verificationTokens METHODS
@@ -82,19 +89,35 @@ public class UserService {
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+        if(Files.exists(Paths.get(hashMapFilePath)))
+        {
+            this.verificationTokens = deserializeHashMap();
+            removeSufficientEntries();
+        }
+        else
+        {
+            this.verificationTokens =  new HashMap<>();
+        }
+        printMapEntries(this.verificationTokens);
+
     }
 
     public UserEntity addUser(UserEntity user)
     {
         user.setPassword(hashString(user.getPassword()));//Hashing the plaintext password of the user
 
-        if(user.getActivated() == 0)
-        {
-        verificationTokens.put(new VerificationToken(LocalDateTime.now()),
-                                                                        user);
-        }
+
         //TODO: Implement the sending email METHOD AND CALL IT HERE
-        return userRepository.save(user); //Saves user to repository (With hashed password)
+        UserEntity savedUser = userRepository.save(user); //Saves user to repository (With hashed password)
+        if(savedUser.getActivated() == 0)
+        {
+            verificationTokens.put(new VerificationToken(LocalDateTime.now()),
+                    savedUser);
+
+            serializeHashMap(verificationTokens);
+            printMapEntries(verificationTokens);
+        }
+        return savedUser;
     }
 
 
@@ -149,10 +172,6 @@ public class UserService {
 
     public UserEntity updateUser(UserEntity user)
     {
-        if(!user.getPassword().equals(findUserById(user.getId()).getPassword()))// if the password changed, hash the new password
-        {
-            user.setPassword(hashString(user.getPassword())); //hash newly set password before saving
-        }
         return userRepository.save(user);
     }
 
@@ -190,6 +209,7 @@ public class UserService {
         UserEntity foundUser = null;
         if(foundKey != null) {
             foundUser = verificationTokens.get(foundKey);
+            foundUser = findUserById(foundUser.getId()); // Needs to retrieve the full user together with the password from here
         }
 
 
@@ -198,6 +218,13 @@ public class UserService {
             if(foundUser.getActivated() == (byte)0)
             {
                 foundUser.setActivated((byte)1);
+                for(Map.Entry<VerificationToken, UserEntity> entry : verificationTokens.entrySet())
+                {
+                    if(entry.getValue().getId().equals(foundUser.getId()))
+                    {
+                        entry.getValue().setActivated((byte)1);
+                    }
+                } // This for also updates the hashmap collection item to also be activated
                 userRepository.save(foundUser); //save the change to the database
             }
             else
@@ -206,6 +233,10 @@ public class UserService {
             }
         }
         removeSufficientEntries();
+        serializeHashMap(verificationTokens);
+        printMapEntries(verificationTokens);
+        System.out.println("FOUND USER:" + foundUser.getId() + "\t" + foundUser.getUsername() + "\t" + foundUser.getEmail() + " " +
+                " PASSWORD: " + foundUser.getPassword());
         return foundUser;
     }
 

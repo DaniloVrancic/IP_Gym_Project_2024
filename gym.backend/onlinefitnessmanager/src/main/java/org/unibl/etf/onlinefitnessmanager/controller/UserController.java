@@ -1,5 +1,7 @@
 package org.unibl.etf.onlinefitnessmanager.controller;
 
+import org.apache.catalina.User;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.unibl.etf.onlinefitnessmanager.exception.UserNotFoundException;
 import org.unibl.etf.onlinefitnessmanager.model.entities.UserEntity;
 import org.unibl.etf.onlinefitnessmanager.service.UserService;
+import org.unibl.etf.onlinefitnessmanager.verification.VerificationToken;
 
 import java.util.List;
 
@@ -108,6 +111,19 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK); //executes if a user is found
     }
 
+    @GetMapping("/verify")
+    public ResponseEntity<?> verifyUser(@RequestParam("activationToken") String token)
+    {
+        try
+        {
+            UserEntity activatedUser = userService.activateUser(token);
+            return new ResponseEntity<>(activatedUser, HttpStatus.OK);
+        }
+        catch (Exception ex)
+        {
+            return new ResponseEntity<String>(ex.getLocalizedMessage(),HttpStatus.BAD_REQUEST);
+        }
+    }
     //TODO: MAKE A /verify with activationUUID mapping
 
 
