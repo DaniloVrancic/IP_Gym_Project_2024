@@ -1,14 +1,10 @@
 package org.unibl.etf.onlinefitnessmanager.service;
 
 
-import jakarta.persistence.Entity;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.unibl.etf.onlinefitnessmanager.exception.UserAlreadyActivatedException;
-import org.unibl.etf.onlinefitnessmanager.exception.UserNotFoundException;
-import org.unibl.etf.onlinefitnessmanager.exception.VerificationTokenExpiredException;
-import org.unibl.etf.onlinefitnessmanager.exception.VerificationTokenInvalidException;
+import org.unibl.etf.onlinefitnessmanager.additional.email.EmailSender;
+import org.unibl.etf.onlinefitnessmanager.exception.*;
 import org.unibl.etf.onlinefitnessmanager.model.entities.UserEntity;
 import org.unibl.etf.onlinefitnessmanager.repositories.UserRepository;
 import org.unibl.etf.onlinefitnessmanager.verification.VerificationToken;
@@ -33,6 +29,7 @@ import java.util.regex.Pattern;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final EmailSender emailSender;
 
 
     //////////////////// SECTION RESERVED ONLY FOR THE verificationTokens METHODS
@@ -44,7 +41,7 @@ public class UserService {
     private void serializeHashMap(Map<VerificationToken, UserEntity> map) {
         try (FileOutputStream fileOut = new FileOutputStream(hashMapFilePath)){
              ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-             objectOut.writeObject(verificationTokens);
+             objectOut.writeObject(map);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -84,10 +81,29 @@ public class UserService {
         verificationTokens.forEach((key, value) -> System.out.println("TOKEN:" + key.getToken() + " USER: " + value.getId() +"\t" + value.getUsername() + "\t" + value.getEmail() + "\tPASSWORD:" + value.getPassword() +"\tActivated: " + value.getActivated()));
     }
 
+    private String buildEmail(String name, String link) {
+        String textContent = "Hi " + name + ",\n\n" +
+                "Thank you for registering to FitCheck. Please visit the below link to activate your account:\n" +
+                link + "\n\n" +
+                "Link will expire in 24 hours.\n\n" +
+                "We are waiting for you!";
+
+        String htmlContent = "<body>" +
+                "<p>Hi " + name + ",</p>" +
+                "<p>Thank you for registering to FitCheck. Please click on the below link to activate your account:</p>" +
+                "<p><a href=\"" + link + "\">Activate Now</a></p>" +
+                "<p>Link will expire in 24 hours.</p>" +
+                "<p>We are waiting for you!</p>" +
+                "</body>";
+
+        // Construct a wrapper object to hold both text and HTML content
+        return textContent + "|||" + htmlContent;
+    }
+
     //////////////////// END_OF verificationTokens METHODS
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, EmailSender emailSender) {
         this.userRepository = userRepository;
         if(Files.exists(Paths.get(hashMapFilePath)))
         {
@@ -100,6 +116,7 @@ public class UserService {
         }
         printMapEntries(this.verificationTokens);
 
+        this.emailSender = emailSender;
     }
 
     public UserEntity addUser(UserEntity user)
@@ -107,15 +124,27 @@ public class UserService {
         user.setPassword(hashString(user.getPassword()));//Hashing the plaintext password of the user
 
 
-        //TODO: Implement the sending email METHOD AND CALL IT HERE
+
         UserEntity savedUser = userRepository.save(user); //Saves user to repository (With hashed password)
         if(savedUser.getActivated() == 0)
         {
-            verificationTokens.put(new VerificationToken(LocalDateTime.now()),
-                    savedUser);
+            VerificationToken newVerificationToken = new VerificationToken(LocalDateTime.now());
+            verificationTokens.put(newVerificationToken, savedUser);
 
             serializeHashMap(verificationTokens);
             printMapEntries(verificationTokens);
+                try
+                {
+
+
+            emailSender.send(savedUser.getEmail(),
+                                                    buildEmail(savedUser.getFirstName(),
+                                                            "http://localhost:8080/user/verify?activationToken=" + newVerificationToken.getToken()));
+                 }
+                catch (Exception ex)
+                {
+                    System.err.println(ex.getLocalizedMessage());
+                }
         }
         return savedUser;
     }
@@ -133,7 +162,7 @@ public class UserService {
         String metadataAboutEncode = photoParts[0];
         String payload = photoParts[1];
 
-        String regex = "image\\/(\\w*)";
+        String regex = "image/(\\w*)";
 
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(metadataAboutEncode);
@@ -182,35 +211,19 @@ public class UserService {
 
     public UserEntity findUserById(Integer id)
     {
-        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User ID: [" + id + "], not found in repository."));
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User ID: [ " + id + " ], not found in repository."));
     }
 
     public UserEntity activateUser(String activationUUID)
     {
-        VerificationToken searchToken = new VerificationToken(activationUUID);
-        VerificationToken foundKey = null;
+        VerificationToken foundKey = getVerificationToken(activationUUID);
 
-        //This for finds the original key from the entry set of the map
-        for (Map.Entry<VerificationToken, UserEntity> entry : verificationTokens.entrySet()) {
-            if (entry.getKey().equals(searchToken)) {
-                foundKey = entry.getKey();
-            }
-        }
-
-        if(foundKey.isExpired())
-        {
-            throw new VerificationTokenExpiredException();
-        }
-        else if(foundKey == null)
-        {
-            throw new VerificationTokenInvalidException();
-        }
 
         UserEntity foundUser = null;
-        if(foundKey != null) {
-            foundUser = verificationTokens.get(foundKey);
-            foundUser = findUserById(foundUser.getId()); // Needs to retrieve the full user together with the password from here
-        }
+
+        foundUser = verificationTokens.get(foundKey);
+        foundUser = findUserById(foundUser.getId()); // Needs to retrieve the full user together with the password from here
+
 
 
         if(foundUser != null)
@@ -238,6 +251,33 @@ public class UserService {
         System.out.println("FOUND USER:" + foundUser.getId() + "\t" + foundUser.getUsername() + "\t" + foundUser.getEmail() + " " +
                 " PASSWORD: " + foundUser.getPassword());
         return foundUser;
+    }
+
+    private VerificationToken getVerificationToken(String activationUUID) {
+        if(activationUUID.length() < 72)
+        {
+            throw new VerificationTokenNotFoundException();
+        }
+
+        VerificationToken searchToken = new VerificationToken(activationUUID);
+        VerificationToken foundKey = null;
+
+        //This for finds the original key from the entry set of the map
+        for (Map.Entry<VerificationToken, UserEntity> entry : verificationTokens.entrySet()) {
+            if (entry.getKey().equals(searchToken)) {
+                foundKey = entry.getKey();
+            }
+        }
+
+        if(foundKey == null)
+         {
+            throw new VerificationTokenInvalidException();
+         }
+        else if(foundKey.isExpired())
+        {
+            throw new VerificationTokenExpiredException();
+        }
+        return foundKey;
     }
 
     // PRIVATE METHODS FOR THIS SERVICE'S INTERNAL USE

@@ -85,6 +85,8 @@ export class RegisterFormComponent implements OnInit{
       this.userService.addUser(this.userForRegister).subscribe({
         next: (response: User) => {
           this.loggedUser = response;
+          alert("Activation link has been sent to E-mail:\n" + this.userForRegister.email);
+          //TODO: redirect user to login form or main form
         },
         error: (error: any) => {
           alert(error.message);
@@ -148,14 +150,10 @@ export class RegisterFormComponent implements OnInit{
     }
 
   }
-
 }
-
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
   }
-
-
 }

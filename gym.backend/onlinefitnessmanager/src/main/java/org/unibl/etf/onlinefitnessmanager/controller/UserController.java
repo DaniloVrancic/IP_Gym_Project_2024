@@ -117,14 +117,14 @@ public class UserController {
         try
         {
             UserEntity activatedUser = userService.activateUser(token);
-            return new ResponseEntity<>(activatedUser, HttpStatus.OK);
+            String returnMessage = "User: " + activatedUser.getUsername() + " [ E-mail: " + activatedUser.getEmail() + " ], successfully activated!";
+            return new ResponseEntity<>(returnMessage, HttpStatus.OK);
         }
         catch (Exception ex)
         {
             return new ResponseEntity<String>(ex.getLocalizedMessage(),HttpStatus.BAD_REQUEST);
         }
     }
-    //TODO: MAKE A /verify with activationUUID mapping
 
 
 

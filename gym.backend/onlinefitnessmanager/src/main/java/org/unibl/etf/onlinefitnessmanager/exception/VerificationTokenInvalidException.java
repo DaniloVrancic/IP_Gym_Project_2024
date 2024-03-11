@@ -4,7 +4,7 @@ public class VerificationTokenInvalidException extends RuntimeException{
 
     public VerificationTokenInvalidException()
     {
-        super("This verification token was invalidated.");
+        super("This verification token is invalid.");
     }
 
     public VerificationTokenInvalidException(String message)
