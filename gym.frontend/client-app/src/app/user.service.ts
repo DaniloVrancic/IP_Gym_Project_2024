@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from './user';
 import { environment } from '../environments/environment';
+import { LoginCredentials } from './register.form/login.form/LoginCredentials';
 
 @Injectable({providedIn: 'root'})
 export class UserService {
@@ -34,6 +35,11 @@ export class UserService {
   public deleteUser(userId: number) : Observable<void>
   {
     return this.http.delete<void>(`${this.apiServerUrl}/user/delete/${userId}`);
+  }
+
+  public loginUser(loginCredentials: LoginCredentials) : Observable<User | null>
+  {
+    return this.http.post<User>(`${this.apiServerUrl}/user/login`,loginCredentials);
   }
 
   public setCurrentUser(user: User | null)

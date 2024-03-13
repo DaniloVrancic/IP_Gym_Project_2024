@@ -73,3 +73,14 @@
   float:inline-end;
   width: 100%;
 }
+
+.errorBox
+{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: larger;
+  color: red;
+  text-align: left;
+  border: 2px solid red;
+  padding: 0.75rem;
+  margin-bottom: 10px;
+}

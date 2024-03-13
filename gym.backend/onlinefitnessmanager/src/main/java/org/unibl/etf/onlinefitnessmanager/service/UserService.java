@@ -81,7 +81,7 @@ public class UserService {
         verificationTokens.forEach((key, value) -> System.out.println("TOKEN:" + key.getToken() + " USER: " + value.getId() +"\t" + value.getUsername() + "\t" + value.getEmail() + "\tPASSWORD:" + value.getPassword() +"\tActivated: " + value.getActivated()));
     }
 
-    private String buildEmail(String name, String link) {
+    public String buildEmail(String name, String link) {
         String textContent = "Hi " + name + ",\n\n" +
                 "Thank you for registering to FitCheck. Please visit the below link to activate your account:\n" +
                 link + "\n\n" +
@@ -211,7 +211,12 @@ public class UserService {
 
     public UserEntity findUserById(Integer id)
     {
-        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User ID: [ " + id + " ], not found in repository."));
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User ID: [ " + id + " ], not registered."));
+    }
+
+    public UserEntity findUserByUsername(String username)
+    {
+        return userRepository.findByUsernameIs(username).orElseThrow(() -> new UserNotFoundException("Username: [ " + username + " ], not found in repository."));
     }
 
     public UserEntity activateUser(String activationUUID)
@@ -300,4 +305,17 @@ public class UserService {
         }
     }
 
+    /**
+     *
+     * @param user The user password is already hashed
+     * @param password The password that I am checking is also given in plain-text
+     * @return true if the passwords match, else false
+     */
+    public boolean checkPassword(UserEntity user, String password) {
+        System.out.print("CHECKING PASSWORD: ");
+        String userHashedPassword = user.getPassword();
+        boolean passwordsMatch = userHashedPassword.equals(hashString(password));
+        System.out.println(passwordsMatch);
+        return passwordsMatch;
+    }
 }

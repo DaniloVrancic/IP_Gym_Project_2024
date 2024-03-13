@@ -1,20 +1,17 @@
 package org.unibl.etf.onlinefitnessmanager.controller;
 
-import org.apache.catalina.User;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.multipart.MultipartFile;
+import org.unibl.etf.onlinefitnessmanager.additional.email.EmailSender;
 import org.unibl.etf.onlinefitnessmanager.exception.UserNotFoundException;
 import org.unibl.etf.onlinefitnessmanager.model.entities.UserEntity;
 import org.unibl.etf.onlinefitnessmanager.service.UserService;
 import org.unibl.etf.onlinefitnessmanager.verification.VerificationToken;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -23,10 +20,12 @@ public class UserController {
 
 
     private final UserService userService;
+    private final EmailSender emailSender;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, EmailSender emailSender) {
         this.userService = userService;
+        this.emailSender = emailSender;
     }
 
     @GetMapping("/find_all")
@@ -125,6 +124,59 @@ public class UserController {
             return new ResponseEntity<String>(ex.getLocalizedMessage(),HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody UserEntity user) {
+
+            String username = user.getUsername();
+            String password = user.getPassword();
+
+            UserEntity userFromDB = null;
+            try
+            {
+                userFromDB = userService.findUserByUsername(username);
+            }
+            catch(UserNotFoundException ex)
+            {
+                System.out.println("USER " + username + " NOT FOUND IN DB!");
+                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            System.out.println("FOUND USER: " + userFromDB.getId() + " " + userFromDB.getUsername() + " " + userFromDB.getEmail() + " " + userFromDB.getPassword());
+
+
+            try{
+
+
+            // Check if the password matches
+            if (!userService.checkPassword(userFromDB, password)) {
+                return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+            }
+            }
+            catch(Exception ex)
+            {
+                System.out.println(ex.getLocalizedMessage());
+            }
+
+            // If the user exists and has correct information but hasn't been activated
+            if(userFromDB.getActivated().equals((byte)0))
+            {
+                System.out.println("USER IS NOT YET ACTIVATED!");
+                try
+                {
+                    VerificationToken newVerificationToken = new VerificationToken(LocalDateTime.now());
+                    emailSender.send(userFromDB.getEmail(),
+                                        userService.buildEmail(userFromDB.getFirstName(),
+                                            "http://localhost:8080/user/verify?activationToken=" + newVerificationToken.getToken()));
+                }
+                catch(Exception ex)
+                {
+                    System.err.println(ex.getLocalizedMessage());
+                }
+            }
+            return new ResponseEntity<UserEntity>(userFromDB, HttpStatus.OK);
+    }
+
 
 
 
