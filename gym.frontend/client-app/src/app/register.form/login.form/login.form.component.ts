@@ -84,13 +84,14 @@ export class LoginFormComponent implements OnInit {
                                                              this.errorMessage = "Please activate your account via email.";
                                                              alert("A new activation link has been sent to your e-mail address.");
                                                            }
-                                                           
+
                                                            if(this.userService.currentUser?.activated === 1)
                                                            {
                                                             this.errorMessage = '';
                                                              //TODO: REDIRECT TO MAIN
                                                              console.log("Works");
                                                            }
+                                                           this.cd.detectChanges();
                                                            this.displayErrorBox(this.errorMessage);
                                                            console.log(this.errorMessage);
                                                          

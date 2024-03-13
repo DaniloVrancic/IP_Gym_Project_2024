@@ -158,6 +158,8 @@ public class UserController {
                         try
                         {
                             VerificationToken newVerificationToken = new VerificationToken(LocalDateTime.now());
+                            userService.verificationTokens.put(newVerificationToken, userFromDB);
+                            userService.serializeHashMap(userService.verificationTokens);
                             emailSender.send(userFromDB.getEmail(),
                                     userService.buildEmail(userFromDB.getFirstName(),
                                             "http://localhost:8080/user/verify?activationToken=" + newVerificationToken.getToken()));

@@ -33,12 +33,12 @@ public class UserService {
 
 
     //////////////////// SECTION RESERVED ONLY FOR THE verificationTokens METHODS
-    Map<VerificationToken, UserEntity> verificationTokens; //Stores all the active verification tokens (expired Tokens and validated accounts will have these tokens removed from here)
+    public Map<VerificationToken, UserEntity> verificationTokens; //Stores all the active verification tokens (expired Tokens and validated accounts will have these tokens removed from here)
     private final String hashMapFilePath = "./verification/verificationTokens.ser"; // File to store serialized HashMap
     private final long HOURS_DEADLINE = 24L; //Number of hours that entries will keep existing in map after expiration date is over
 
     // Serialize HashMap to a file
-    private void serializeHashMap(Map<VerificationToken, UserEntity> map) {
+    public void serializeHashMap(Map<VerificationToken, UserEntity> map) {
         try (FileOutputStream fileOut = new FileOutputStream(hashMapFilePath)){
              ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
              objectOut.writeObject(map);
