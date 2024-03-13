@@ -37,7 +37,7 @@ export class UserService {
     return this.http.delete<void>(`${this.apiServerUrl}/user/delete/${userId}`);
   }
 
-  public loginUser(loginCredentials: LoginCredentials) : Observable<User | null>
+  public loginUser(loginCredentials: LoginCredentials) : Observable<User | string>
   {
     return this.http.post<User>(`${this.apiServerUrl}/user/login`,loginCredentials);
   }

@@ -139,42 +139,44 @@ public class UserController {
             catch(UserNotFoundException ex)
             {
                 System.out.println("USER " + username + " NOT FOUND IN DB!");
-                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>("user_not_found", HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
             System.out.println("FOUND USER: " + userFromDB.getId() + " " + userFromDB.getUsername() + " " + userFromDB.getEmail() + " " + userFromDB.getPassword());
 
 
             try{
-
-
             // Check if the password matches
-            if (!userService.checkPassword(userFromDB, password)) {
-                return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-            }
+                if (!userService.checkPassword(userFromDB, password)) {
+                    return new ResponseEntity<>("incorrect_password", HttpStatus.UNAUTHORIZED);
+                }
+                else //the case if the password is correct
+                {
+                    if(userFromDB.getActivated().equals((byte)0))
+                    {
+                        System.out.println("USER IS NOT YET ACTIVATED!");
+                        try
+                        {
+                            VerificationToken newVerificationToken = new VerificationToken(LocalDateTime.now());
+                            emailSender.send(userFromDB.getEmail(),
+                                    userService.buildEmail(userFromDB.getFirstName(),
+                                            "http://localhost:8080/user/verify?activationToken=" + newVerificationToken.getToken()));
+                        }
+                        catch(Exception ex)
+                        {
+                            System.err.println(ex.getLocalizedMessage());
+                        }
+                    }
+                }
             }
             catch(Exception ex)
             {
                 System.out.println(ex.getLocalizedMessage());
             }
-
+            userFromDB.setPassword("");
+        return new ResponseEntity<UserEntity>(userFromDB, HttpStatus.OK);
             // If the user exists and has correct information but hasn't been activated
-            if(userFromDB.getActivated().equals((byte)0))
-            {
-                System.out.println("USER IS NOT YET ACTIVATED!");
-                try
-                {
-                    VerificationToken newVerificationToken = new VerificationToken(LocalDateTime.now());
-                    emailSender.send(userFromDB.getEmail(),
-                                        userService.buildEmail(userFromDB.getFirstName(),
-                                            "http://localhost:8080/user/verify?activationToken=" + newVerificationToken.getToken()));
-                }
-                catch(Exception ex)
-                {
-                    System.err.println(ex.getLocalizedMessage());
-                }
-            }
-            return new ResponseEntity<UserEntity>(userFromDB, HttpStatus.OK);
+
     }
 
 

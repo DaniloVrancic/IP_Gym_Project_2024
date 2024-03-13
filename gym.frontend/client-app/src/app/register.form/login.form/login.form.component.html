@@ -4,9 +4,9 @@
     <form style="border:1px solid black" class="my-form">
       <label class="title-label montserrat-strong">Login</label>
       <div class="form-body">
-        @if(this.currentUser !== null && this.currentUser.activated === 0)
+        @if(this.errorMessage != null && this.errorMessage.length > 0)
         {
-          <div class="errorBox">Activate your account <b>via e-mail sent link</b>.</div>
+          <div id="errorField" class="errorBox"></div>
         }
         <mat-form-field class="example-full-width">
           <mat-label>Username</mat-label>
@@ -23,7 +23,7 @@
             }
           </mat-form-field>
     
-          <button mat-raised-button color="primary" type="submit" (click)="onSubmit()">Login</button>
+          <button mat-raised-button [disabled]="this.submitButtonDisabled" id="submit_button" color="primary" type="submit" (click)="onSubmit()">Login</button>
           
         </div>
           
