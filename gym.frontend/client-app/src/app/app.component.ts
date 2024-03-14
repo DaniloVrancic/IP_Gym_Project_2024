@@ -10,6 +10,7 @@ import { RegisterFormComponent } from './register.form/register/register.form.co
 import { LoginFormComponent } from './register.form/login.form/login.form.component';
 import { StartPageComponent } from './start-page/start-page/start-page.component';
 import { MainPageComponent } from './home/main.page/main.page.component';
+import { EditProfileComponent } from './home/main.page/edit.profile/edit.profile/edit.profile.component';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,7 @@ import { MainPageComponent } from './home/main.page/main.page.component';
             NavbarComponent, RegisterFormComponent, 
             LoginFormComponent, StartPageComponent,
             RouterLink, RouterOutlet, RouterLinkActive,
-          MainPageComponent],
+          MainPageComponent, EditProfileComponent],
   providers: [UserService],
 })
 export class AppComponent implements OnInit{
