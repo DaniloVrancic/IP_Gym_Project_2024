@@ -87,11 +87,11 @@ export class RegisterFormComponent implements OnInit{
         next: (response: User) => {
           this.userService.setCurrentUser(response);
           alert("Activation link has been sent to E-mail:\n" + this.userForRegister.email);
-          //TODO: redirect user to login form or main form
+          //redirects user to login form or main form
           if (response.activated === 0) {
-            this.router.navigate(['/login']); // Redirect to login page if activated is 0
+            this.router.navigate(['/login-form']); // Redirect to login page if activated is 0
           } else {
-            this.router.navigate(['/main']); // Redirect to main page if activated is 1
+            this.router.navigate(['/main-page']); // Redirect to main page if activated is 1
           }
         },
         error: (error: any) => {

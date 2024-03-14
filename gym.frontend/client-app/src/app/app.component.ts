@@ -29,7 +29,7 @@ export class AppComponent implements OnInit{
  
   public loggedUser: User | null = null; //Can either be null or a User object, default set to null
 
-  constructor(private userService: UserService){};
+  constructor(public userService: UserService){ this.loggedUser = userService.currentUser};
 
   ngOnInit() {
     /*

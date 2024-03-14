@@ -6,7 +6,8 @@ import { UserService } from '../../user.service';
 import { User } from '../../user';
 import { LoginCredentials } from './LoginCredentials';
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
-import { MatButton } from '@angular/material/button';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login-form',
@@ -26,7 +27,7 @@ export class LoginFormComponent implements OnInit {
   currentUser: User | null;
   errorMessage: string;
 
-  constructor(private userService: UserService, private cd: ChangeDetectorRef)
+  constructor(private userService: UserService, private cd: ChangeDetectorRef, private router: Router)
   {
     this.currentUser = userService.currentUser;
     this.errorMessage = '';
@@ -63,7 +64,7 @@ export class LoginFormComponent implements OnInit {
                                           password: passwordToLogin};
 
     
-
+     
     this.userService.loginUser(userToLogin).subscribe({
                                                        next: (response: User | string) => {
                                                           
@@ -82,6 +83,8 @@ export class LoginFormComponent implements OnInit {
                                                         if(this.userService.currentUser?.activated === 0)
                                                            {
                                                              this.errorMessage = "Please activate your account via email.";
+                                                             this.cd.detectChanges();
+                                                             this.displayErrorBox(this.errorMessage);
                                                              alert("A new activation link has been sent to your e-mail address.");
                                                            }
 
@@ -89,7 +92,9 @@ export class LoginFormComponent implements OnInit {
                                                            {
                                                             this.errorMessage = '';
                                                              //TODO: REDIRECT TO MAIN
+                                                             this.router.navigate(["/main-page"]);
                                                              console.log("Works");
+
                                                            }
                                                            this.cd.detectChanges();
                                                            this.displayErrorBox(this.errorMessage);
