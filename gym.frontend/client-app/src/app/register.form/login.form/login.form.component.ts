@@ -130,7 +130,7 @@ export class LoginFormComponent implements OnInit {
 
   displayErrorBox(errorMessage: string) : void
   {
-    var errorField = document.getElementById("errorField");
+    var errorField = document.getElementById("errorField"); //Gets the field where the error message will print
 
     if(errorField !== null)
     {
