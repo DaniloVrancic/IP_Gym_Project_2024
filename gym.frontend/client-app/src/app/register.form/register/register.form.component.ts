@@ -5,6 +5,8 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { RecaptchaModule, RecaptchaValueAccessorDirective } from 'ng-recaptcha';
 import { UserService } from '../../user.service';
 import { User } from '../../user';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-register-form',
@@ -32,7 +34,6 @@ export class RegisterFormComponent implements OnInit{
 
   captcha: string | null;
   public userForRegister : User;
-  loggedUser : User;
 
   ngOnInit(): void {
       let selectedFile : HTMLElement | null = document.getElementById("file-name");
@@ -42,7 +43,7 @@ export class RegisterFormComponent implements OnInit{
       }
   }
 
-  constructor(private userService: UserService)
+  constructor(private userService: UserService, private router: Router)
   {
     this.captcha = 'a'; //SET TO NULL WHEN PRODUCT IS FINISHED
     this.userForRegister = 
@@ -55,7 +56,7 @@ export class RegisterFormComponent implements OnInit{
                             avatar: "",
                             email: "",
                           } as User;
-    this.loggedUser = {} as User;
+    
   }
 
   resolved(captchaResponse: string | null)
@@ -84,14 +85,13 @@ export class RegisterFormComponent implements OnInit{
       this.userForRegister.activated = 0; // Default value
       this.userService.addUser(this.userForRegister).subscribe({
         next: (response: User) => {
-          this.loggedUser = response;
-          if(this.loggedUser.activated == 1)
-          {
-            alert("Please activate the user via link sent to registered e-mail.");
-          }
-          else
-          {
-            //TODO: change route to main component
+          this.userService.setCurrentUser(response);
+          alert("Activation link has been sent to E-mail:\n" + this.userForRegister.email);
+          //redirects user to login form or main form
+          if (response.activated === 0) {
+            this.router.navigate(['/login-form']); // Redirect to login page if activated is 0
+          } else {
+            this.router.navigate(['/main-page']); // Redirect to main page if activated is 1
           }
         },
         error: (error: any) => {
@@ -156,14 +156,10 @@ export class RegisterFormComponent implements OnInit{
     }
 
   }
-
 }
-
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
   }
-
-
 }

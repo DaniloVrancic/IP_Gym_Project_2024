@@ -1,0 +1,55 @@
+<p>PATH: username: {{this.userDisplay.username}}  firstName: {{this.userDisplay.firstName}} lastName:{{this.userDisplay.lastName}} </p>
+<p>BASE64: {{this.currentUser.avatar}}</p>
+<mat-card>
+    <mat-card-title class="card-title montserrat-strong">Edit User Information</mat-card-title>
+    <mat-card-content class="montserrat-regular">
+      <form class="myForm" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <!-- Profile Image -->
+        <div class="profile-pic-editor">
+        <div class="profile-image">
+          <img [src]="this.userDisplay.avatar" alt="Profile Image">
+          <ng-template #defaultImage>
+            <div class="default-image"></div>
+          </ng-template>
+        </div>
+        <label class="custom-file-upload"><input name="avatar" id="file-upload" type="file" (change)="onFileSelect($event)" accept="image/*" formControlName="profileImage">Upload profile picture <span id="file-name"></span></label>
+    </div>
+        <!-- First Name -->
+        <mat-form-field appearance="fill">
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstName" required>
+          <mat-error>First Name is required</mat-error>
+        </mat-form-field>
+  
+        <!-- Last Name -->
+        <mat-form-field appearance="fill">
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastName" required>
+          <mat-error>Last Name is required</mat-error>
+        </mat-form-field>
+  
+        <!-- City -->
+        <mat-form-field appearance="fill">
+          <mat-label>City</mat-label>
+          <input matInput formControlName="city">
+          <mat-error>City name is required</mat-error>
+        </mat-form-field>
+  
+        <!-- Email -->
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" required>
+          <mat-error>Invalid email</mat-error>
+        </mat-form-field>
+  
+        <!-- Password -->
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" required>
+          <mat-error>Password is required</mat-error>
+        </mat-form-field>
+  
+        <button mat-raised-button color="primary" type="submit" [disabled]="userForm.invalid">Save</button>
+      </form>
+    </mat-card-content>
+  </mat-card>

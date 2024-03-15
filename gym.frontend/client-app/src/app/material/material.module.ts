@@ -5,14 +5,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import {MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatDividerModule} from '@angular/material/divider';
-import {
-  MatSnackBar,
-  MatSnackBarAction,
-  MatSnackBarActions,
-  MatSnackBarLabel,
-  MatSnackBarRef
-} from '@angular/material/snack-bar';
-
+import {MatCardModule} from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 
 const MaterialComponents = [
@@ -22,9 +17,9 @@ const MaterialComponents = [
   MatInputModule,
   MatFormFieldModule,
   MatDividerModule,
-  MatSnackBarAction,
-  MatSnackBarActions,
-  MatSnackBarLabel,
+  MatCardModule,
+  MatDialogModule,
+  MatPaginatorModule
 ];
 
 @NgModule({

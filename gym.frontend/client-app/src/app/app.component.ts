@@ -9,6 +9,8 @@ import { MaterialModule } from './material/material.module';
 import { RegisterFormComponent } from './register.form/register/register.form.component';
 import { LoginFormComponent } from './register.form/login.form/login.form.component';
 import { StartPageComponent } from './start-page/start-page/start-page.component';
+import { MainPageComponent } from './home/main.page/main.page.component';
+import { EditProfileComponent } from './home/main.page/edit.profile/edit.profile/edit.profile.component';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +20,8 @@ import { StartPageComponent } from './start-page/start-page/start-page.component
   imports: [HttpClientModule, MaterialModule,
             NavbarComponent, RegisterFormComponent, 
             LoginFormComponent, StartPageComponent,
-            RouterLink, RouterOutlet, RouterLinkActive],
+            RouterLink, RouterOutlet, RouterLinkActive,
+          MainPageComponent, EditProfileComponent],
   providers: [UserService],
 })
 export class AppComponent implements OnInit{
@@ -26,7 +29,7 @@ export class AppComponent implements OnInit{
  
   public loggedUser: User | null = null; //Can either be null or a User object, default set to null
 
-  constructor(private userService: UserService){};
+  constructor(public userService: UserService){ this.loggedUser = userService.currentUser};
 
   ngOnInit() {
     /*
