@@ -85,6 +85,14 @@ export class RegisterFormComponent implements OnInit{
       this.userService.addUser(this.userForRegister).subscribe({
         next: (response: User) => {
           this.loggedUser = response;
+          if(this.loggedUser.activated == 1)
+          {
+            alert("Please activate the user via link sent to registered e-mail.");
+          }
+          else
+          {
+            //TODO: change route to main component
+          }
         },
         error: (error: any) => {
           alert(error.message);

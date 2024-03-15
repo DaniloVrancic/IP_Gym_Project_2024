@@ -14,5 +14,5 @@ export class LoginFormComponent {
   usernameFormControl = new FormControl('', [Validators.required]);
   passwordFormControl = new FormControl('', [Validators.required]);
 
-  matcher = new MyErrorStateMatcher();
+  matcher = new MyErrorStateMatcher(); //in case an error matcher is necessary
 }
