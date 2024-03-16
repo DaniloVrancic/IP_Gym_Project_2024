@@ -128,7 +128,7 @@ export class LoginFormComponent implements OnInit {
     });
   } //end of onSubmit()
 
-  displayErrorBox(errorMessage: string) : void
+  displayErrorBox(errorMessage: string) : void //displays a box the resulting error message will be displayed
   {
     var errorField = document.getElementById("errorField"); //Gets the field where the error message will print
 
