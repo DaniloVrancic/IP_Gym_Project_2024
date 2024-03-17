@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -18,7 +19,7 @@ public class CommentEntity {
     private String comment;
     @Basic
     @Column(name = "comment_time", nullable = false)
-    private Timestamp commentTime;
+    private LocalDateTime commentTime;
     @ManyToOne
     @JoinColumn(name = "fitness_program_id", referencedColumnName = "id", nullable = false)
     @JsonIgnore
@@ -43,11 +44,11 @@ public class CommentEntity {
         this.comment = comment;
     }
 
-    public Timestamp getCommentTime() {
+    public LocalDateTime getCommentTime() {
         return commentTime;
     }
 
-    public void setCommentTime(Timestamp commentTime) {
+    public void setCommentTime(LocalDateTime commentTime) {
         this.commentTime = commentTime;
     }
 

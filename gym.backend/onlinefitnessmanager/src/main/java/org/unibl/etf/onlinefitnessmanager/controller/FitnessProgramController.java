@@ -48,9 +48,27 @@ public class FitnessProgramController {
     @PostMapping("/add")
     public ResponseEntity<FitnessProgramEntity> addFitnessProgram(@RequestBody FitnessProgramEntity newEntity)
     {
-        FitnessProgramEntity addedEntity = fitnessProgramService.addFitnessProgram(newEntity);
+        FitnessProgramEntity newProgramWithPhoto; //Can also be without photo if no photo was ever set
+        try
+        {
+            String coverPhoto = newEntity.getImageUrl(); //Saves the full raw data into String avatar
+            newEntity.setImageUrl(null); //sets the Avatar inside user to null so that it doesn't try to save the whole raw picture data to the database
+            newProgramWithPhoto = fitnessProgramService.addFitnessProgram(newEntity); //saves to Database (without profile picture link)
 
-        return new ResponseEntity<>(addedEntity, HttpStatus.CREATED);
+            if(coverPhoto != null && coverPhoto.length() > 0) //checks if there is any Base64 data present.
+            {
+                newProgramWithPhoto.setImageUrl(fitnessProgramService.saveBase64EncodedPhoto(coverPhoto, newProgramWithPhoto));
+                fitnessProgramService.updateFitnessProgram(newProgramWithPhoto); //updates the daTabase with the link to the uploaded photo
+            }
+        }
+        catch(Exception ex)
+        {
+            System.out.println(ex.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+
+        return new ResponseEntity<>(newProgramWithPhoto, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")

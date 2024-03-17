@@ -258,6 +258,12 @@ public class UserService {
         return foundUser;
     }
 
+    /**
+     *
+     * Retrieves the verification token from the map of saved verification tokens using the UUID for the search
+     * @param activationUUID
+     * @return
+     */
     private VerificationToken getVerificationToken(String activationUUID) {
         if(activationUUID.length() < 72)
         {
