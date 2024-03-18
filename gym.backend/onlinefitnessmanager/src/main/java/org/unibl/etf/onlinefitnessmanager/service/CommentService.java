@@ -13,9 +13,10 @@ import java.util.stream.Collectors;
 @Service
 public class CommentService {
 
-    @Autowired
+
     private final CommentRepository commentRepository;
 
+    @Autowired
     public CommentService(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;
     }
