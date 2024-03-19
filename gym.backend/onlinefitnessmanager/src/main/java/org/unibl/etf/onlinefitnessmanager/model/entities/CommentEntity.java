@@ -80,4 +80,20 @@ public class CommentEntity {
     public void setUser_commenter(UserEntity user_commenter) {
         this.user_commenter = user_commenter;
     }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Date created: " );
+        sb.append(this.commentTime);
+        sb.append("\nComment text: ");
+        sb.append(this.comment);
+        sb.append("\nUser ID: ");
+        sb.append(this.getUser_commenter().getId());
+        sb.append("\nProgram ID: ");
+        sb.append(this.getTargetFitnessProgram().getId());
+
+        return sb.toString();
+    }
 }

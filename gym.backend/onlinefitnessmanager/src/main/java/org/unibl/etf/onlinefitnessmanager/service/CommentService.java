@@ -13,9 +13,10 @@ import java.util.stream.Collectors;
 @Service
 public class CommentService {
 
-    @Autowired
+
     private final CommentRepository commentRepository;
 
+    @Autowired
     public CommentService(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;
     }
@@ -25,8 +26,8 @@ public class CommentService {
         CommentEntity savedComment = null;
         try
         {
-        newComment.setCommentTime(LocalDateTime.now());
-        savedComment = commentRepository.save(newComment);
+            newComment.setCommentTime(LocalDateTime.now());
+            savedComment = commentRepository.save(newComment);
         }
         catch(Exception ex)
         {
