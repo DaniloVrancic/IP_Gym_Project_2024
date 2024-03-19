@@ -1,0 +1,99 @@
+
+.card-full
+{
+    display: flex; 
+    flex-wrap: nowrap;
+    flex-direction: column;
+    max-height: 80vh;
+    overflow-y: visible;
+    border-radius: 1rem;
+}
+
+.card-name
+{
+    height: fit-content;
+    padding: 2rem 2rem;
+}
+.card-title
+{
+    color: ghostwhite;
+    font-size: 3rem;
+    font-weight: 700;
+    font-family: 'Homenaje', sans-serif;
+    width: 100%;
+    height: fit-content;
+    text-align: center;
+    background-color: var(--primary-color);
+}
+
+.card-content
+{
+
+}
+
+.card-image {
+    width: 100%;
+    margin: 0;
+    border-radius: 1rem;
+    border: 1px gray solid;
+  }
+
+.card-text-content
+{
+
+}
+
+.card-text-attribute
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin-right: 2rem;
+    margin-left: 2rem;
+}
+
+.card-text-attribute .title{
+    flex: auto;
+    font-weight: 700;
+}
+
+.card-text-attribute hr
+{
+    width: 100%;
+    border: 1px solid gray;
+}
+
+#description-container
+{
+    display: flex;
+    flex-direction: column;
+}
+
+#description
+{
+    justify-content: left;
+    text-align: left;
+}
+
+.card-created-by
+{
+    display: flex;
+    font-size: x-large;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 1px solid grey;
+    border-radius: 2rem;
+    margin: 0.5rem 3rem;
+    padding-top: 1rem;
+
+    overflow-x: auto;
+}
+
+.card-created-by p
+{
+    margin: 1rem 0.5rem;
+}

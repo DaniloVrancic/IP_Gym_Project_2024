@@ -26,8 +26,8 @@ public class CommentService {
         CommentEntity savedComment = null;
         try
         {
-        newComment.setCommentTime(LocalDateTime.now());
-        savedComment = commentRepository.save(newComment);
+            newComment.setCommentTime(LocalDateTime.now());
+            savedComment = commentRepository.save(newComment);
         }
         catch(Exception ex)
         {

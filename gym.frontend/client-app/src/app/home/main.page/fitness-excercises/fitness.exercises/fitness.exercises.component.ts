@@ -38,6 +38,7 @@ export class FitnessExercisesComponent implements OnInit {
   }
 
   openDialog(exercise: any) {
+
     this.dialog.open(ExcerciseInformationComponent, {
       width: '70%',
       data: exercise

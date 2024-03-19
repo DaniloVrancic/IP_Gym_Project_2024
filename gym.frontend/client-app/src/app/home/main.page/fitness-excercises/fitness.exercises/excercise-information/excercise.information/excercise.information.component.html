@@ -1,1 +1,67 @@
-<p>excercise.information works!</p>
+<div class="montserrat-regular card-full">
+    <div class="card-content">
+        <div class="card-title">
+            <div class="homenaje-strong card-name">{{this.caughtExcercise.name}}</div>
+        
+
+            <img class="card-image" [src]="caughtExcercise.imageUrl" alt="excercise-photo">
+            <div class="card-image"></div>
+        </div>
+        <div class="card-text-content">
+            <div id="description-container" class="card-text-attribute">
+                <p class="title">Description:</p>
+                <p id="description">{{this.caughtExcercise.description}}</p>
+                <hr>
+            </div>
+            @if(this.caughtExcercise.difficultyLevel != null || this.caughtExcercise.difficultyLevel > 5)
+            {
+            <div class="card-text-attribute">
+                <p class="title">Difficulty level:</p>
+                <p> {{this.caughtExcercise.difficultyLevel}}</p>
+                <hr>
+            </div>
+            }
+            <div class="card-text-attribute">
+                <p class="title">Duration:</p>
+                <p> {{this.caughtExcercise.duration}} minutes</p>
+                <hr>
+            </div>
+            <div class="card-text-attribute">
+                <p class="title">Location:</p>
+                <p> {{this.caughtExcercise.locationOfEvent}}</p>
+                <hr>
+            </div>
+            <div class="card-text-attribute">
+                <p class="title">Status:</p>
+                @if (this.caughtExcercise.status == 0) 
+                {
+                    <p> Active</p>
+                    <hr>
+                }
+                @else if(this.caughtExcercise.status == 1)
+                {
+                    <p> Finished</p>
+                    <hr>
+                }
+                @else
+                {
+                    <p> Unknown</p>
+                    <hr>
+                }
+            </div>
+            <div class="card-text-attribute">
+                <p class="title">Price:</p>
+                <p> ${{this.caughtExcercise.price}}</p>
+                <hr>
+            </div>
+            <div class="card-created-by">
+                <p class="title"><b>Program hosted by:</b></p>
+                <p> {{this.caughtExcercise.user_creator.firstName + " " + this.caughtExcercise.user_creator.lastName}} from {{this.caughtExcercise.user_creator.city}}</p>
+                <p> <b>Username:</b> {{this.caughtExcercise.user_creator.username}}</p>
+                <p> <b>E-mail:</b> {{this.caughtExcercise.user_creator.email}}</p>
+                <hr>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-excercise-information',
@@ -8,5 +9,13 @@ import { Component } from '@angular/core';
   styleUrl: './excercise.information.component.css'
 })
 export class ExcerciseInformationComponent {
+
+  caughtExcercise: any;
+  
+
+  constructor(@Inject(MAT_DIALOG_DATA) public exercise: any) { 
+    this.caughtExcercise = {...exercise};
+  }
+
 
 }

@@ -84,19 +84,26 @@ public class CommentController {
         CommentEntity newComment = new CommentEntity();
         try
         {
+            newComment.setComment(comment);
+            newComment.setUser_commenter((new UserEntity()));
+            newComment.getUser_commenter().setId(user_id);
+            newComment.setTargetFitnessProgram(new FitnessProgramEntity());
+            newComment.getTargetFitnessProgram().setId(program_id);
 
-
-        newComment.setComment(comment);
-        newComment.setUser_commenter((new UserEntity()));
-        newComment.getUser_commenter().setId(user_id);
-        newComment.setTargetFitnessProgram(new FitnessProgramEntity());
-        newComment.getTargetFitnessProgram().setId(program_id);
-
-        return new ResponseEntity<>(newComment, HttpStatus.CREATED);
+            CommentEntity addedComment = commentService.addComment(newComment);
+            //System.out.println(addedComment.toString()); //For testing purposes
+            return new ResponseEntity<>(addedComment, HttpStatus.CREATED);
         }
         catch(Exception ex)
         {
             return new ResponseEntity<>("An error occured: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<CommentEntity> updateComment(@RequestBody CommentEntity comment)
+    {
+        CommentEntity updatedComment = commentService.updateComment(comment);
+        return new ResponseEntity<>(updatedComment, HttpStatus.OK);
     }
 }
