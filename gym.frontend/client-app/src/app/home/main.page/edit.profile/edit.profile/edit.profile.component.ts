@@ -118,8 +118,5 @@ onFileSelect(event: any) //selects and reads the file and assigns it to the avat
    }
    //this.currentUser.avatar = userForRegister.avatar;
    
-   
-   
-   
  }
 }

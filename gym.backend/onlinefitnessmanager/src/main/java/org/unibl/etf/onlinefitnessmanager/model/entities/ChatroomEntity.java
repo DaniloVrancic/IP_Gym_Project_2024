@@ -3,6 +3,7 @@ package org.unibl.etf.onlinefitnessmanager.model.entities;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -14,7 +15,7 @@ public class ChatroomEntity {
     private Integer id;
     @Basic
     @Column(name = "time_of_send", nullable = false)
-    private Timestamp timeOfSend;
+    private LocalDateTime timeOfSend;
     @Basic
     @Column(name = "text", nullable = true, length = -1)
     private String text;
@@ -30,11 +31,11 @@ public class ChatroomEntity {
         this.id = id;
     }
 
-    public Timestamp getTimeOfSend() {
+    public LocalDateTime getTimeOfSend() {
         return timeOfSend;
     }
 
-    public void setTimeOfSend(Timestamp timeOfSend) {
+    public void setTimeOfSend(LocalDateTime timeOfSend) {
         this.timeOfSend = timeOfSend;
     }
 
