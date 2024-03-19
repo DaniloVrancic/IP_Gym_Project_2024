@@ -97,3 +97,34 @@
 {
     margin: 1rem 0.5rem;
 }
+
+.card-comment-section
+{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(245, 245, 220, 0.8);
+    font-size: medium;
+    padding: 1rem;
+    margin: 0rem 2rem;
+}
+
+.write-comment-section
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.full-width
+{
+    width: 100%;
+}
+
+.comment-input-field
+{
+    width: 80%;
+    max-height: 40rem;
+}

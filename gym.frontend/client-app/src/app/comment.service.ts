@@ -9,47 +9,40 @@ import { environment } from '../environments/environment';
 })
 export class CommentService {
 
-  constructor(private http: HttpClient) { }
+  private mappingUrl: string;
+
+  constructor(private http: HttpClient) {
+    this.mappingUrl= "/comment";
+   }
 
   private handleError(error: any) {
     console.error('Error:', error);
-    return throwError(error);
+    throw (error);
   }
 
   getAllComments(): Observable<any> {
-    return this.http.get<any>(`${environment.apiBaseUrl}/find_all`).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get<any>(`${environment.apiBaseUrl + this.mappingUrl}/find_all`)
+    ;
   }
 
   getCommentsForProgram(programId: number): Observable<any> {
-    return this.http.get<any>(`${environment.apiBaseUrl}/find_for_program/${programId}`).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get<any>(`${environment.apiBaseUrl + this.mappingUrl}/find_for_program/${programId}`);
   }
 
   getCommentsFromUser(userId: number): Observable<any> {
-    return this.http.get<any>(`${environment.apiBaseUrl}/find_for_user/${userId}`).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get<any>(`${environment.apiBaseUrl + this.mappingUrl}/find_for_user/${userId}`);
   }
 
   deleteComment(commentId: number): Observable<any> {
-    return this.http.delete<any>(`${environment.apiBaseUrl}/delete/${commentId}`).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.delete<any>(`${environment.apiBaseUrl + this.mappingUrl}/delete/${commentId}`);
   }
 
   addComment(userId: number, programId: number, comment: string): Observable<any> {
     const body = { user_id: userId, program_id: programId, comment: comment };
-    return this.http.post<any>(`${environment.apiBaseUrl}/add`, body).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.post<any>(`${environment.apiBaseUrl + this.mappingUrl}/add`, body);
   }
 
   updateComment(comment: any): Observable<any> {
-    return this.http.put<any>(`${environment.apiBaseUrl}/update`, comment).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.put<any>(`${environment.apiBaseUrl + this.mappingUrl}/update`, comment);
   }
 }
