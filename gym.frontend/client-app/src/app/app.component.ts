@@ -29,14 +29,13 @@ export class AppComponent implements OnInit{
  
   public loggedUser: User | null = null; //Can either be null or a User object, default set to null
 
-  constructor(public userService: UserService){ this.loggedUser = userService.currentUser};
+  constructor(public userService: UserService){ this.loggedUser = userService.getCurrentUser()};
 
   ngOnInit() {
     /*
       let id : number = 1;
       this.getLoggedUser(id);
       */
-     
   }
 
   public getLoggedUser(userId: number): void {

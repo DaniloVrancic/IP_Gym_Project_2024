@@ -13,6 +13,8 @@ import org.unibl.etf.onlinefitnessmanager.verification.VerificationToken;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/user")
@@ -80,7 +82,7 @@ public class UserController {
             user.setAvatar(null); //sets the Avatar inside user to null so that it doesn't try to save the whole raw picture data to the database
             newUser = userService.addUser(user); //saves to Database (without profile picture link)
 
-            if(avatar != null && avatar.length() > 0)
+            if(avatar != null && !avatar.isEmpty())
             {
                 newUser.setAvatar(userService.saveBase64EncodedPhoto(avatar, newUser));
                 userService.updateUser(newUser); //updates the profile with profile picture link
@@ -99,7 +101,58 @@ public class UserController {
     @PutMapping("/update")
     public ResponseEntity<UserEntity> updateUser(@RequestBody UserEntity user)
     {
-        UserEntity newUser = userService.updateUser(user);
+        UserEntity referencedUser = userService.findUserById(user.getId());
+        referencedUser.setUsername(user.getUsername());
+        referencedUser.setFirstName(user.getFirstName());
+        referencedUser.setLastName(user.getLastName());
+        referencedUser.setCity(user.getCity());
+        referencedUser.setEmail(user.getEmail());
+        String avatar = user.getAvatar();
+
+        System.out.println(referencedUser.getId() + " username: " + referencedUser.getUsername() + " last name: " + referencedUser.getLastName() + " profile pic: " + referencedUser.getAvatar());
+
+
+        if(avatar != null)
+        {
+            String[] photoParts = avatar.split(",");
+            String metadataAboutEncode = null;
+            String payload = null;
+
+            if(photoParts.length != 2) //this means that avatar is not base 64
+            {
+                referencedUser.setAvatar(avatar);
+            }
+            else //this means that the avatar string can be base64 but it's not excluded that it's not
+            {
+                metadataAboutEncode = photoParts[0];
+                payload = photoParts[1];
+
+                if(photoParts[1].length() > 2_083) // this is definitely not a link
+                {
+                    referencedUser.setAvatar(userService.saveBase64EncodedPhoto(avatar, referencedUser));
+                }
+                else
+                {
+                    String regex = "image/(\\w*)";
+
+                    Pattern pattern = Pattern.compile(regex);
+                    Matcher matcher = pattern.matcher(metadataAboutEncode);
+
+                    if (matcher.find()) {
+                        referencedUser.setAvatar(userService.saveBase64EncodedPhoto(avatar, referencedUser));
+                    } else {
+                        referencedUser.setAvatar(avatar);
+                    }
+                }
+
+            }
+        }
+        else
+        {
+            referencedUser.setAvatar(null);
+        }
+
+        UserEntity newUser = userService.updateUser(referencedUser);
         return new ResponseEntity<>(newUser, HttpStatus.OK); //executes if a user is found
     }
 

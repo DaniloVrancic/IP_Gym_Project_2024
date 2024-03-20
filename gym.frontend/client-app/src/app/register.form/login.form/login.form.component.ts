@@ -29,7 +29,7 @@ export class LoginFormComponent implements OnInit {
 
   constructor(private userService: UserService, private cd: ChangeDetectorRef, private router: Router)
   {
-    this.currentUser = userService.currentUser;
+    this.currentUser = userService.getCurrentUser();
     this.errorMessage = '';
   }
 
@@ -76,11 +76,11 @@ export class LoginFormComponent implements OnInit {
                                                           else
                                                           {
                                                             this.userService.setCurrentUser(response);
-                                                            console.log(this.userService.currentUser);
+                                                            console.log(this.userService.getCurrentUser());
                                                           }
                                                           
 
-                                                        if(this.userService.currentUser?.activated === 0)
+                                                        if(this.userService.getCurrentUser()?.activated === 0)
                                                            {
                                                              this.errorMessage = "Please activate your account via email.";
                                                              this.cd.detectChanges();
@@ -88,13 +88,12 @@ export class LoginFormComponent implements OnInit {
                                                              alert("A new activation link has been sent to your e-mail address.");
                                                            }
 
-                                                           if(this.userService.currentUser?.activated === 1)
+                                                           if(this.userService.getCurrentUser()?.activated === 1)
                                                            {
                                                             this.errorMessage = '';
                                                              //TODO: REDIRECT TO MAIN
                                                              this.router.navigate(["/main-page"]);
                                                              console.log("Works");
-
                                                            }
                                                            this.cd.detectChanges();
                                                            this.displayErrorBox(this.errorMessage);

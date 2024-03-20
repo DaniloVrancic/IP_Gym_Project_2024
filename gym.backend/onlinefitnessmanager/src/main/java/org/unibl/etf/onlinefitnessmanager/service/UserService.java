@@ -35,6 +35,7 @@ public class UserService {
     //////////////////// SECTION RESERVED ONLY FOR THE verificationTokens METHODS
     public Map<VerificationToken, UserEntity> verificationTokens; //Stores all the active verification tokens (expired Tokens and validated accounts will have these tokens removed from here)
     private final String hashMapFilePath = "./verification/verificationTokens.ser"; // File to store serialized HashMap
+    public final String profilePhotoFilePath = ".//profile_pictures//";
     private final long HOURS_DEADLINE = 24L; //Number of hours that entries will keep existing in map after expiration date is over
 
     // Serialize HashMap to a file
@@ -178,7 +179,7 @@ public class UserService {
         byte[] decodedBytes = Base64.getDecoder().decode(payload);
         InputStream inputStream = new ByteArrayInputStream(decodedBytes);
 
-        Path directoryPath = Paths.get(".//profile_pictures//" + user.getId());
+        Path directoryPath = Paths.get(profilePhotoFilePath + user.getId());
         Path outputPath = directoryPath.resolve("profilePic" + ((photoType.length() > 0) ? "." + photoType : photoType));
 
         try {
@@ -253,8 +254,6 @@ public class UserService {
         removeSufficientEntries();
         serializeHashMap(verificationTokens);
         printMapEntries(verificationTokens);
-        System.out.println("FOUND USER:" + foundUser.getId() + "\t" + foundUser.getUsername() + "\t" + foundUser.getEmail() + " " +
-                " PASSWORD: " + foundUser.getPassword());
         return foundUser;
     }
 

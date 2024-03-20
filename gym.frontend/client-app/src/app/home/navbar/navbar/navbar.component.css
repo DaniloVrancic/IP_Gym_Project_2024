@@ -64,7 +64,13 @@
 
 .profile > .profile-picture
 {
-    
-    height: 32px;
-    width: auto;
+    margin: 1rem;
+    height: 3rem;
+    width: 3rem;
+}
+
+.username
+{
+    display: inline-block;
+    text-align: right;
 }

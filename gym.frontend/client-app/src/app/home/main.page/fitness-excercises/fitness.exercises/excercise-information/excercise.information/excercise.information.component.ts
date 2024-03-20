@@ -1,8 +1,9 @@
-import { Component, Inject } from '@angular/core';
+import { AfterViewInit, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CommentService } from '../../../../../../comment.service';
 import { MaterialModule } from '../../../../../../material/material.module';
 import { FormsModule } from '@angular/forms';
+import { UserService } from '../../../../../../user.service';
 
 @Component({
   selector: 'app-excercise-information',
@@ -10,9 +11,12 @@ import { FormsModule } from '@angular/forms';
   imports: [MaterialModule],
   templateUrl: './excercise.information.component.html',
   styleUrl: './excercise.information.component.css',
-  providers: [CommentService]
+  providers: [CommentService, UserService]
 })
-export class ExcerciseInformationComponent {
+export class ExcerciseInformationComponent implements AfterViewInit{
+
+  commentTextArea!: any;
+
 textChanged(event: any) {
 this.commentText = event.target.value;
 if(this.commentText.length > 0)
@@ -33,7 +37,7 @@ postComment(event: MouseEvent) {
   commentText: string;
   isPostCommentDisabled: boolean;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public exercise: any, private commentService: CommentService) { 
+  constructor(@Inject(MAT_DIALOG_DATA) public exercise: any, private commentService: CommentService, public userService: UserService) { 
     this.caughtExcercise = {...exercise};
     this.commentsOnProgram = null;
     this.commentText = "";
@@ -42,6 +46,19 @@ postComment(event: MouseEvent) {
       response => {this.commentsOnProgram = (response);
                     console.log(response)});
   }
+    
+
+  ngAfterViewInit(): void {
+    console.log("THIS NEXt ELEMENT IS comment-text-area:");
+    this.commentTextArea = document.getElementById('comment-text-area');
+    console.log(this.commentTextArea);
+
+    if(this.userService.getCurrentUser()?.email == null)
+    {
+      this.commentTextArea.disabled = true;
+    }
+  }
+  
 
 
 }

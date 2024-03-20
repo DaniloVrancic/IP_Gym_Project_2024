@@ -9,7 +9,7 @@ import { LoginCredentials } from './register.form/login.form/LoginCredentials';
 export class UserService {
 
   private apiServerUrl =  environment.apiBaseUrl;
-  public currentUser: User | null = null;
+  static currentUser: User | null = null;
 
   constructor(private http: HttpClient) { }
 
@@ -44,11 +44,11 @@ export class UserService {
 
   public setCurrentUser(user: User | null)
   {
-    this.currentUser = user;
+    UserService.currentUser = user;
   }
 
   public getCurrentUser() : User | null
   {
-    return this.currentUser;
+    return UserService.currentUser;
   }
 }

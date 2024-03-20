@@ -17,27 +17,30 @@ export class EditProfileComponent implements OnInit {
   userForm: FormGroup;
   currentUser: User;
   userDisplay: User; //Serves to display appropriate values on the form
+  apiUrl: string;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private cdr: ChangeDetectorRef) {
-    this.currentUser = userService.currentUser as User;
+  constructor(private fb: FormBuilder, public userService: UserService, private cdr: ChangeDetectorRef) {
+    this.currentUser = userService.getCurrentUser() as User;
+    this.apiUrl = environment.apiBaseUrl;
     
-    userService.getUser(14).subscribe(response => {this.currentUser = response; console.log(response)});
+    //userService.getUser(14).subscribe(response => {this.currentUser = response; console.log(response)});
 
     //ONLY FOR TESTING, TODO: DELETE THIS CODE SEGMENT LATER:
-    setTimeout(() => {
-      
-    }, 1000);
 
 
     this.userDisplay  = {...this.currentUser};
-    //
+    console.log("THIS USER DISPLAY");
+    console.log(this.userDisplay);
 
-    if(this.userDisplay.avatar === null || this.userDisplay?.avatar.length == 0)
+    if(this.userDisplay?.avatar == null || this.userDisplay.avatar.length === 0)
     {
       this.userDisplay.avatar = environment.defaultUserImageURL; // if there is no profile picture uploaded, sets it to the default image
     }
     
-    this.currentUser.password = "";
+    if(this.currentUser != null)
+    {
+      this.currentUser.password = "";
+    }
 
     this.userForm = this.fb.group({
       firstName: [`${this.currentUser?.firstName}`, Validators.required],
@@ -56,12 +59,18 @@ export class EditProfileComponent implements OnInit {
 
   onSubmit() {
     let newUserInformation : User = {...this.userDisplay};
-    if(newUserInformation.avatar === environment.defaultUserImageURL)
+    if(newUserInformation.avatar == environment.defaultUserImageURL)
     {
       newUserInformation.avatar = null;
     }
+    newUserInformation.firstName = this.userForm.get('firstName')?.value;
+    newUserInformation.lastName = this.userForm.get('lastName')?.value;
+    newUserInformation.city = this.userForm.get('city')?.value;
+    newUserInformation.email = this.userForm.get('email')?.value;
+    newUserInformation.password = this.userForm.get('password')?.value;
+
     if (this.userForm.valid) {
-      this.userService.updateUser(newUserInformation).subscribe( response => {this.userService.currentUser = response; console.log(this.userService.currentUser)});
+      this.userService.updateUser(newUserInformation).subscribe( response => {this.userService.setCurrentUser(response); console.log(this.userService.getCurrentUser())});
     }
   }
 

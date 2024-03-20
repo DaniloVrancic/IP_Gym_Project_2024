@@ -1,6 +1,8 @@
 
-
-<app-navbar></app-navbar>
+@if(userService.getCurrentUser() != null || userService.getCurrentUser()?.username !== null)
+{
+    <app-navbar></app-navbar>
+}
 <router-outlet></router-outlet>
 <!--
 <app-start-page></app-start-page>

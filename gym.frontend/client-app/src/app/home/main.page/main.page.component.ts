@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MaterialModule } from '../../material/material.module';
 import { UserService } from '../../user.service';
 import { User } from '../../user';
@@ -13,14 +13,25 @@ import { FitnessExercisesComponent } from './fitness-excercises/fitness.exercise
   styleUrl: './main.page.component.css',
   providers: [UserService, FitnessProgramService]
 })
-export class MainPageComponent {
+export class MainPageComponent implements OnInit{
 
-  loggedUser: User;
-  constructor(private userService: UserService, private fitnessService: FitnessProgramService)
+  loggedUser!: User | null;
+  constructor(public userService: UserService, private fitnessService: FitnessProgramService)
   {
-    this.loggedUser = {...userService.currentUser} as User;
+    this.loggedUser = userService.getCurrentUser();
+    console.log("IN CONSTRUCTOR OF MAIN PAGE COMPONENT:");
+    console.log(userService.getCurrentUser());
     console.log(this.loggedUser);
+  }
+
+  ngOnInit(): void {
+
+    console.log("In main page OnInit:");
+    console.log(this.userService.getCurrentUser());
     
-    fitnessService.findAllFitnessPrograms().subscribe(response => console.log(response));
+    
+    this.loggedUser = {...this.userService.getCurrentUser()} as User | null;
+    this.fitnessService.findAllFitnessPrograms().subscribe(response => console.log(response));
+    
   }
 }

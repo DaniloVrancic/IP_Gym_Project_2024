@@ -7,7 +7,8 @@
         <!-- Profile Image -->
         <div class="profile-pic-editor">
         <div class="profile-image">
-          <img [src]="this.userDisplay.avatar" alt="Profile Image">
+          <img [src]="this.apiUrl + '/photo/profile/' + (this.userService.getCurrentUser()?.id)"
+          onerror="this.src='../../../../assets/default_images/defaultUser.png'">
           <ng-template #defaultImage>
             <div class="default-image"></div>
           </ng-template>

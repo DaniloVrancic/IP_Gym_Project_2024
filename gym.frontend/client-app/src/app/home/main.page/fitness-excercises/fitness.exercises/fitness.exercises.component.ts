@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ExcerciseInformationComponent } from './excercise-information/excercise.information/excercise.information.component';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { Subject } from 'rxjs';
+import { UserService } from '../../../../user.service';
 
 @Component({
   selector: 'app-fitness-exercises',
@@ -18,7 +19,7 @@ export class FitnessExercisesComponent implements OnInit {
   displayedExercises: any[] = [];
 
 
-  constructor(private fitnessProgramService: FitnessProgramService, private dialog: MatDialog) { }
+  constructor(public userService: UserService, private fitnessProgramService: FitnessProgramService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loadFitnessPrograms();
