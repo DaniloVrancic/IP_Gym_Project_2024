@@ -1,0 +1,20 @@
+@if(rssItems)
+{
+
+    <div class="rss-container">
+        <h2 class="container-title">Latest news:</h2>
+        @for(rssItem of rssItems; track rssItem)
+        {
+            <div class="news-container">
+                <a [href]="rssItem.link" target="_blank"> 
+                    <div class="news-content">
+                        <div class="title">{{rssItem.title}}</div>
+                        <div class="description">{{rssItem.description}}</div>
+                        <hr>
+                        <div class="category" >Category: {{rssItem.category}}</div>
+                    </div>
+                </a>
+            </div>       
+        }
+    </div>
+}

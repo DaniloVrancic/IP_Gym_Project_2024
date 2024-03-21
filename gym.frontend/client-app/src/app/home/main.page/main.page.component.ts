@@ -4,14 +4,15 @@ import { UserService } from '../../user.service';
 import { User } from '../../user';
 import { FitnessProgramService } from '../../fitness.program.service';
 import { FitnessExercisesComponent } from './fitness-excercises/fitness.exercises/fitness.exercises.component';
+import { RssNewsComponent } from "./rss.news/rss.news/rss.news.component";
 
 @Component({
-  selector: 'app-main-page',
-  standalone: true,
-  imports: [MaterialModule, FitnessExercisesComponent],
-  templateUrl: './main.page.component.html',
-  styleUrl: './main.page.component.css',
-  providers: [UserService, FitnessProgramService]
+    selector: 'app-main-page',
+    standalone: true,
+    templateUrl: './main.page.component.html',
+    styleUrl: './main.page.component.css',
+    providers: [UserService, FitnessProgramService],
+    imports: [MaterialModule, FitnessExercisesComponent, RssNewsComponent]
 })
 export class MainPageComponent implements OnInit{
 
