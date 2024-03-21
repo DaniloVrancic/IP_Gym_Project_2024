@@ -237,7 +237,7 @@ CREATE TABLE IF NOT EXISTS `db_online_fitness`.`recommended_excercise` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `description` TEXT NOT NULL,
-  `difficulty` INT NOT NULL,
+  `difficulty` VARCHAR(16) NOT NULL,
   `date_updated` DATETIME NOT NULL DEFAULT NOW(),
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
