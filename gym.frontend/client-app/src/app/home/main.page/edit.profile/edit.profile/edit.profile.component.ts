@@ -20,7 +20,7 @@ export class EditProfileComponent implements OnInit {
   apiUrl: string;
 
   constructor(private fb: FormBuilder, public userService: UserService, private cdr: ChangeDetectorRef) {
-    this.currentUser = userService.getCurrentUser() as User;
+    this.currentUser = JSON.parse(sessionStorage.getItem(environment.userKeyString) as string);
     this.apiUrl = environment.apiBaseUrl;
     
     //userService.getUser(14).subscribe(response => {this.currentUser = response; console.log(response)});
@@ -70,7 +70,7 @@ export class EditProfileComponent implements OnInit {
     newUserInformation.password = this.userForm.get('password')?.value;
 
     if (this.userForm.valid) {
-      this.userService.updateUser(newUserInformation).subscribe( response => {this.userService.setCurrentUser(response); console.log(this.userService.getCurrentUser())});
+      this.userService.updateUser(newUserInformation).subscribe( response => {this.userService.setCurrentUser(response); location.reload()});
     }
   }
 

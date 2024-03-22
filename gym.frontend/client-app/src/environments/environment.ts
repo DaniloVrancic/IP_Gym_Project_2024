@@ -1,5 +1,7 @@
 export const environment = {
     production: false,
     apiBaseUrl: 'http://localhost:8080',
-    defaultUserImageURL: '../assets/default_images/defaultUser.png'
+    defaultUserImageURL: '../assets/default_images/defaultUser.png',
+    rssFeedKeyString: 'rss-feed',
+    userKeyString: 'cached-user'
 }

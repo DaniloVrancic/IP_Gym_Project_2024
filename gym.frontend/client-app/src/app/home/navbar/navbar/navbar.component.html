@@ -1,3 +1,4 @@
+
 <nav class="custom-nav montserrat   -regular">
     <span class="title">This is the fitness Studio title</span>
     <div class="options">
@@ -18,18 +19,18 @@
     
 </nav>
 <div class="profile">
-    <img [src]="this.apiUrl + '/photo/profile/' + (this.userService.getCurrentUser()?.id)"
+    <img [src]="this.apiUrl + '/photo/profile/' + (this.currentUser?.id)"
      class="profile-picture" 
      onerror="this.src='../../../../assets/default_images/defaultUser.png'"
      style="border-radius: 1000rem;">
      <div class="menu">
-        <span id="username">{{this.userService.getCurrentUser()?.username}}</span>
+        <span id="username">{{this.currentUser?.username}}</span>
         <button mat-button [matMenuTriggerFor]="menu">Menu</button>
         <mat-menu #menu="matMenu">
-        @if(userService.getCurrentUser()?.email == null)
+        @if(this.currentUser?.email == null)
         {
-          <button mat-menu-item>Register</button>
-          <button mat-menu-item>Login</button>
+          <button mat-menu-item (click)="registerClick()">Register</button>
+          <button mat-menu-item (click)="loginClick()">Login</button>
         }
         @else 
         {

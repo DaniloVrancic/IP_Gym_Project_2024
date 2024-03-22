@@ -8,6 +8,7 @@ import { LoginCredentials } from './LoginCredentials';
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login-form',
@@ -75,12 +76,12 @@ export class LoginFormComponent implements OnInit {
                                                           }
                                                           else
                                                           {
-                                                            this.userService.setCurrentUser(response);
-                                                            console.log(this.userService.getCurrentUser());
+                                                            this.currentUser = response;
+                                                            console.log(this.currentUser);
                                                           }
                                                           
 
-                                                        if(this.userService.getCurrentUser()?.activated === 0)
+                                                        if(this.currentUser?.activated === 0)
                                                            {
                                                              this.errorMessage = "Please activate your account via email.";
                                                              this.cd.detectChanges();
@@ -88,10 +89,11 @@ export class LoginFormComponent implements OnInit {
                                                              alert("A new activation link has been sent to your e-mail address.");
                                                            }
 
-                                                           if(this.userService.getCurrentUser()?.activated === 1)
+                                                           if(this.currentUser?.activated === 1)
                                                            {
                                                             this.errorMessage = '';
                                                              //TODO: REDIRECT TO MAIN
+                                                             this.userService.setCurrentUser(response as User | null);
                                                              this.router.navigate(["/main-page"]);
                                                              console.log("Works");
                                                            }

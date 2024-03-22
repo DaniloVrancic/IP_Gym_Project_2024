@@ -20,8 +20,11 @@ export class NavbarComponent {
 
   constructor(public userService: UserService, private router: Router)
   {
-   this.currentUser = {...this.userService.getCurrentUser()} as User;
+   this.currentUser = this.userService.getCurrentUser();
+   console.log('THIS CURRENT USER:');
+   console.log(this.currentUser);
    this.apiUrl = environment.apiBaseUrl;
+   console.log("NAV REFRESHED!");
   }
 
   public getCurrentUserAvatar() : string
@@ -42,8 +45,16 @@ export class NavbarComponent {
   }
 logoutClick() {
  this.userService.setCurrentUser(null);
+ sessionStorage.removeItem(environment.userKeyString);
  this.router.navigate(["/start-page"]);
 }
+
+registerClick() {
+  this.router.navigate(["/register-form"]);
+  }
+  loginClick() {
+  this.router.navigate(["/login-form"]);
+  }
 
 
 

@@ -80,6 +80,7 @@
 
   .profile-pic-editor
   {
+    margin-bottom: 1rem;
     display: flex;
     flex-direction: row;
     align-items: center;

@@ -7,9 +7,10 @@ import { LoginCredentials } from './register.form/login.form/LoginCredentials';
 
 @Injectable({providedIn: 'root'})
 export class UserService {
+  
 
   private apiServerUrl =  environment.apiBaseUrl;
-  static currentUser: User | null = null;
+  //static currentUser: User | null = null;
 
   constructor(private http: HttpClient) { }
 
@@ -44,11 +45,22 @@ export class UserService {
 
   public setCurrentUser(user: User | null)
   {
-    UserService.currentUser = user;
+    //UserService.currentUser = user;
+    if(user == null)
+    {
+      if(sessionStorage.getItem(environment.userKeyString) != null)
+      {
+        sessionStorage.removeItem(environment.userKeyString);
+      }
+    }
+    else
+    {
+      sessionStorage.setItem(environment.userKeyString, JSON.stringify(user));
+    }
   }
 
   public getCurrentUser() : User | null
   {
-    return UserService.currentUser;
+    return JSON.parse(sessionStorage.getItem(environment.userKeyString) as string);
   }
 }

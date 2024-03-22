@@ -9,7 +9,7 @@ import { environment } from '../environments/environment';
 })
 export class FitnessProgramService {
 
-  private baseUrl = '/program'; // Assuming your backend API endpoint
+  private baseUrl = '/program';
 
   caught: Observable<any> | undefined;
 
