@@ -1,0 +1,17 @@
+<div class="daily-challenges-container">
+    <div class="daily-challenges-container-title">Daily Challenges:</div>
+    <div class="daily-challenges-content">
+
+        @for(dailyChallenge of displayedDailyChallenges; track dailyChallenge)
+        {
+            <div class="daily-challenge">
+                <div class="daily-challenge-title">{{dailyChallenge.name}}</div>
+                <hr>
+                <div class="daily-challenge-description">{{dailyChallenge.instructions}}</div>
+                <hr>
+                <div class="daily-challenge-difficulty">Difficulty: {{dailyChallenge.difficulty}}</div>
+            </div>
+        }
+    </div>
+    <mat-paginator [length]="dailyChallenges?.length" [pageSize]="1" [pageSizeOptions]="[1,2,3]" showFirstLastButtons (page)="pageChanged($event)"></mat-paginator>
+</div>

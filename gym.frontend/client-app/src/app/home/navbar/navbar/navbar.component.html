@@ -19,10 +19,19 @@
     
 </nav>
 <div class="profile">
+  @if(this.currentUser?.avatar)
+  {
     <img [src]="this.apiUrl + '/photo/profile/' + (this.currentUser?.id)"
-     class="profile-picture" 
-     onerror="this.src='../../../../assets/default_images/defaultUser.png'"
-     style="border-radius: 1000rem;">
+    class="profile-picture" 
+    onerror="this.src='../../../../assets/default_images/defaultUser.png'"
+    style="border-radius: 1000rem;">
+  }
+  @else {
+    <img src="../../../../assets/default_images/defaultUser.png"
+    class="profile-picture" 
+    style="border-radius: 1000rem;">
+  }
+    
      <div class="menu">
         <span id="username">{{this.currentUser?.username}}</span>
         <button mat-button [matMenuTriggerFor]="menu">Menu</button>

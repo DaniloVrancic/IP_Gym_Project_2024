@@ -6,6 +6,7 @@ import { FitnessProgramService } from '../../fitness.program.service';
 import { FitnessExercisesComponent } from './fitness-excercises/fitness.exercises/fitness.exercises.component';
 import { RssNewsComponent } from "./rss.news/rss.news/rss.news.component";
 import { environment } from '../../../environments/environment';
+import { DailyChallengesComponent } from './daily.challenges/daily.challenges.component';
 
 @Component({
     selector: 'app-main-page',
@@ -13,7 +14,7 @@ import { environment } from '../../../environments/environment';
     templateUrl: './main.page.component.html',
     styleUrl: './main.page.component.css',
     providers: [UserService, FitnessProgramService],
-    imports: [MaterialModule, FitnessExercisesComponent, RssNewsComponent]
+    imports: [MaterialModule, FitnessExercisesComponent, RssNewsComponent, DailyChallengesComponent]
 })
 export class MainPageComponent implements OnInit{
 

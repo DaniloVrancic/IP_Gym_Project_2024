@@ -3,5 +3,6 @@ export const environment = {
     apiBaseUrl: 'http://localhost:8080',
     defaultUserImageURL: '../assets/default_images/defaultUser.png',
     rssFeedKeyString: 'rss-feed',
-    userKeyString: 'cached-user'
+    userKeyString: 'cached-user',
+    dailyChallengesKeyString: 'daily-challenges'
 }
