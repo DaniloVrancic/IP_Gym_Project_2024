@@ -39,7 +39,8 @@ export class CommentService {
 
   addComment(userId: number, programId: number, comment: string): Observable<any> {
     const body = { user_id: userId, program_id: programId, comment: comment };
-    return this.http.post<any>(`${environment.apiBaseUrl + this.mappingUrl}/add`, body);
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post<any>(`${environment.apiBaseUrl + this.mappingUrl}/add` + '?user_id=' + userId + "&program_id=" + programId, comment, {headers});
   }
 
   updateComment(comment: any): Observable<any> {

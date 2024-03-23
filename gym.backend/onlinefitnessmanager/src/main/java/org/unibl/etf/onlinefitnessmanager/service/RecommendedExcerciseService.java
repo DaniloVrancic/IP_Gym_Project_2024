@@ -44,11 +44,29 @@ public class RecommendedExcerciseService {
         String tempList = "";
         String todaysFileName = generateTodaysFileName();
 
+        final String apiUrl = "https://api.api-ninjas.com/v1/exercises";
+
+        String randomFilter = "";
+
+
+
        // if(tempList == null)
         //{
             if(!isDailyExcerciseUpdated())
             {
-                URL url = new URL("https://api.api-ninjas.com/v1/exercises");
+                double randomRange = Math.random();
+                if(randomRange <= 0.20)
+                {randomFilter = "?type=cardio";}
+                else if(randomRange <= 0.40)
+                {randomFilter = "?type=strength";}
+                else if(randomRange <= 0.60)
+                {randomFilter = "?type=stretching";}
+                else if(randomRange <= 0.80)
+                {randomFilter = "?type=plyometrics";}
+                else{randomFilter = "";}
+
+
+                URL url = new URL(apiUrl + randomFilter);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty("accept", "application/json");

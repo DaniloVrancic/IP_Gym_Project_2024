@@ -16,6 +16,7 @@ import { UserService } from '../../../../../../user.service';
 export class ExcerciseInformationComponent implements AfterViewInit{
 
   commentTextArea!: any;
+  
 
 textChanged(event: any) {
 this.commentText = event.target.value;
@@ -30,6 +31,8 @@ else
 }
 postComment(event: MouseEvent) {
 // TODO: IMPLEMENT THIS METHOD THAT WILL TAKE THE TEXT FROM this.commentText and post it accordingly, with the logged in user
+
+this.commentService.addComment(this.userService.getCurrentUser()?.id as number, this.exercise.id as number, this.commentText as string).subscribe(response => { this.commentsOnProgram?.push(response)});
 }
 
   caughtExcercise: any;
@@ -44,7 +47,7 @@ postComment(event: MouseEvent) {
     this.isPostCommentDisabled = true;
     commentService.getCommentsForProgram(this.caughtExcercise.id).subscribe(
       response => {this.commentsOnProgram = (response);
-                    console.log(response)});
+});
   }
     
 
