@@ -40,7 +40,7 @@ this.commentService.addComment(this.userService.getCurrentUser()?.id as number, 
   commentText: string;
   isPostCommentDisabled: boolean;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public exercise: any, private commentService: CommentService, public userService: UserService) { 
+  constructor(@Inject(MAT_DIALOG_DATA) public exercise: any, private commentService: CommentService, public userService: UserService) { //Injects data about the excercise from the parent module
     this.caughtExcercise = {...exercise};
     this.commentsOnProgram = null;
     this.commentText = "";
