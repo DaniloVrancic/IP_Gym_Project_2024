@@ -23,7 +23,7 @@ export class DailyChallengesComponent {
   {
     this.dailyChallenges = JSON.parse(sessionStorage.getItem(environment.dailyChallengesKeyString) as string);
 
-    if(this.dailyChallenges)
+    if(this.dailyChallenges) //If already in storage
     {
       this.displayedDailyChallenges = this.dailyChallenges.slice(0,1);
     }
@@ -33,8 +33,8 @@ export class DailyChallengesComponent {
       dailyChallengeService.getTodaysDailyChallenges().subscribe(response => {
                                                                               response.forEach(element => {this.dailyChallenges?.push(element)});
                                                                               sessionStorage.setItem(environment.dailyChallengesKeyString, JSON.stringify(this.dailyChallenges));
-                                                                             })
-      this.displayedDailyChallenges = this.dailyChallenges.slice(0,1);                                                       
+                                                                              this.displayedDailyChallenges = this.dailyChallenges?.slice(0,1) as DailyChallenge[] | null;
+                                                                             })                                                       
     }
   }
 
