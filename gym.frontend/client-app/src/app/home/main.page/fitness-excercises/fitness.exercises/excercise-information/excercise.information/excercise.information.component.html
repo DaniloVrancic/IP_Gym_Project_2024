@@ -66,6 +66,12 @@
                 <p> <b>E-mail:</b> {{this.caughtExcercise.user_creator.email}}</p>
                 <hr>
             </div>
+            <div class="participate-section">
+                <button mat-fab extended (click)="routeToPurchasePage()" style="background-color: var(--secondary-color);">
+                    <mat-icon>fitness_center</mat-icon>
+                    Participate
+                  </button>
+            </div>
             <div class="card-comment-section">
                 <div class="write-comment-section">
                     <mat-form-field class="comment-input-field">

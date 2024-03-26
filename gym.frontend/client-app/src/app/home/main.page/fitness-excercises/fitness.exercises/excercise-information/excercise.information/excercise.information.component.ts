@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CommentService } from '../../../../../../comment.service';
 import { MaterialModule } from '../../../../../../material/material.module';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../../../../../user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-excercise-information',
@@ -14,6 +15,8 @@ import { UserService } from '../../../../../../user.service';
   providers: [CommentService, UserService]
 })
 export class ExcerciseInformationComponent implements AfterViewInit{
+
+
 
   commentTextArea!: any;
   
@@ -40,11 +43,13 @@ this.commentService.addComment(this.userService.getCurrentUser()?.id as number, 
   commentText: string;
   isPostCommentDisabled: boolean;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public exercise: any, private commentService: CommentService, public userService: UserService) { //Injects data about the excercise from the parent module
+  constructor(@Inject(MAT_DIALOG_DATA) public exercise: any, private commentService: CommentService, public userService: UserService, private router: Router, public dialogRef: MatDialogRef<ExcerciseInformationComponent>) { //Injects data about the excercise from the parent module
     this.caughtExcercise = {...exercise};
     this.commentsOnProgram = null;
     this.commentText = "";
     this.isPostCommentDisabled = true;
+  
+
     commentService.getCommentsForProgram(this.caughtExcercise.id).subscribe(
       response => {this.commentsOnProgram = (response);
 });
@@ -61,7 +66,13 @@ this.commentService.addComment(this.userService.getCurrentUser()?.id as number, 
       this.commentTextArea.disabled = true;
     }
   }
-  
+
+ 
+  routeToPurchasePage() {
+    this.router.navigate(["/purchase-page"]).then(() => {
+      this.dialogRef.close();
+    });;
+    }
 
 
 }

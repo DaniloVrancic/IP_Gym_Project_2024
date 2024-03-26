@@ -16,12 +16,20 @@
     border: 0.1rem solid black;
 }
 
+
 .custom-nav > .title {
-    font-size: 1.75rem;
+    font-size: 4rem;
+    font-weight: 800;
     margin-top: 1rem;
     padding: 1% 0; 
     flex-grow: 1; 
     flex-shrink: 0; 
+    color: ghostwhite;
+}
+
+.custom-nav > .title:hover
+{
+    cursor: pointer;
 }
 
 .custom-nav > .options {

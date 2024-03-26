@@ -129,3 +129,11 @@
     width: 80%;
     max-height: 40rem;
 }
+
+.participate-section
+{
+    margin-top: 3rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    scale: 2;
+}

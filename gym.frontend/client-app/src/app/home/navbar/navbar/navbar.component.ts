@@ -15,6 +15,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class NavbarComponent {
 
+
   currentUser: User | null = null;
   apiUrl: string;
 
@@ -55,6 +56,11 @@ registerClick() {
   loginClick() {
   this.router.navigate(["/login-form"]);
   }
+
+  takeToMainPage() {
+    console.log("TO MAIN PAGE!");
+    this.router.navigate(["/main-page"]);
+    }
 
 
 

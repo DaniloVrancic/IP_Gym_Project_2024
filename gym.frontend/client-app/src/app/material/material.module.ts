@@ -8,6 +8,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatCardModule} from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatRadioModule} from '@angular/material/radio';
 
 
 const MaterialComponents = [
@@ -19,7 +20,8 @@ const MaterialComponents = [
   MatDividerModule,
   MatCardModule,
   MatDialogModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatRadioModule,
 ];
 
 @NgModule({

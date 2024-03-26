@@ -40,9 +40,11 @@ export class FitnessExercisesComponent implements OnInit {
 
   openDialog(exercise: any) {
 
-    this.dialog.open(ExcerciseInformationComponent, {
+    const dialogRef = this.dialog.open(ExcerciseInformationComponent, {
       width: '70%',
       data: exercise
     });
+
+    dialogRef.afterClosed().subscribe(result => {console.log("DIALOG CLOSED", result)})
   }
 }
