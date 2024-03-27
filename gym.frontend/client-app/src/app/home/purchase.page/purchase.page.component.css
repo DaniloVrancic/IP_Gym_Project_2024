@@ -55,6 +55,12 @@ form .container
     margin: 2rem;
 }
 
+.purchase-button:disabled
+{
+    background-color: gray;
+    color: rgb(80, 4, 80);
+}
+
 .half-width
 {
     margin-top: 1.3rem;
@@ -65,4 +71,11 @@ form .container
 .live-payment-method
 {
     font-size: medium;
+}
+
+.total-price
+{
+    font-size: medium;
+    padding: 1rem;
+    text-align: center;
 }

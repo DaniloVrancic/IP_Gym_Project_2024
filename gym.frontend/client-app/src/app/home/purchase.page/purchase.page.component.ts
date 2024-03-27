@@ -5,15 +5,18 @@ import { MatRadioButton, MatRadioGroup, MatRadioModule } from '@angular/material
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MyErrorStateMatcher } from '../../register.form/register/register.form.component';
 import { CreditCardFormatDirective } from './credit.card.format.directive';
+import { FitnessProgramService } from '../main.page/fitness-program.service';
 
 @Component({
   selector: 'app-purchase-page',
   standalone: true,
   imports: [MaterialModule, MatRadioGroup, FormsModule, ReactiveFormsModule],
   templateUrl: './purchase.page.component.html',
-  styleUrl: './purchase.page.component.css'
+  styleUrl: './purchase.page.component.css',
+  providers: [FitnessProgramService]
 })
 export class PurchasePageComponent implements OnInit{
+
 
 
   paymentMethod: string; //Will be set by the radio group
@@ -26,16 +29,37 @@ export class PurchasePageComponent implements OnInit{
 
   matcher = new MyErrorStateMatcher();
 
-  constructor(private router: Router)
+  constructor(private router: Router, public fitnessProgramService: FitnessProgramService)
   {
     this.paymentMethod = "";
   }
 
   ngOnInit(): void {
-    const greenButton = document.getElementById("green-purchase-button") as HTMLButtonElement;
-    greenButton.disabled = true;
-    console.log(greenButton);
+    
   }
+
+  isButtonEnabled(): boolean {
+    switch(this.paymentMethod)
+    {
+      case this.payMethods[0]:
+        if(this.creditCardNumberControl.valid)
+        {
+          return true;
+        }
+        break;
+      case this.payMethods[1]:
+        if(this.paypalInputControl.valid)
+        {
+          return true;
+        }
+        break;
+      case this.payMethods[2]:
+        return true;
+      default:
+        return false;
+    }
+    return false;
+    }
 
   purchaseClick() {
     console.log("PURCHASE CLICKED!");
