@@ -3,11 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from './user';
 import { environment } from '../environments/environment';
+import { LoginCredentials } from './register.form/login.form/LoginCredentials';
 
 @Injectable({providedIn: 'root'})
 export class UserService {
+  
 
   private apiServerUrl =  environment.apiBaseUrl;
+  //static currentUser: User | null = null;
 
   constructor(private http: HttpClient) { }
 
@@ -33,5 +36,31 @@ export class UserService {
   public deleteUser(userId: number) : Observable<void>
   {
     return this.http.delete<void>(`${this.apiServerUrl}/user/delete/${userId}`);
+  }
+
+  public loginUser(loginCredentials: LoginCredentials) : Observable<User | string>
+  {
+    return this.http.post<User>(`${this.apiServerUrl}/user/login`,loginCredentials);
+  }
+
+  public setCurrentUser(user: User | null)
+  {
+    //UserService.currentUser = user;
+    if(user == null)
+    {
+      if(sessionStorage.getItem(environment.userKeyString) != null)
+      {
+        sessionStorage.removeItem(environment.userKeyString);
+      }
+    }
+    else
+    {
+      sessionStorage.setItem(environment.userKeyString, JSON.stringify(user));
+    }
+  }
+
+  public getCurrentUser() : User | null
+  {
+    return JSON.parse(sessionStorage.getItem(environment.userKeyString) as string);
   }
 }

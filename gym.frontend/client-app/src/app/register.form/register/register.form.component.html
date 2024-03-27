@@ -1,7 +1,7 @@
 
 <div class="centered-container">
 
-  <form style="border:1px solid black" class="my-form">
+  <form style="border:1px solid black" class="my-form" enctype="multipart/form-data " method="post" (ngSubmit)="onSubmit()">
     <label class="title-label montserrat-strong">Register user</label>
     <div class="form-body">
       <mat-form-field class="example-full-width">
@@ -50,26 +50,26 @@
             <mat-error>Email is <strong>required</strong></mat-error>
           }
         </mat-form-field>
-        <label class="custom-file-upload"><input type="file"/>Upload profile picture</label>
+        <label class="custom-file-upload"><input type="file" name="avatar" accept="image/*" [formControl]="profilePictureFormControl" (change)="onChangeFile($event)"/>Upload profile picture <span id="file-name"></span></label>
       
         <br>
-        <!--<recaptcha  [(ngModel)]="captcha" siteKey="6LcYh4wpAAAAAOcqdComLKbQmcS_Gch4XltcXWkl" (resolved)="resolved($event)"></recaptcha>
-        -->
+        
+        
+        <!--
         <div class="my-captcha">
-        <re-captcha
-        matInput
-        siteKey="6LcYh4wpAAAAAOcqdComLKbQmcS_Gch4XltcXWkl"
-        (resolved)="resolved($event)"></re-captcha>
-      </div>
+          <re-captcha
+            matInput
+            siteKey="6LcYh4wpAAAAAOcqdComLKbQmcS_Gch4XltcXWkl"
+            (resolved)="resolved($event)"></re-captcha>
+        </div>
+      -->
  
 
-<br>
-<button mat-raised-button type="submit" color="primary" [disabled]="!this.captcha">Register</button>
+        <br>
+        <button mat-raised-button type="submit" color="primary" [disabled]="!this.captcha">Register</button>
         
       </div>
         
-    
-      
-    </form>
+  </form>
     
   </div>

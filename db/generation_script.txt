@@ -54,8 +54,10 @@ CREATE TABLE IF NOT EXISTS `db_online_fitness`.`user` (
   `activated` TINYINT NOT NULL DEFAULT 0,
   `type` INT NOT NULL DEFAULT 3,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE)
 ENGINE = InnoDB;
+
 
 
 -- -----------------------------------------------------
@@ -235,7 +237,8 @@ CREATE TABLE IF NOT EXISTS `db_online_fitness`.`recommended_excercise` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `description` TEXT NOT NULL,
-  `difficulty` INT NOT NULL,
+  `difficulty` VARCHAR(16) NOT NULL,
+  `date_updated` DATETIME NOT NULL DEFAULT NOW(),
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 

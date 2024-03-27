@@ -1,16 +1,24 @@
 <div class="bg-image"></div>
 
 <div class="bg-text homenaje-regular">
-  <h1 style="font-size:20px">Welcome to</h1>
-  <h2 class="montserrat-regular" style="font-size: 55px;">Heavylifter</h2>
+  <h1 style="font-size:30px">Welcome to</h1>
+  <h2 class="montserrat-regular" style="font-size: 65px;">FitCheck</h2>
   <div class="button-container">
+    <a routerLink="/login-form" routerLinkActive="active" ariaCurrentWhenActive="page">
     <button mat-fab extended color="accent">
         <mat-icon>fitness_center</mat-icon>
         Login
       </button>
-      <button mat-fab extended color="accent">
+    </a>
+      <a routerLink="/register-form" routerLinkActive="active" ariaCurrentWhenActive="page">
+      <button mat-fab extended>
         <mat-icon>person_add</mat-icon>
         Register
       </button>
+    </a>
   </div>
+  <button class="guest-button" mat-fab extended (click)="routeAsGuest()">
+    <mat-icon>person_add</mat-icon>
+    Continue as guest
+  </button>
 </div>

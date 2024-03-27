@@ -1,18 +1,20 @@
 package org.unibl.etf.onlinefitnessmanager.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "user", schema = "db_online_fitness", catalog = "")
-public class UserEntity {
+public class UserEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
     private Integer id;
     @Basic
-    @Column(name = "username", nullable = false, length = 64)
+    @Column(name = "username", unique = true, nullable = false, length = 64)
     private String username;
     @Basic
     @Column(name = "password", nullable = false, length = 64)
@@ -124,11 +126,11 @@ public class UserEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserEntity that = (UserEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(city, that.city) && Objects.equals(avatar, that.avatar) && Objects.equals(email, that.email) && Objects.equals(activated, that.activated) && Objects.equals(type, that.type);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, firstName, lastName, city, avatar, email, activated, type);
+        return Objects.hash(id);
     }
 }

@@ -1,2 +1,13 @@
-<app-start-page></app-start-page>
 
+@if(userService.getCurrentUser()?.email != null || userService.getCurrentUser()?.username == "guest")
+{
+    <app-navbar></app-navbar>
+}
+<router-outlet></router-outlet>
+<!--
+<app-start-page></app-start-page>
+-->
+
+<!--
+<app-edit-profile></app-edit-profile>
+-->

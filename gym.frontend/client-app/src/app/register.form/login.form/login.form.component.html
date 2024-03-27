@@ -4,6 +4,10 @@
     <form style="border:1px solid black" class="my-form">
       <label class="title-label montserrat-strong">Login</label>
       <div class="form-body">
+        @if(this.errorMessage != null && this.errorMessage.length > 0)
+        {
+          <div id="errorField" class="errorBox"></div>
+        }
         <mat-form-field class="example-full-width">
           <mat-label>Username</mat-label>
           <input matInput placeholder="Ex. user1" [formControl]="usernameFormControl" [errorStateMatcher]="matcher">
@@ -19,7 +23,7 @@
             }
           </mat-form-field>
     
-          <button mat-raised-button color="primary" type="submit">Login</button>
+          <button mat-raised-button [disabled]="this.submitButtonDisabled" id="submit_button" color="primary" type="submit" (click)="onSubmit()">Login</button>
           
         </div>
           

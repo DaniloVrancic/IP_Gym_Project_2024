@@ -7,6 +7,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 {
     --primary-color: hsl(240, 40%, 59%);
     --secondary-color: hsl(44, 90%, 80%);
+    --button-color: rgba(225, 205, 165, 0.785);
 }
 
 .homenaje-regular {

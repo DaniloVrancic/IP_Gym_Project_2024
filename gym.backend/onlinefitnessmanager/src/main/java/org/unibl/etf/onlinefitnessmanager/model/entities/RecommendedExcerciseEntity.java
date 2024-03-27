@@ -2,6 +2,7 @@ package org.unibl.etf.onlinefitnessmanager.model.entities;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -20,6 +21,10 @@ public class RecommendedExcerciseEntity {
     @Basic
     @Column(name = "difficulty", nullable = false)
     private Integer difficulty;
+
+    @Basic
+    @Column(name = "date_updated", nullable = false)
+    private LocalDateTime dateUpdated;
 
     public Integer getId() {
         return id;
@@ -47,6 +52,16 @@ public class RecommendedExcerciseEntity {
 
     public Integer getDifficulty() {
         return difficulty;
+    }
+
+    public LocalDateTime getDate_updated()
+    {
+        return this.dateUpdated;
+    }
+
+    public void setDate_updated(LocalDateTime newDateTime)
+    {
+        this.dateUpdated = newDateTime;
     }
 
     public void setDifficulty(Integer difficulty) {

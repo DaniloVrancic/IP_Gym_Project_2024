@@ -1,0 +1,19 @@
+<div class="paginator-container">
+    
+    <div class="exercise-container">
+    @for(exercise of displayedExercises; track exercise)
+    {
+        <mat-card class="card" (click)="openDialog(exercise)">
+        <mat-card-header class="card-header">
+            <mat-card-title>{{ exercise.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="card-content">
+          <img />
+          <p>{{ exercise.description }}</p>
+          <p>Price: ${{ exercise.price }}</p>
+        </mat-card-content>
+      </mat-card>
+    }
+    <mat-paginator [length]="fitnessPrograms.length" [pageSize]="5" [pageSizeOptions]="[3,5]" showFirstLastButtons (page)="pageChanged($event)"></mat-paginator>
+    </div>
+  </div>

@@ -1,0 +1,60 @@
+<form>
+    <div class="container">
+        <div class="title">Purchase program access</div>
+                <hr>
+                <div class="content">
+                <label id="radio-group-label">Pick your desired payment method:</label>
+                <br>
+                <mat-radio-group 
+                aria-labelledby="radio-group-label"
+                class="radio-group"
+                [(ngModel)]="paymentMethod"
+                [ngModelOptions]="{standalone: true}">
+                <div class="radio-button-container">
+                @for (method of payMethods; track method) {
+                <mat-radio-button class="radio-button" [value]="method">{{method}}</mat-radio-button>
+                }
+            </div>
+            </mat-radio-group>
+            <hr>
+            @if(paymentMethod == 'Credit Card')
+            {
+            <mat-form-field class="half-width">
+            
+                <mat-label>Credit card number</mat-label>
+                <input matInput placeholder="XXXX-XXXX-XXXX-XXXX" pattern="([0-9]{4}(-)?){3}[0-9]{4}" [formControl]="creditCardNumberControl" [errorStateMatcher]="matcher" appCreditCardFormat>
+                @if (creditCardNumberControl.hasError('required')) {
+                <mat-error>Input a <strong>valid credit card number</strong></mat-error>
+                }
+                @else if (creditCardNumberControl.hasError('pattern')) 
+                {
+                    <mat-error>Credit card number should contain <strong>16 digits</strong>.</mat-error>
+                }
+            </mat-form-field>
+            }
+            @else if(paymentMethod === 'PayPal')
+            {
+
+
+
+            <mat-form-field class="half-width">
+                <mat-label>PayPal e-mail</mat-label>
+                <input matInput placeholder="paypalUser@gmail.com" [formControl]="paypalInputControl" [errorStateMatcher]="matcher">
+                @if (paypalInputControl.hasError('required')) {
+                <mat-error>Input an <strong>e-mail address</strong></mat-error>
+                }
+                @else if (paypalInputControl.hasError('email')) 
+                {
+                    <mat-error>Paypal e-mail must be in <strong>correct e-mail format</strong>.</mat-error>
+                }
+            </mat-form-field>
+            }
+            @else if(paymentMethod === 'In person')
+            {
+                <mat-label class="live-payment-method">You have selected to pay for this program in person.</mat-label>
+            }
+            <br>
+            <button mat-stroked-button class="purchase-button">Purchase</button>
+        </div>
+    </div>
+</form>
