@@ -35,7 +35,7 @@ export class ExcerciseInformationComponent implements AfterViewInit{
 
   
 
-    commentService.getCommentsForProgram(this.caughtExcercise.id).subscribe(
+    commentService.getCommentsForProgram(this.caughtExcercise.id as number).subscribe(
       response => {this.commentsOnProgram = (response);
 });
   }

@@ -22,7 +22,7 @@ public class SubscriptionController {
         this.subscriptionService = subscriptionService;
     }
     @PostMapping("/add")
-    public ResponseEntity<?> addSubscription(@RequestParam Integer userId, @RequestParam Integer programId)
+    public ResponseEntity<?> addSubscription(@RequestParam("userId") Integer userId, @RequestParam("programId") Integer programId)
     {
         SubscriptionEntity newSub = new SubscriptionEntity();
         SubscriptionEntity returnedSub = null;

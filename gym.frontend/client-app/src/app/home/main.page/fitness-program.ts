@@ -2,7 +2,7 @@ import { FitnessProgramType } from "./fitness-program-type";
 import { User } from "../../user";
 
 export interface FitnessProgram {
-  id: number;
+  id: number | null;
   name: string;
   description: string;
   locationOfEvent: string;

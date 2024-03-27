@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.onlinefitnessmanager.model.entities.PurchaseEntity;
 import org.unibl.etf.onlinefitnessmanager.service.PurchaseService;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Controller
 @RequestMapping("/purchase")
 public class PurchaseController {
@@ -20,7 +23,7 @@ public class PurchaseController {
         this.purchaseService = purchaseService;
     }
     @PostMapping("/add")
-    public ResponseEntity<?> addPurchase(@RequestParam Integer userId, @RequestParam Integer programId)
+    public ResponseEntity<?> addPurchase(@RequestParam("userId") Integer userId, @RequestParam("programId") Integer programId)
     {
         PurchaseEntity newPurchase = new PurchaseEntity();
         PurchaseEntity returnedPurchase = null;
@@ -28,6 +31,7 @@ public class PurchaseController {
         {
             newPurchase.setUserId(userId);
             newPurchase.setFitnessProgramId(programId);
+            newPurchase.setTimeOfPurchase(LocalDateTime.now());
             returnedPurchase = purchaseService.addPurchase(newPurchase);
         }
         catch(Exception ex)

@@ -6,6 +6,8 @@ import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angu
 import { MyErrorStateMatcher } from '../../register.form/register/register.form.component';
 import { CreditCardFormatDirective } from './credit.card.format.directive';
 import { FitnessProgramService } from '../main.page/fitness-program.service';
+import { PurchaseService } from '../main.page/purchase.service';
+import { UserService } from '../../user.service';
 
 @Component({
   selector: 'app-purchase-page',
@@ -13,7 +15,7 @@ import { FitnessProgramService } from '../main.page/fitness-program.service';
   imports: [MaterialModule, MatRadioGroup, FormsModule, ReactiveFormsModule],
   templateUrl: './purchase.page.component.html',
   styleUrl: './purchase.page.component.css',
-  providers: [FitnessProgramService]
+  providers: [FitnessProgramService, PurchaseService, UserService]
 })
 export class PurchasePageComponent implements OnInit{
 
@@ -29,7 +31,7 @@ export class PurchasePageComponent implements OnInit{
 
   matcher = new MyErrorStateMatcher();
 
-  constructor(private router: Router, public fitnessProgramService: FitnessProgramService)
+  constructor(private router: Router, public fitnessProgramService: FitnessProgramService, private purchaseService: PurchaseService, private userService: UserService)
   {
     this.paymentMethod = "";
   }
@@ -62,6 +64,8 @@ export class PurchasePageComponent implements OnInit{
     }
 
   purchaseClick() {
-    console.log("PURCHASE CLICKED!");
+    this.purchaseService.addPurchase((this.userService.getCurrentUser()?.id as number), (this.fitnessProgramService.getCurrentFitnessProgram()?.id as number)).subscribe(() => {
+                                                                                                                                                                                alert("Successful purchase!"); 
+                                                                                                                                                                                this.router.navigate(['/main-page'])});
     }
 }
