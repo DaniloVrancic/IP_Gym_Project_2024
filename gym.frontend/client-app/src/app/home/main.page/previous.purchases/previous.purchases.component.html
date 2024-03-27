@@ -1,1 +1,11 @@
-<p>previous.purchases works!</p>
+
+<div class="purchased-items">
+@for(purchasedProgram of this.purchasedPrograms; track purchasedProgram)
+{
+ <span>Program id: {{purchasedProgram.id}}</span>
+ <span> Program name: {{purchasedProgram.name}}</span>
+
+ <br>
+ 
+}
+</div>
