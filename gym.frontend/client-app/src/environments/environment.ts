@@ -4,5 +4,6 @@ export const environment = {
     defaultUserImageURL: '../assets/default_images/defaultUser.png',
     rssFeedKeyString: 'rss-feed',
     userKeyString: 'cached-user',
-    dailyChallengesKeyString: 'daily-challenges'
+    dailyChallengesKeyString: 'daily-challenges',
+    fitnessProgramKeyString: 'cached-fitness-program'
 }

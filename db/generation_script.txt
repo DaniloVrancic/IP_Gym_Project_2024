@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `db_online_fitness`.`purchase` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `fitness_program_id` INT NOT NULL,
   `user_id` INT NOT NULL,
-  `number_of_card` VARCHAR(32) NOT NULL,
+  `time_of_purchase` DATETIME NULL DEFAULT NOW(),
   PRIMARY KEY (`id`),
   INDEX `fk_fitness_program_has_user_user1_idx` (`user_id` ASC) VISIBLE,
   INDEX `fk_fitness_program_has_user_fitness_program1_idx` (`fitness_program_id` ASC) VISIBLE,

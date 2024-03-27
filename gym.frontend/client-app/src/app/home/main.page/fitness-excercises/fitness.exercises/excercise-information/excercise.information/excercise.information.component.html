@@ -23,7 +23,7 @@
             }
             <div class="card-text-attribute">
                 <p class="title">Type:</p>
-                <p> {{this.caughtExcercise.fitnessProgramTypeByFitnessProgramTypeId.name}}</p>
+                <p> {{this.caughtExcercise.fitnessProgramType.name}}</p>
                 <hr>
             </div>
             <div class="card-text-attribute">
@@ -59,13 +59,21 @@
                 <p> ${{this.caughtExcercise.price}}</p>
                 <hr>
             </div>
+            @if(this.caughtExcercise.user_creator)
+            {
+
+            
             <div class="card-created-by">
                 <p class="title"><b>Program hosted by:</b></p>
-                <p> {{this.caughtExcercise.user_creator.firstName + " " + this.caughtExcercise.user_creator.lastName}} from {{this.caughtExcercise.user_creator.city}}</p>
+                @if(this.caughtExcercise.user_creator.firstName != null && this.caughtExcercise.user_creator.lastName != null)
+                {
+                    <p> {{this.caughtExcercise.user_creator.firstName + " " + this.caughtExcercise.user_creator.lastName}} from {{this.caughtExcercise.user_creator.city}}</p>
+                }
                 <p> <b>Username:</b> {{this.caughtExcercise.user_creator.username}}</p>
                 <p> <b>E-mail:</b> {{this.caughtExcercise.user_creator.email}}</p>
                 <hr>
             </div>
+        }
             <div class="participate-section">
                 <button mat-fab extended (click)="routeToPurchasePage()" style="background-color: var(--secondary-color);">
                     <mat-icon>fitness_center</mat-icon>
@@ -90,9 +98,7 @@
                             <div class="comment-content"><p>{{comment.comment}}</p></div>
                             <hr>
                         </div>
-
                     }
-
                 </div>
                 }
             </div>

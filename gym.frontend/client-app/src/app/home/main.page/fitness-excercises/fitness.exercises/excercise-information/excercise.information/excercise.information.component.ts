@@ -5,6 +5,7 @@ import { MaterialModule } from '../../../../../../material/material.module';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../../../../../user.service';
 import { Router } from '@angular/router';
+import { FitnessProgram } from '../../../../fitness-program';
 
 @Component({
   selector: 'app-excercise-information',
@@ -21,45 +22,48 @@ export class ExcerciseInformationComponent implements AfterViewInit{
   commentTextArea!: any;
   
 
-textChanged(event: any) {
-this.commentText = event.target.value;
-if(this.commentText.length > 0)
-{
-  this.isPostCommentDisabled = false;
-}
-else
-{
-  this.isPostCommentDisabled = true;
-}
-}
-postComment(event: MouseEvent) {
-// TODO: IMPLEMENT THIS METHOD THAT WILL TAKE THE TEXT FROM this.commentText and post it accordingly, with the logged in user
-
-this.commentService.addComment(this.userService.getCurrentUser()?.id as number, this.exercise.id as number, this.commentText as string).subscribe(response => { this.commentsOnProgram?.push(response)});
-}
-
-  caughtExcercise: any;
+  caughtExcercise: FitnessProgram;
   commentsOnProgram: any[] | null;
   commentText: string;
   isPostCommentDisabled: boolean;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public exercise: any, private commentService: CommentService, public userService: UserService, private router: Router, public dialogRef: MatDialogRef<ExcerciseInformationComponent>) { //Injects data about the excercise from the parent module
+  constructor(@Inject(MAT_DIALOG_DATA) public exercise: FitnessProgram, private commentService: CommentService, public userService: UserService, private router: Router, public dialogRef: MatDialogRef<ExcerciseInformationComponent>) { //Injects data about the excercise from the parent module
     this.caughtExcercise = {...exercise};
     this.commentsOnProgram = null;
     this.commentText = "";
     this.isPostCommentDisabled = true;
+
   
 
     commentService.getCommentsForProgram(this.caughtExcercise.id).subscribe(
       response => {this.commentsOnProgram = (response);
 });
   }
+
+
+textChanged(event: any) {
+    this.commentText = event.target.value;
+    if(this.commentText.length > 0)
+    {
+      this.isPostCommentDisabled = false;
+    }
+    else
+    {
+      this.isPostCommentDisabled = true;
+    }
+}
+
+postComment(event: MouseEvent) {
+    this.commentService.addComment(this.userService.getCurrentUser()?.id as number, this.exercise.id as number, this.commentText as string).subscribe(response => { this.commentsOnProgram?.push(response)});
+}
+
+ 
     
 
   ngAfterViewInit(): void {
-    console.log("THIS NEXt ELEMENT IS comment-text-area:");
+
     this.commentTextArea = document.getElementById('comment-text-area');
-    console.log(this.commentTextArea);
+ 
 
     if(this.userService.getCurrentUser()?.email == null)
     {

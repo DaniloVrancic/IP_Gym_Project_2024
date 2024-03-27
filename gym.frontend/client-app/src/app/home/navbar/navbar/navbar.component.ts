@@ -49,6 +49,7 @@ export class NavbarComponent {
 logoutClick() {
  this.userService.setCurrentUser(null);
  sessionStorage.removeItem(environment.userKeyString);
+ sessionStorage.removeItem(environment.fitnessProgramKeyString);
  this.router.navigate(["/start-page"]);
 }
 
