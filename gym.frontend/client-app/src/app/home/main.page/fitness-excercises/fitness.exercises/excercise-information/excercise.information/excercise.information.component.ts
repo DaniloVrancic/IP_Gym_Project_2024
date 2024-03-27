@@ -26,12 +26,21 @@ export class ExcerciseInformationComponent implements AfterViewInit{
   commentsOnProgram: any[] | null;
   commentText: string;
   isPostCommentDisabled: boolean;
+  isParticipateDisabled: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public exercise: FitnessProgram, private commentService: CommentService, public userService: UserService, private router: Router, public dialogRef: MatDialogRef<ExcerciseInformationComponent>) { //Injects data about the excercise from the parent module
     this.caughtExcercise = {...exercise};
     this.commentsOnProgram = null;
     this.commentText = "";
     this.isPostCommentDisabled = true;
+    if(this.userService.getCurrentUser()?.email)
+    {
+      this.isParticipateDisabled = false;
+    }
+    else
+    {
+      this.isParticipateDisabled = true;
+    }
 
   
 

@@ -75,7 +75,7 @@
             </div>
         }
             <div class="participate-section">
-                <button mat-fab extended (click)="routeToPurchasePage()" style="background-color: var(--secondary-color);">
+                <button mat-fab extended (click)="routeToPurchasePage()" [disabled]="isParticipateDisabled" style="background-color: var(--secondary-color);">
                     <mat-icon>fitness_center</mat-icon>
                     Participate
                   </button>
