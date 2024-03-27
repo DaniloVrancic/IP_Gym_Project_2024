@@ -4,8 +4,8 @@
             <div class="homenaje-strong card-name">{{this.caughtExcercise.name}}</div>
         
 
-            <img class="card-image" [src]="caughtExcercise.imageUrl" alt="excercise-photo">
-            <div class="card-image"></div>
+            <img class="card-image" [src]="caughtExcercise.imageUrl" alt="excercise-photo" onerror="this.src='../../../../../../../assets/default_images/defaultProgram.png'">
+            
         </div>
         <div class="card-text-content">
             <div id="description-container" class="card-text-attribute">

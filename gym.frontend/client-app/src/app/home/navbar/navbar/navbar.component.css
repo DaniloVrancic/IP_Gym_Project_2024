@@ -25,41 +25,56 @@
     flex-grow: 1; 
     flex-shrink: 0; 
     color: ghostwhite;
+
+    transition: color 1s;
 }
 
 .custom-nav > .title:hover
 {
     cursor: pointer;
+    color: black;
 }
 
 .custom-nav > .options {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     flex-direction: row;
     flex-grow: 1;
     flex-shrink: 2;
     justify-content: right;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
 }
+
 
 .options > button {
     width: 10rem;
     height: 3rem;
     min-height: 1rem;
     margin: 0.5rem;
-    text-wrap: nowrap;
+    text-wrap: wrap;
+    background-color: var(--secondary-color);
 }
+
+mat-icon
+{
+    width: 2rem;
+}
+
+
 
 .profile
 {
     display: inline-flex;
     border: 0.05rem solid black;
     position: absolute;
-    top: 0;
+    top: 0.2rem;
     right: 1rem;
     background-color: var(--secondary-color);
     margin: 0.25rem;
-    float: right;
+    padding: 0.1em;
+    
+    border-radius: 1rem;
 }
 
 .profile > .menu
@@ -72,7 +87,7 @@
 
 .profile > .profile-picture
 {
-    margin: 1rem;
+    margin: 0.5rem;
     height: 3rem;
     width: 3rem;
 }

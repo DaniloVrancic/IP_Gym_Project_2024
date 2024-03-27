@@ -19,10 +19,7 @@
             <hr>
             @if(paymentMethod == 'Credit Card')
             {
-            <mat-form-field class="full-width">
-
-                
-
+            <mat-form-field class="half-width">
             
                 <mat-label>Credit card number</mat-label>
                 <input matInput placeholder="XXXX-XXXX-XXXX-XXXX" pattern="([0-9]{4}(-)?){3}[0-9]{4}" [formControl]="creditCardNumberControl" [errorStateMatcher]="matcher" appCreditCardFormat>
@@ -40,7 +37,7 @@
 
 
 
-            <mat-form-field class="full-width">
+            <mat-form-field class="half-width">
                 <mat-label>PayPal e-mail</mat-label>
                 <input matInput placeholder="paypalUser@gmail.com" [formControl]="paypalInputControl" [errorStateMatcher]="matcher">
                 @if (paypalInputControl.hasError('required')) {

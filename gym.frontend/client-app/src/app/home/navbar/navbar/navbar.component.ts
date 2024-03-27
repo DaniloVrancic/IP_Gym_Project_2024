@@ -16,6 +16,8 @@ import { environment } from '../../../../environments/environment';
 export class NavbarComponent {
 
 
+
+
   currentUser: User | null = null;
   apiUrl: string;
 
@@ -53,15 +55,30 @@ logoutClick() {
 registerClick() {
   this.router.navigate(["/register-form"]);
   }
-  loginClick() {
+
+loginClick() {
   this.router.navigate(["/login-form"]);
   }
 
-  takeToMainPage() {
-    console.log("TO MAIN PAGE!");
+takeToMainPage() {
     this.router.navigate(["/main-page"]);
+  }
+
+takeToAddNewProgram() {
+  this.router.navigate(["/add-new-program"]);
     }
 
+takeToMyDiary()
+{
+  this.router.navigate(['/my-diary']);
+}
 
+takeToPreviousPurchases() {
+  this.router.navigate(['/previous-purchases']);
+  }
+
+takeToSubscriptions() {
+    this.router.navigate(["/subscriptions"]);
+  }
 
 }
