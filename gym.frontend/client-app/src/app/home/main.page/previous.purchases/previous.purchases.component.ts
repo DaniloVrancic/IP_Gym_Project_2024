@@ -33,11 +33,12 @@ export class PreviousPurchasesComponent implements OnInit{
   ngOnInit(): void {
       this.purchaseService.findAll().subscribe(response => console.log(response));
 
+      let allRows: any[] = [];
       this.purchaseService.findByUserId(this.userService.getCurrentUser()?.id as number).subscribe(response => {
         this.purchases = response;
         for(let purchase of this.purchases) { 
           this.fitnessProgramService.findFitnessProgramById(purchase.fitnessProgramId as number)
-                                    .subscribe(response => this.purchasedPrograms.push(response))
+                                    .subscribe(response => {this.purchasedPrograms.push(response); console.log(response);})
                                   }});
   }
 }

@@ -81,8 +81,6 @@ public class PhotoController {
 
 
         String pathToPhoto = fitnessProgramService.findFitnessProgramById(programId).getImageUrl();
-        System.out.println("FOUND:");
-        System.out.println(pathToPhoto);
 
         if(pathToPhoto == null)
         {
@@ -121,10 +119,17 @@ public class PhotoController {
 
     private File getRandomDefaultProgramImage()
     {
-        Random random = new Random();
-        int randomNumber = random.nextInt(5) + 1;
-        File randomImage = new File("./default/fitness-program-image/defaultImage" + randomNumber + ".png");
 
+        Random random = new Random();
+        int randomNumber = 0;
+        File randomImage = null;
+
+        synchronized (random)
+        {
+
+            randomNumber = random.nextInt(5) + 1;
+            randomImage = new File("./default/fitness-program-image/defaultImage" + randomNumber + ".png");
+        }
         return randomImage;
     }
 

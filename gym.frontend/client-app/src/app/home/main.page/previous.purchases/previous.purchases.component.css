@@ -12,6 +12,7 @@
     font-size: 3rem;
     font-weight: 700;
     padding-top: 1rem;
+    text-wrap: wrap;
 }
 
 .purchased-items
@@ -32,9 +33,20 @@
     margin-bottom: 1rem;
 }
 
-.image-cell img
+.image
 {
-    width: 100px;
-    height: 100px;
-    max-width: 100px;
+    width: 100%;
+    image-rendering: auto;
+    height: 5.75rem;
+}
+
+table
+{
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+}
+th, td{
+    border: 1px solid black;
+    text-align: center;
 }
