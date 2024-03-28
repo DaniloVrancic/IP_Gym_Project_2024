@@ -1,0 +1,40 @@
+.container
+{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.title
+{
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 700;
+    padding-top: 1rem;
+}
+
+.purchased-items
+{
+    margin-top: 3rem;
+}
+
+.program-container{
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    font-weight: 500;
+    font-size: larger;
+    border: 1px solid black;
+    border-left: 0;
+    border-right: 0;
+    padding: 1rem 2rem 1rem 2rem;
+    margin-bottom: 1rem;
+}
+
+.image-cell img
+{
+    width: 100px;
+    height: 100px;
+    max-width: 100px;
+}

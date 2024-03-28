@@ -3,6 +3,8 @@ import { UserService } from '../../../user.service';
 import { PurchaseService } from '../purchase.service';
 import { FitnessProgramService } from '../fitness-program.service';
 import { FitnessProgram } from '../fitness-program';
+import { environment } from '../../../../environments/environment';
+import { User } from '../../../user';
 
 @Component({
   selector: 'app-previous-purchases',
@@ -17,11 +19,15 @@ export class PreviousPurchasesComponent implements OnInit{
 
   private purchases: any[];
   public purchasedPrograms: FitnessProgram[];
+  public apiUrl: string;
+  public currentUser: User;
 
   constructor(private userService: UserService, private purchaseService: PurchaseService, private fitnessProgramService: FitnessProgramService)
   {
     this.purchases = [];
     this.purchasedPrograms = [];
+    this.apiUrl = environment.apiBaseUrl;
+    this.currentUser = userService.getCurrentUser() as User;
   }
 
   ngOnInit(): void {

@@ -1,11 +1,24 @@
+<div class="container homenaje-strong">
+    <div class="title">Previously purchased programs:</div>
+    <div class="purchased-items">
 
-<div class="purchased-items">
-@for(purchasedProgram of this.purchasedPrograms; track purchasedProgram)
-{
- <span>Program id: {{purchasedProgram.id}}</span>
- <span> Program name: {{purchasedProgram.name}}</span>
+    <table>
+        <tr class="program-container homenaje-regular">
+            <th>Id</th>
+            <th></th>
+            <th>Name</th>
+        </tr>
+    @for(purchasedProgram of this.purchasedPrograms; track purchasedProgram)
+    {
+    <tr class="program-container homenaje-regular">
+        <td>{{purchasedProgram.id}}</td>
+        <td class="image-cell"></td>
+        <td>{{purchasedProgram.name}}</td>
+    </tr>
 
- <br>
- 
-}
+    <br>
+    
+    }
+    </table>
+    </div>
 </div>
