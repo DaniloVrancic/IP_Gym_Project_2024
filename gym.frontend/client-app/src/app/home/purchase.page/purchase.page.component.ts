@@ -29,7 +29,7 @@ export class PurchasePageComponent implements OnInit{
   paypalInputControl = new FormControl('', [Validators.required, Validators.email]);
  
 
-  matcher = new MyErrorStateMatcher();
+  matcher = new MyErrorStateMatcher(); //Error matcher, got it from another class
 
   constructor(private router: Router, public fitnessProgramService: FitnessProgramService, private purchaseService: PurchaseService, private userService: UserService)
   {
