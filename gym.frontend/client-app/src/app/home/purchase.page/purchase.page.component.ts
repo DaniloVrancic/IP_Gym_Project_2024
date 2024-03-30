@@ -33,7 +33,7 @@ export class PurchasePageComponent implements OnInit{
 
   constructor(private router: Router, public fitnessProgramService: FitnessProgramService, private purchaseService: PurchaseService, private userService: UserService)
   {
-    this.paymentMethod = "";
+    this.paymentMethod = ""; // selected payment method.
   }
 
   ngOnInit(): void {
