@@ -1,1 +1,61 @@
-<p>add.new.program works!</p>
+<!--
+<p>PATH: username: {{this.userDisplay.username}}  firstName: {{this.userDisplay.firstName}} lastName:{{this.userDisplay.lastName}} </p>
+<p>BASE64: {{this.currentUser.avatar}}</p> -->
+<mat-card>
+    <mat-card-title class="card-title montserrat-strong">Add New Excercise</mat-card-title>
+    <mat-card-content class="montserrat-regular">
+      <form class="myForm" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <!-- Profile Image -->
+        <div class="profile-pic-editor">
+        <div class="profile-image">
+          <img src='../../../../assets/default_images/defaultProgram.png'>
+          <ng-template #defaultImage>
+            <div class="default-image"></div>
+          </ng-template>
+        </div>
+        <label class="custom-file-upload"><input name="photo" id="file-upload" type="file" (change)="onFileSelect($event)" accept="image/*" formControlName="programImage">Upload photo for Excercise <span id="file-name"></span></label>
+    </div>
+        <!-- Excercise name -->
+        <mat-form-field appearance="fill">
+          <mat-label>Name of Excercise</mat-label>
+          <input matInput formControlName="titleName" required>
+          <mat-error>Excercise name is required</mat-error>
+        </mat-form-field>
+  
+        <!-- Last Name -->
+        <mat-form-field appearance="fill">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" style="max-height: 32rem;"></textarea>
+          <mat-error></mat-error>
+        </mat-form-field>
+  
+        <!-- City -->
+        <mat-form-field appearance="fill">
+          <mat-label>Location of Event</mat-label>
+          <input matInput formControlName="location">
+          <mat-error>Location name is <b>required</b>.</mat-error>
+        </mat-form-field>
+  
+        <!-- Email -->
+        <mat-form-field appearance="fill">
+          <mat-label>Difficulty level</mat-label>
+          <input placeholder="1 = Begginer, 2 = Intermediate, 3 = Advanced" matInput type="number" formControlName="difficulty" required>
+          <mat-error>Must be between 1 and 3</mat-error>
+        </mat-form-field>
+  
+        <!-- Password -->
+        <mat-form-field>
+          <mat-label>Select a category</mat-label>
+          <mat-select [(value)]="selectedCategory" formControlName="category">
+            <mat-option>None</mat-option>
+            <mat-option value="option1">Option 1</mat-option>
+            <mat-option value="option2">Option 2</mat-option>
+            <mat-option value="option3">Option 3</mat-option>
+          </mat-select>
+          <mat-error>A category <b>must</b> be selected.</mat-error>
+        </mat-form-field>
+  
+        <button mat-raised-button color="primary" type="submit" [disabled]="userForm.invalid">Save</button>
+      </form>
+    </mat-card-content>
+  </mat-card>

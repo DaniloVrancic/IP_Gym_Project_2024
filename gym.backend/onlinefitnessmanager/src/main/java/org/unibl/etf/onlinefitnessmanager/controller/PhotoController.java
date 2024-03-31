@@ -23,7 +23,7 @@ import java.util.Random;
 
 @Controller
 @RequestMapping("/photo")
-public class PhotoController {
+public class    PhotoController {
 
 
     UserService userService;
