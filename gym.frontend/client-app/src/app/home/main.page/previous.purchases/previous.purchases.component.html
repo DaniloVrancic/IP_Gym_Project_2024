@@ -3,9 +3,9 @@
     <div class="purchased-items">
 
     <table>
-        <tr class="program-container homenaje-regular">
+        <tr class=" homenaje-regular">
             <th>Id</th>
-            <th></th>
+            <th>Image</th>
             <th>Name</th>
             <th>Price</th>
             <th>Status</th>
@@ -19,7 +19,7 @@
     {
     <tr class="program-container homenaje-regular">
         <td>{{purchasedProgram.id}}</td>
-        <td><img class="image" [src]="this.apiUrl + '/photo/program/' + (purchasedProgram.id)"></td>
+        <td style="background-image: url('{{this.apiUrl + '/photo/program/' + purchasedProgram.id}}'); background-size: cover;" class="image"></td>
         <td>{{purchasedProgram.name}}</td>
         <td>{{purchasedProgram.price}}</td>
         <td>{{purchasedProgram.status == 0 ? "Active" : (purchasedProgram.status == 1 ? "Finished" : "Undefined")}}</td>
