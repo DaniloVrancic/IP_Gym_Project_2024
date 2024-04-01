@@ -29,7 +29,7 @@ throw new Error('Method not implemented.');
     
     //userService.getUser(14).subscribe(response => {this.currentUser = response; console.log(response)});
 
-    //ONLY FOR TESTING, TODO: DELETE THIS CODE SEGMENT LATER:
+    //ONLY FOR TESTING, TODO: DELETE THIS CODE SEGMENT LATER: 
 
 
     
@@ -39,7 +39,7 @@ throw new Error('Method not implemented.');
       description: [``,],
       location: [``, Validators.required],
       difficulty: [``, [Validators.required, Validators.min(1), Validators.max(3), Validators.pattern('^[1-3]$')]],
-      category: [``, Validators.required],
+      category: [``, Validators.required], //CATEGORY
       programImage: [] // You can initialize with a default image URL if needed
     });
 
