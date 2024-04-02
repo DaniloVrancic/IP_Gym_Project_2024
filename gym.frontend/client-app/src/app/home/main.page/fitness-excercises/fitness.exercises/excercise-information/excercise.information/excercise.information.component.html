@@ -13,7 +13,7 @@
                 <p id="description">{{this.caughtExcercise.description}}</p>
                 <hr>
             </div>
-            @if(this.caughtExcercise.difficultyLevel != null || this.caughtExcercise.difficultyLevel > 5)
+            @if(this.caughtExcercise.difficultyLevel != null)
             {
             <div class="card-text-attribute">
                 <p class="title">Difficulty level:</p>
@@ -23,7 +23,7 @@
             }
             <div class="card-text-attribute">
                 <p class="title">Type:</p>
-                <p> {{this.caughtExcercise.fitnessProgramType.name}}</p>
+                <p> {{this.caughtExcercise.fitnessProgramType?.name}}</p>
                 <hr>
             </div>
             <div class="card-text-attribute">

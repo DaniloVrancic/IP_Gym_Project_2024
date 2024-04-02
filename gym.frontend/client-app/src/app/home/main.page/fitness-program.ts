@@ -3,14 +3,14 @@ import { User } from "../../user";
 
 export interface FitnessProgram {
   id: number | null;
-  name: string;
-  description: string;
-  locationOfEvent: string;
-  price: number;
-  duration: number;
-  difficultyLevel: number;
-  imageUrl: string;
-  status: number;
-  fitnessProgramType: FitnessProgramType;
-  user_creator: User;
+  name: string | null;
+  description: string | null;
+  locationOfEvent: string | null;
+  price: number | null;
+  duration: number | null;
+  difficultyLevel: number | null;
+  imageUrl: string | null;
+  status: number | null;
+  fitnessProgramType: FitnessProgramType | null;
+  user_creator: User | null;
 }

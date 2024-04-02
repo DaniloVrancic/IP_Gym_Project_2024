@@ -27,8 +27,8 @@
         <td>{{purchasedProgram.locationOfEvent}}</td>
         <td>{{purchasedProgram.duration}} mins</td>
         <td>{{purchasedProgram.difficultyLevel == 1 ? "Begginer" : (purchasedProgram.difficultyLevel == 2) ? "Intermediate" : purchasedProgram.difficultyLevel == 3 ? "Advanced" : "Undefined"}}</td>
-        <td>{{purchasedProgram.fitnessProgramType.name}}</td>
-        <td>{{purchasedProgram.user_creator.username}}</td>
+        <td>{{purchasedProgram.fitnessProgramType?.name}}</td>
+        <td>{{purchasedProgram.user_creator?.username}}</td>
     </tr>
     <br>
     }

@@ -88,7 +88,6 @@ public class    PhotoController {
             return ResponseEntity.ok()
                     .contentType(MediaType.IMAGE_PNG) // Change the content type based on your photo type
                     .body(new FileSystemResource(randomPic.toPath()));
-
         }
         File photoFile = new File(pathToPhoto);
 
@@ -124,9 +123,9 @@ public class    PhotoController {
         int randomNumber = 0;
         File randomImage = null;
 
-        synchronized (random)
+        synchronized (this)
         {
-
+    
             randomNumber = random.nextInt(5) + 1;
             randomImage = new File("./default/fitness-program-image/defaultImage" + randomNumber + ".png");
         }

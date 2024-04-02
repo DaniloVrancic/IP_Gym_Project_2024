@@ -4,7 +4,7 @@
 <mat-card>
     <mat-card-title class="card-title montserrat-strong">Add New Excercise</mat-card-title>
     <mat-card-content class="montserrat-regular">
-      <form class="myForm" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <form class="myForm" [formGroup]="programForm" (ngSubmit)="onSubmit()">
         <!-- Profile Image -->
         <div class="profile-pic-editor">
         <div class="profile-image">
@@ -42,6 +42,7 @@
           <input placeholder="1 = Begginer, 2 = Intermediate, 3 = Advanced" matInput type="number" formControlName="difficulty" required>
           <mat-error>Must be between 1 and 3</mat-error>
         </mat-form-field>
+
   
         <!-- Password -->
         <mat-form-field>
@@ -54,8 +55,21 @@
           </mat-select>
           <mat-error>A category <b>must</b> be selected.</mat-error>
         </mat-form-field>
+
+        
+        <mat-form-field appearance="fill">
+          <mat-label>Price</mat-label>
+          <input matInput type="number" formControlName="price" required>
+          <mat-error>Must be a number.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Duration</mat-label>
+          <input matInput type="number" placeholder="Expressed in minutes" formControlName="duration" required>
+          <mat-error>Must be a number between 0 and .</mat-error>
+        </mat-form-field>
   
-        <button mat-raised-button color="primary" type="submit" [disabled]="userForm.invalid">Save</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="programForm.invalid">Save</button>
       </form>
     </mat-card-content>
   </mat-card>
