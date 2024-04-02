@@ -7,6 +7,8 @@ import { User } from '../../../user';
 import { UserService } from '../../../user.service';
 import { FitnessProgramTypeService } from '../fitness-program-type.service';
 import { FitnessProgramType } from '../fitness-program-type';
+import { FitnessProgramService } from '../fitness-program.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-new-program',
@@ -14,60 +16,11 @@ import { FitnessProgramType } from '../fitness-program-type';
   imports: [MaterialModule, ReactiveFormsModule, FormsModule],
   templateUrl: './add.new.program.component.html',
   styleUrl: './add.new.program.component.css',
-  providers: [UserService, FitnessProgramTypeService]
+  providers: [UserService, FitnessProgramTypeService, FitnessProgramService]
 })
 export class AddNewProgramComponent implements OnInit{
-onFileSelect(event: any)   {
-  const file = event.target.files[0];
-  const reader = new FileReader();
-  let fitnessProgramToAdd = this.fitnessProgramToAdd;
 
-  let fileNameElement = document.getElementById("file-name") as HTMLElement | null;
-  let programImageElement = document.getElementById("displayed-photo") as HTMLElement;
-
-  if(file === undefined || file === null)
-  {
-    (fileNameElement as HTMLElement).innerHTML = "";
-    (fileNameElement as HTMLElement).style.display = 'inline';
-    programImageElement.setAttribute("src", environment.defaultProgramImage); //returns to display the default image in the page
-  }
-  else if (file != undefined && fileNameElement) {
-    fileNameElement.innerHTML = file.name; // Assuming you want to display the file name
-    fileNameElement.style.display = 'inline-block';
-  } else {
-    console.error("File name element not found.");
-  }
   
-
-  reader.onloadend = (event: any) => {
-      const imgBase64: string | null = event.target.result as string | null;
-      const defaultPicLocation : string = environment.defaultProgramImage;
-      
-
-      // Assign the BASE64 string to this.userForRegister.avatar
-      fitnessProgramToAdd.imageUrl = imgBase64;
-
-      this.fitnessProgramToAdd.imageUrl = imgBase64;
-      document.getElementById("displayed-photo")?.setAttribute("src", imgBase64 as string); //Sets the image on the page to the selected image
-      
-  };
-
-  reader.onerror = (event) => {
-    document.getElementById("displayed-photo")?.setAttribute("src", environment.defaultProgramImage);
-  this.fitnessProgramToAdd.imageUrl = null;};
-
-  if(file != undefined)
-  {
-  reader.readAsDataURL(file);
-  this.fitnessProgramToAdd.imageUrl = fitnessProgramToAdd.imageUrl;
-  }
-  else
-  {
-    this.fitnessProgramToAdd.imageUrl = null;
-  }
-
-}
-
 
   programForm: FormGroup;
   apiUrl: string;
@@ -75,9 +28,9 @@ onFileSelect(event: any)   {
   fitnessProgramToAdd: FitnessProgram;
   public fitnessProgramTypes!: FitnessProgramType[];
 
-  
-
-  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef, private userService: UserService, private fitnessProgramTypeService: FitnessProgramTypeService) {
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef, private userService: UserService, 
+    private fitnessProgramTypeService: FitnessProgramTypeService, private fitnessProgramService: FitnessProgramService,
+    private router: Router) {
     this.apiUrl = environment.apiBaseUrl;
 
 
@@ -117,6 +70,54 @@ onFileSelect(event: any)   {
     this.fitnessProgramTypeService.getAllFitnessProgramTypes().subscribe(result => this.fitnessProgramTypes = result);
   }
 
+
+onFileSelect(event: any)   {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+  let fitnessProgramToAdd = this.fitnessProgramToAdd;
+
+  let fileNameElement = document.getElementById("file-name") as HTMLElement | null;
+  let programImageElement = document.getElementById("displayed-photo") as HTMLElement;
+
+  if(file === undefined || file === null)
+  {
+    (fileNameElement as HTMLElement).innerHTML = "";
+    (fileNameElement as HTMLElement).style.display = 'inline';
+    programImageElement.setAttribute("src", environment.defaultProgramImage); //returns to display the default image in the page
+  }
+  else if (file != undefined && fileNameElement) {
+    fileNameElement.innerHTML = file.name; // Assuming you want to display the file name
+    fileNameElement.style.display = 'inline-block';
+  } else {
+    console.error("File name element not found.");
+  }
+  
+
+  reader.onloadend = (event: any) => {
+      const imgBase64: string | null = event.target.result as string | null;
+      const defaultPicLocation : string = environment.defaultProgramImage;
+      fitnessProgramToAdd.imageUrl = imgBase64;
+
+      this.fitnessProgramToAdd.imageUrl = imgBase64;
+      document.getElementById("displayed-photo")?.setAttribute("src", imgBase64 as string); //Sets the image on the page to the selected image
+      
+  };
+
+  reader.onerror = (event) => {
+    document.getElementById("displayed-photo")?.setAttribute("src", environment.defaultProgramImage);
+  this.fitnessProgramToAdd.imageUrl = null;};
+
+  if(file != undefined)
+  {
+  reader.readAsDataURL(file);
+  this.fitnessProgramToAdd.imageUrl = fitnessProgramToAdd.imageUrl;
+  }
+  else
+  {
+    this.fitnessProgramToAdd.imageUrl = null;
+  }
+}
+
   onSubmit() {
     
     if (this.programForm.valid) {
@@ -130,10 +131,9 @@ onFileSelect(event: any)   {
       this.fitnessProgramToAdd.user_creator = this.userService.getCurrentUser();
       this.fitnessProgramToAdd.fitnessProgramType = this.programForm.get("category")?.value;
 
-      console.log("PHOTO SELECTED");
-      console.log(this.programForm.get("photo")?.value);
+      this.fitnessProgramService.addFitnessProgram(this.fitnessProgramToAdd).subscribe(
+        result => {console.log("ADDED:"); console.log(result); alert("Successfuly added new program."); this.router.navigate(["/main-page"]);});
   
-      console.log(this.fitnessProgramToAdd);
     }
 
  }

@@ -55,7 +55,7 @@ public class FitnessProgramController {
             newEntity.setImageUrl(null); //sets the Avatar inside user to null so that it doesn't try to save the whole raw picture data to the database
             newProgramWithPhoto = fitnessProgramService.addFitnessProgram(newEntity); //saves to Database (without profile picture link)
 
-            if(coverPhoto != null && coverPhoto.length() > 0) //checks if there is any Base64 data present.
+            if(coverPhoto != null && !coverPhoto.isEmpty()) //checks if there is any Base64 data present.
             {
                 newProgramWithPhoto.setImageUrl(fitnessProgramService.saveBase64EncodedPhoto(coverPhoto, newProgramWithPhoto));
                 fitnessProgramService.updateFitnessProgram(newProgramWithPhoto); //updates the daTabase with the link to the uploaded photo
