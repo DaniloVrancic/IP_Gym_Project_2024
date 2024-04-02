@@ -5,5 +5,6 @@ export const environment = {
     rssFeedKeyString: 'rss-feed',
     userKeyString: 'cached-user',
     dailyChallengesKeyString: 'daily-challenges',
-    fitnessProgramKeyString: 'cached-fitness-program'
+    fitnessProgramKeyString: 'cached-fitness-program',
+    defaultProgramImage: '../assets/default_images/defaultProgram.png'
 }

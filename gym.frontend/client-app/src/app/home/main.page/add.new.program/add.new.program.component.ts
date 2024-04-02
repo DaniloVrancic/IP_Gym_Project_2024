@@ -17,8 +17,55 @@ import { FitnessProgramType } from '../fitness-program-type';
   providers: [UserService, FitnessProgramTypeService]
 })
 export class AddNewProgramComponent implements OnInit{
-onFileSelect($event: Event) {
-throw new Error('Method not implemented.');
+onFileSelect(event: any)   {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+  let fitnessProgramToAdd = this.fitnessProgramToAdd;
+
+  let fileNameElement = document.getElementById("file-name") as HTMLElement | null;
+  let programImageElement = document.getElementById("displayed-photo") as HTMLElement;
+
+  if(file === undefined || file === null)
+  {
+    (fileNameElement as HTMLElement).innerHTML = "";
+    (fileNameElement as HTMLElement).style.display = 'inline';
+    programImageElement.setAttribute("src", environment.defaultProgramImage); //returns to display the default image in the page
+  }
+  else if (file != undefined && fileNameElement) {
+    fileNameElement.innerHTML = file.name; // Assuming you want to display the file name
+    fileNameElement.style.display = 'inline-block';
+  } else {
+    console.error("File name element not found.");
+  }
+  
+
+  reader.onloadend = (event: any) => {
+      const imgBase64: string | null = event.target.result as string | null;
+      const defaultPicLocation : string = environment.defaultProgramImage;
+      
+
+      // Assign the BASE64 string to this.userForRegister.avatar
+      fitnessProgramToAdd.imageUrl = imgBase64;
+
+      this.fitnessProgramToAdd.imageUrl = imgBase64;
+      document.getElementById("displayed-photo")?.setAttribute("src", imgBase64 as string); //Sets the image on the page to the selected image
+      
+  };
+
+  reader.onerror = (event) => {
+    document.getElementById("displayed-photo")?.setAttribute("src", environment.defaultProgramImage);
+  this.fitnessProgramToAdd.imageUrl = null;};
+
+  if(file != undefined)
+  {
+  reader.readAsDataURL(file);
+  this.fitnessProgramToAdd.imageUrl = fitnessProgramToAdd.imageUrl;
+  }
+  else
+  {
+    this.fitnessProgramToAdd.imageUrl = null;
+  }
+
 }
 
 
@@ -32,11 +79,6 @@ throw new Error('Method not implemented.');
 
   constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef, private userService: UserService, private fitnessProgramTypeService: FitnessProgramTypeService) {
     this.apiUrl = environment.apiBaseUrl;
-
-    
-    //userService.getUser(14).subscribe(response => {this.currentUser = response; console.log(response)});
-
-    //ONLY FOR TESTING, TODO: DELETE THIS CODE SEGMENT LATER: 
 
 
     
@@ -72,7 +114,7 @@ throw new Error('Method not implemented.');
 
   ngOnInit(): void {
     
-    this.fitnessProgramTypeService.getAllFitnessProgramTypes().subscribe(result => console.log(this.fitnessProgramTypes = result));
+    this.fitnessProgramTypeService.getAllFitnessProgramTypes().subscribe(result => this.fitnessProgramTypes = result);
   }
 
   onSubmit() {
@@ -88,17 +130,9 @@ throw new Error('Method not implemented.');
       this.fitnessProgramToAdd.user_creator = this.userService.getCurrentUser();
       this.fitnessProgramToAdd.fitnessProgramType = this.programForm.get("category")?.value;
 
-      this.fitnessProgramToAdd.imageUrl = this.programForm.get("photo")?.value;
-
-      if(this.fitnessProgramToAdd.imageUrl == undefined || this.fitnessProgramToAdd.imageUrl == null)
-      {
-        this.fitnessProgramToAdd.imageUrl = "";
-      }
-      else
-      {
-        //TODO: ADD BASE64 CODE OF PHOTO HERE
-      }
-
+      console.log("PHOTO SELECTED");
+      console.log(this.programForm.get("photo")?.value);
+  
       console.log(this.fitnessProgramToAdd);
     }
 
