@@ -18,7 +18,7 @@
         <!-- Excercise name -->
         <mat-form-field appearance="fill">
           <mat-label>Name of Excercise</mat-label>
-          <input matInput formControlName="titleName" required>
+          <input matInput formControlName="name" required>
           <mat-error>Excercise name is required</mat-error>
         </mat-form-field>
   
@@ -47,11 +47,11 @@
         <!-- Password -->
         <mat-form-field>
           <mat-label>Select a category</mat-label>
-          <mat-select [(value)]="selectedCategory" formControlName="category">
-            <mat-option>None</mat-option>
-            <mat-option value="option1">Option 1</mat-option>
-            <mat-option value="option2">Option 2</mat-option>
-            <mat-option value="option3">Option 3</mat-option>
+          <mat-select [(value)]="this.selectedCategory" formControlName="category">
+            @for(programType of this.fitnessProgramTypes; track programType)
+            {
+              <mat-option [value]="programType">{{programType.name}}</mat-option>
+            }
           </mat-select>
           <mat-error>A category <b>must</b> be selected.</mat-error>
         </mat-form-field>

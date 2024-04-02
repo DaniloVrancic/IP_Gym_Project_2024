@@ -125,7 +125,7 @@ public class    PhotoController {
 
         synchronized (this)
         {
-    
+
             randomNumber = random.nextInt(5) + 1;
             randomImage = new File("./default/fitness-program-image/defaultImage" + randomNumber + ".png");
         }

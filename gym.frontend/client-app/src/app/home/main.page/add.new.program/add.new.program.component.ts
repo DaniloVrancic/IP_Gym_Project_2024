@@ -5,6 +5,8 @@ import { environment } from '../../../../environments/environment';
 import { FitnessProgram } from '../fitness-program';
 import { User } from '../../../user';
 import { UserService } from '../../../user.service';
+import { FitnessProgramTypeService } from '../fitness-program-type.service';
+import { FitnessProgramType } from '../fitness-program-type';
 
 @Component({
   selector: 'app-add-new-program',
@@ -12,7 +14,7 @@ import { UserService } from '../../../user.service';
   imports: [MaterialModule, ReactiveFormsModule, FormsModule],
   templateUrl: './add.new.program.component.html',
   styleUrl: './add.new.program.component.css',
-  providers: [UserService]
+  providers: [UserService, FitnessProgramTypeService]
 })
 export class AddNewProgramComponent implements OnInit{
 onFileSelect($event: Event) {
@@ -24,10 +26,11 @@ throw new Error('Method not implemented.');
   apiUrl: string;
   selectedCategory: any;
   fitnessProgramToAdd: FitnessProgram;
+  public fitnessProgramTypes!: FitnessProgramType[];
 
   
 
-  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef, private userService: UserService) {
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef, private userService: UserService, private fitnessProgramTypeService: FitnessProgramTypeService) {
     this.apiUrl = environment.apiBaseUrl;
 
     
@@ -39,7 +42,7 @@ throw new Error('Method not implemented.');
     
 
     this.programForm = this.fb.group({
-      titleName: [``, Validators.required],
+      name: [``, Validators.required],
       description: [``,],
       location: [``, Validators.required],
       difficulty: [``, [Validators.required, Validators.min(1), Validators.max(3), Validators.pattern('^[1-3]$')]],
@@ -68,6 +71,8 @@ throw new Error('Method not implemented.');
    }
 
   ngOnInit(): void {
+    
+    this.fitnessProgramTypeService.getAllFitnessProgramTypes().subscribe(result => console.log(this.fitnessProgramTypes = result));
   }
 
   onSubmit() {
@@ -85,8 +90,18 @@ throw new Error('Method not implemented.');
 
       this.fitnessProgramToAdd.imageUrl = this.programForm.get("photo")?.value;
 
+      if(this.fitnessProgramToAdd.imageUrl == undefined || this.fitnessProgramToAdd.imageUrl == null)
+      {
+        this.fitnessProgramToAdd.imageUrl = "";
+      }
+      else
+      {
+        //TODO: ADD BASE64 CODE OF PHOTO HERE
+      }
+
       console.log(this.fitnessProgramToAdd);
     }
 
  }
+
 }
