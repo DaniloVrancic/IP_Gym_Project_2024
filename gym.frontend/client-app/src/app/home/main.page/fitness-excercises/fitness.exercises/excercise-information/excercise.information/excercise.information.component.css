@@ -138,3 +138,11 @@
     margin-bottom: 3rem;
     scale: 2;
 }
+
+.already-purchased-container
+{
+    margin: 0rem 1rem 1rem 1rem;
+    padding-top: 0.2rem;
+    font-size: smaller;
+    color: rgb(220, 120, 20);
+}

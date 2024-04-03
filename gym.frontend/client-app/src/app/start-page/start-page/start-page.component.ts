@@ -23,7 +23,7 @@ export class StartPageComponent {
 
   routeAsGuest() {
     let guestUser: User | null = {
-      id: null,
+      id: 0,
       username: null,
       password: null,
       firstName: null,

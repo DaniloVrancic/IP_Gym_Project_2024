@@ -79,6 +79,15 @@
                     <mat-icon>fitness_center</mat-icon>
                     Participate
                   </button>
+                  <br>
+                  @if(this.userHasPurchased)
+                  {
+                    <div class="already-purchased-container">
+                      <span>You have already purchased this program {{this.userService.getCurrentUser()?.firstName}}.</span>
+                      <br>
+                      <span>Buy another one?</span>
+                    </div>
+                  }
             </div>
             <div class="card-comment-section">
                 <div class="write-comment-section">

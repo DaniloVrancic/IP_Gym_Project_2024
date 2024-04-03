@@ -59,6 +59,6 @@ export class FitnessExercisesComponent implements OnInit {
     
 
     
-    dialogRef.afterClosed().subscribe(result => {console.log("DIALOG CLOSED", result)})
+    dialogRef.afterClosed().subscribe(result => {}).unsubscribe();
   }
 }
