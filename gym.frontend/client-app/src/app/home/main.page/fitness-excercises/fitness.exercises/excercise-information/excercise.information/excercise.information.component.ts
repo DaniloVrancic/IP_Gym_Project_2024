@@ -22,6 +22,7 @@ export class ExcerciseInformationComponent implements AfterViewInit{
 
 
 
+
   commentTextArea!: any;
   
   
@@ -112,6 +113,10 @@ postComment(event: MouseEvent) {
       this.dialogRef.close();
     });;
     }
+
+    subscribeToCategory() {
+      throw new Error('Method not implemented.');
+      }
 
 
 }
