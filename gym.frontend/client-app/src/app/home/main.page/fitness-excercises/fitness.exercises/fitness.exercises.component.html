@@ -4,13 +4,13 @@
     @for(exercise of displayedExercises; track exercise)
     {
         <mat-card class="card" (click)="openDialog(exercise)">
-        <mat-card-header class="card-header">
-            <mat-card-title>{{ exercise.name }}</mat-card-title>
+        <mat-card-header class="card-header" style="transform: translateY(1px); scale: 1.02;">
+            <mat-card-title style=" overflow:hidden; text-overflow: ellipsis;">{{ exercise.name }}</mat-card-title>
         </mat-card-header>
-        <mat-card-content class="card-content">
-          <img />
-          <p>{{ exercise.description }}</p>
-          <p>Price: ${{ exercise.price }}</p>
+        <mat-card-content class="card-content" style="padding: 0;">
+          <img [src]="this.apiUrl + '/photo/program/' + (exercise.id)" alt="excercise-photo" onerror="this.src=this.defaultImage" style="width: 100%; height: auto; transform: translateY(-0.25rem)"/>
+          <p style="padding: 1rem; max-height: 4rem; overflow: hidden; text-overflow: ellipsis;">{{ exercise.description }}</p>
+          <p style="padding: 1rem; overflow: hidden; text-overflow: ellipsis;">Price: ${{ exercise.price }}</p>
         </mat-card-content>
       </mat-card>
     }

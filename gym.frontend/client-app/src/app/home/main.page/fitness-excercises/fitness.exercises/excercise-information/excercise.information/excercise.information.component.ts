@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { UserService } from '../../../../../../user.service';
 import { Router } from '@angular/router';
 import { FitnessProgram } from '../../../../fitness-program';
+import { environment } from '../../../../../../../environments/environment';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-excercise-information',
@@ -13,7 +15,7 @@ import { FitnessProgram } from '../../../../fitness-program';
   imports: [MaterialModule],
   templateUrl: './excercise.information.component.html',
   styleUrl: './excercise.information.component.css',
-  providers: [CommentService, UserService]
+  providers: [CommentService, UserService, CommonModule]
 })
 export class ExcerciseInformationComponent implements AfterViewInit{
 
@@ -21,21 +23,28 @@ export class ExcerciseInformationComponent implements AfterViewInit{
 
   commentTextArea!: any;
   
+  
 
   caughtExcercise: FitnessProgram;
   commentsOnProgram: any[] | null;
   commentText: string;
   isPostCommentDisabled: boolean;
   isParticipateDisabled: boolean;
+  public defaultImage: string;
+  public apiUrl : string;
 
   constructor(@Inject(MAT_DIALOG_DATA) public exercise: FitnessProgram, private commentService: CommentService, public userService: UserService, private router: Router, public dialogRef: MatDialogRef<ExcerciseInformationComponent>) { //Injects data about the excercise from the parent module
     this.caughtExcercise = {...exercise};
+    this.defaultImage = environment.defaultProgramImage;
+    this.apiUrl = environment.apiBaseUrl;
+
     this.commentsOnProgram = null;
     this.commentText = "";
     this.isPostCommentDisabled = true;
     if(this.userService.getCurrentUser()?.email)
     {
       this.isParticipateDisabled = false;
+      
     }
     else
     {
@@ -63,7 +72,7 @@ textChanged(event: any) {
 }
 
 postComment(event: MouseEvent) {
-    this.commentService.addComment(this.userService.getCurrentUser()?.id as number, this.exercise.id as number, this.commentText as string).subscribe(response => { this.commentsOnProgram?.push(response)});
+    this.commentService.addComment(this.userService.getCurrentUser()?.id as number, this.exercise.id as number, this.commentText as string).subscribe(response => { this.commentsOnProgram?.push(response);});
 }
 
  

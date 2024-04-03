@@ -4,7 +4,7 @@
             <div class="homenaje-strong card-name">{{this.caughtExcercise.name}}</div>
         
 
-            <img class="card-image" [src]="caughtExcercise.imageUrl" alt="excercise-photo" onerror="this.src='../../../../../../../assets/default_images/defaultProgram.png'">
+            <img class="card-image" [src]="this.apiUrl + '/photo/program/' + (this.caughtExcercise.id)" alt="excercise-photo" onerror="this.src=this.defaultImage">
             
         </div>
         <div class="card-text-content">
@@ -17,7 +17,7 @@
             {
             <div class="card-text-attribute">
                 <p class="title">Difficulty level:</p>
-                <p> {{this.caughtExcercise.difficultyLevel}}</p>
+                <p> {{(this.caughtExcercise.difficultyLevel == 1) ? "Begginer" : (this.caughtExcercise.difficultyLevel == 2) ? "Intermediate" : (this.caughtExcercise.difficultyLevel == 3) ? "Advanced" : "Unknown"}}</p>
                 <hr>
             </div>
             }
@@ -91,7 +91,7 @@
                 @if(this.commentsOnProgram != null)
                 {   
                 <div class="read-comment-section">
-                    @for(comment of commentsOnProgram; track comment)
+                    @for(comment of this.commentsOnProgram; track comment)
                     {
                         <div class="comment-field">
                             <div class="comment-user"><p>{{comment.user_commenter.username}} at {{comment.commentTime}}</p></div>

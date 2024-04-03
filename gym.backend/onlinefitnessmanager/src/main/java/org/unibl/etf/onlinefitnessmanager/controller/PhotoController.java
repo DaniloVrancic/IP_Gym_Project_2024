@@ -2,6 +2,7 @@ package org.unibl.etf.onlinefitnessmanager.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -81,36 +82,50 @@ public class    PhotoController {
 
 
         String pathToPhoto = fitnessProgramService.findFitnessProgramById(programId).getImageUrl();
+        HttpHeaders headers = new HttpHeaders();
 
         if(pathToPhoto == null)
         {
             File randomPic = getRandomDefaultProgramImage();
+
+            headers.setContentType(MediaType.IMAGE_PNG);
+            headers.add("X-Random-Photo", "true"); // Custom header indicating a randomly selected photo
+
             return ResponseEntity.ok()
-                    .contentType(MediaType.IMAGE_PNG) // Change the content type based on your photo type
+                    .headers(headers)
                     .body(new FileSystemResource(randomPic.toPath()));
         }
         File photoFile = new File(pathToPhoto);
 
         if (photoFile.exists()) { //if the photo exists on the local fileSystem
             if (pathToPhoto.endsWith(".png")) {
+                headers.setContentType(MediaType.IMAGE_PNG);
+                headers.add("X-Random-Photo", "false"); // Custom header indicating a randomly selected photo
                 return ResponseEntity.ok()
-                        .contentType(MediaType.IMAGE_PNG) // Change the content type based on your photo type
+                        .headers(headers)
                         .body(new FileSystemResource(photoFile));
             } else if (pathToPhoto.endsWith(".gif")) {
+
+                headers.setContentType(MediaType.IMAGE_GIF);
+                headers.add("X-Random-Photo", "false"); // Custom header indicating a randomly selected photo
                 return ResponseEntity.ok()
-                        .contentType(MediaType.IMAGE_GIF) // Change the content type based on your photo type
+                        .headers(headers)
                         .body(new FileSystemResource(photoFile));
             } else {
+                headers.setContentType(MediaType.IMAGE_JPEG);
+                headers.add("X-Random-Photo", "false"); // Custom header indicating a randomly selected photo
                 return ResponseEntity.ok()
-                        .contentType(MediaType.IMAGE_JPEG) // Change the content type based on your photo type
+                        .headers(headers)
                         .body(new FileSystemResource(photoFile));
             }
 
         } else { //if the photo doesn't exist, send a default photo
 
             File randomPic = getRandomDefaultProgramImage();
+            headers.setContentType(MediaType.IMAGE_PNG);
+            headers.add("X-Random-Photo", "true"); // Custom header indicating a randomly selected photo
             return ResponseEntity.ok()
-                    .contentType(MediaType.IMAGE_PNG) // Change the content type based on your photo type
+                    .headers(headers)
                     .body(new FileSystemResource(randomPic.toPath()));
         }
     }
