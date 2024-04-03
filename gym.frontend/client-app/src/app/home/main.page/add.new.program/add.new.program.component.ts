@@ -135,7 +135,5 @@ onFileSelect(event: any)   {
         result => {console.log("ADDED:"); console.log(result); alert("Successfuly added new program."); this.router.navigate(["/main-page"]);});
   
     }
-
  }
-
 }

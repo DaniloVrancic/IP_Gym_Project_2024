@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { FitnessProgram } from '../../../../fitness-program';
 import { environment } from '../../../../../../../environments/environment';
 import { CommonModule } from '@angular/common';
+import { PurchaseService } from '../../../../purchase.service';
 
 @Component({
   selector: 'app-excercise-information',
@@ -15,7 +16,7 @@ import { CommonModule } from '@angular/common';
   imports: [MaterialModule],
   templateUrl: './excercise.information.component.html',
   styleUrl: './excercise.information.component.css',
-  providers: [CommentService, UserService, CommonModule]
+  providers: [CommentService, UserService, CommonModule, PurchaseService]
 })
 export class ExcerciseInformationComponent implements AfterViewInit{
 
@@ -30,13 +31,20 @@ export class ExcerciseInformationComponent implements AfterViewInit{
   commentText: string;
   isPostCommentDisabled: boolean;
   isParticipateDisabled: boolean;
+  public userHasPurchased: boolean;
   public defaultImage: string;
   public apiUrl : string;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public exercise: FitnessProgram, private commentService: CommentService, public userService: UserService, private router: Router, public dialogRef: MatDialogRef<ExcerciseInformationComponent>) { //Injects data about the excercise from the parent module
+  constructor(@Inject(MAT_DIALOG_DATA) public exercise: FitnessProgram,
+                                       private commentService: CommentService, 
+                                       public userService: UserService, 
+                                       private router: Router, 
+                                       public dialogRef: MatDialogRef<ExcerciseInformationComponent>,
+                                       private purchaseService: PurchaseService) { //Injects data about the excercise from the parent module
     this.caughtExcercise = {...exercise};
     this.defaultImage = environment.defaultProgramImage;
     this.apiUrl = environment.apiBaseUrl;
+    this.userHasPurchased = false;
 
     this.commentsOnProgram = null;
     this.commentText = "";
@@ -51,6 +59,15 @@ export class ExcerciseInformationComponent implements AfterViewInit{
       this.isParticipateDisabled = true;
     }
 
+    if(userService.getCurrentUser()?.id == 0)
+    {
+      this.userHasPurchased = false;
+    }
+    else
+    {
+     purchaseService.userHasPurchase(this.userService.getCurrentUser()?.id as number, this.caughtExcercise.id as number)
+                    .subscribe(hasPurchased => {this.userHasPurchased = hasPurchased;});
+    }
   
 
     commentService.getCommentsForProgram(this.caughtExcercise.id as number).subscribe(

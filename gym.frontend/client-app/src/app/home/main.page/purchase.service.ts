@@ -35,4 +35,8 @@ export class PurchaseService {
     return this.http.delete(`${this.apiUrl + this.endpointDir}/delete?id=${id}`);
   }
 
+  userHasPurchase(userId: number, programId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl + this.endpointDir}/user_has_purchase?userId=${userId}&programId=${programId}`);
+  }
+
 }
