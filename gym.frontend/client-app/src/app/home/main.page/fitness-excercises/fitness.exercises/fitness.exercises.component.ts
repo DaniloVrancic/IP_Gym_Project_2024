@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 import { UserService } from '../../../../user.service';
 import { FitnessProgram } from '../../fitness-program';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-fitness-exercises',
@@ -20,12 +21,15 @@ import { CommonModule } from '@angular/common';
 export class FitnessExercisesComponent implements OnInit {
   fitnessPrograms: FitnessProgram[] = [];
   displayedExercises: FitnessProgram[] = [];
+  public apiUrl: string;
 
 
   constructor(public userService: UserService, 
     private fitnessProgramService: FitnessProgramService, 
-    private dialog: MatDialog) { }
-    
+    private dialog: MatDialog) {
+      this.apiUrl = environment.apiBaseUrl;
+     }
+
   ngOnInit(): void {
     this.loadFitnessPrograms();
   }
