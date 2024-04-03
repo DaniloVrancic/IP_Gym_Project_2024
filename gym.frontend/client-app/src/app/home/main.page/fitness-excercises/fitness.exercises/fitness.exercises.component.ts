@@ -25,7 +25,7 @@ export class FitnessExercisesComponent implements OnInit {
   constructor(public userService: UserService, 
     private fitnessProgramService: FitnessProgramService, 
     private dialog: MatDialog) { }
-
+    
   ngOnInit(): void {
     this.loadFitnessPrograms();
   }
