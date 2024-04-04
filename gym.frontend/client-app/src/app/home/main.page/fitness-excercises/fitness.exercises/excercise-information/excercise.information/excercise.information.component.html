@@ -23,10 +23,21 @@
             }
             <div class="card-text-attribute">
                 <p class="title">Type:</p>
-                <button mat-fab extended (click)="subscribeToCategory()" class="subscribe-button">
-                    <mat-icon>fitness_center</mat-icon>
-                    Participate
-                  </button>
+                @if(this.isSubscribed === false)
+                {
+                    <button mat-fab extended (click)="subscribeToCategory($event)" class="subscribe-button">
+                        <mat-icon>done</mat-icon>
+                        Subscribe
+                      </button>
+                }
+                @else {
+                    <button mat-fab extended (click)="unsubscribeFromCategory($event)" class="subscribe-button-subscribed"
+                    (mouseenter)="this.isHovered = true" 
+                    (mouseleave)="this.isHovered = false">
+                        <mat-icon>{{ this.isHovered ? 'close' : 'done_all' }}</mat-icon>
+                        {{ isHovered ? 'Unsubscribe' : 'Subscribed' }}
+                      </button>
+                }
                 <p> {{this.caughtExcercise.fitnessProgramType?.name}}</p>
                 <hr>
             </div>

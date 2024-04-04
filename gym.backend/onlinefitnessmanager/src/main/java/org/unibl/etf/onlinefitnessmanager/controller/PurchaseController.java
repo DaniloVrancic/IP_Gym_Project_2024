@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.onlinefitnessmanager.model.entities.PurchaseEntity;
 import org.unibl.etf.onlinefitnessmanager.service.PurchaseService;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
+
 
 @Controller
 @RequestMapping("/purchase")
@@ -84,9 +83,9 @@ public class PurchaseController {
     @GetMapping("/user_has_purchase")
     public ResponseEntity<Boolean> userHasPurchase(@RequestParam Integer userId, @RequestParam Integer programId)
     {
-        Boolean userHasPuchase= purchaseService.findAllByUserId(userId)
+        Boolean userHasPuchase = purchaseService.findAllByUserId(userId)
                                 .stream()
-                                .anyMatch(purchaseEntity -> purchaseEntity.getFitnessProgramId().equals(programId));
+                                        .anyMatch(purchaseEntity -> purchaseEntity.getFitnessProgramId().equals(programId));
 
         return new ResponseEntity<>(userHasPuchase, HttpStatus.OK);
     }

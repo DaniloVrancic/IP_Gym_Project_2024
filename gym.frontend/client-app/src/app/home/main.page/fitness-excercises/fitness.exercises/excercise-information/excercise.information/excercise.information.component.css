@@ -147,7 +147,26 @@
     color: rgb(220, 120, 20);
 }
 
-.subscribe-category
+.subscribe-button
 {
-    
+    background-color: rgb(170, 225, 115);
+    scale: 0.8;
+    margin-right: 2rem;
+    width: 10rem;
 }
+
+.subscribe-button-subscribed
+{
+    background-color: rgb(230, 160, 30);
+    scale: 0.8;
+    margin-right: 2rem;
+    width: 10rem;
+}
+
+.subscribe-button-subscribed:hover {
+    background-color: red;
+  }
+  
+  .subscribe-button-subscribed:hover mat-icon {
+    content: 'close';
+  }

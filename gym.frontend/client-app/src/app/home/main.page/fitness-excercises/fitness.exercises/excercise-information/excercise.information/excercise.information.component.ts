@@ -9,6 +9,7 @@ import { FitnessProgram } from '../../../../fitness-program';
 import { environment } from '../../../../../../../environments/environment';
 import { CommonModule } from '@angular/common';
 import { PurchaseService } from '../../../../purchase.service';
+import { SubscribeService } from '../../../../subscriptions/subscribe.service';
 
 @Component({
   selector: 'app-excercise-information',
@@ -16,7 +17,7 @@ import { PurchaseService } from '../../../../purchase.service';
   imports: [MaterialModule],
   templateUrl: './excercise.information.component.html',
   styleUrl: './excercise.information.component.css',
-  providers: [CommentService, UserService, CommonModule, PurchaseService]
+  providers: [CommentService, UserService, CommonModule, PurchaseService, SubscribeService]
 })
 export class ExcerciseInformationComponent implements AfterViewInit{
 
@@ -35,25 +36,29 @@ export class ExcerciseInformationComponent implements AfterViewInit{
   public userHasPurchased: boolean;
   public defaultImage: string;
   public apiUrl : string;
+  public isSubscribed: boolean;
+  public isHovered: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public exercise: FitnessProgram,
                                        private commentService: CommentService, 
                                        public userService: UserService, 
                                        private router: Router, 
                                        public dialogRef: MatDialogRef<ExcerciseInformationComponent>,
-                                       private purchaseService: PurchaseService) { //Injects data about the excercise from the parent module
+                                       private purchaseService: PurchaseService,
+                                       private subscribeService: SubscribeService) { //Injects data about the excercise from the parent module
     this.caughtExcercise = {...exercise};
     this.defaultImage = environment.defaultProgramImage;
     this.apiUrl = environment.apiBaseUrl;
     this.userHasPurchased = false;
-
     this.commentsOnProgram = null;
     this.commentText = "";
     this.isPostCommentDisabled = true;
+    this.isSubscribed = false;
+    this.isHovered = false;
+    subscribeService.userHasSubscription(userService.getCurrentUser()?.id as number, this.caughtExcercise?.fitnessProgramType?.id as number).subscribe(hasSubscribed => {console.log(hasSubscribed);this.isSubscribed = hasSubscribed;});
     if(this.userService.getCurrentUser()?.email)
     {
       this.isParticipateDisabled = false;
-      
     }
     else
     {
@@ -114,9 +119,19 @@ postComment(event: MouseEvent) {
     });;
     }
 
-    subscribeToCategory() {
-      throw new Error('Method not implemented.');
-      }
+    subscribeToCategory(event: any) {
+      console.log(this.userService.getCurrentUser()?.id as number, this.caughtExcercise.fitnessProgramType?.id as number);
+        this.subscribeService.addSubscription(
+          this.userService.getCurrentUser()?.id as number, this.caughtExcercise.fitnessProgramType?.id as number)
+          .subscribe((result) => {this.isSubscribed=true; alert("Subscribed")});
 
+    }
+
+    unsubscribeFromCategory(event: Event)
+    {
+      this.subscribeService.removeSubscriptionByUserAndType(
+        this.userService.getCurrentUser()?.id as number, this.caughtExcercise.fitnessProgramType?.id as number)
+        .subscribe(() => {this.isSubscribed = false, alert("Unsubscribed")});
+    }
 
 }
