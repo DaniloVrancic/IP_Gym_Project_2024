@@ -5,12 +5,18 @@
     <div class="content">
         <table>
          <th>Name</th>
-         <th></th>
+         <th>Button</th>
         
         @for(sub of this.subscriptions; track sub)
         {
             <tr class="element-row">
             <td class="element">{{this.fitnessTypeMap.get(sub.fitnessProgramTypeId)}}</td>
+            <td class="element-button"><button mat-fab extended (click)="unsubscribeFromCategory(sub)" class="unsubscribe-button"
+                (mouseenter)="this.fitnessTypeMapHoverState.set(sub.id, true)" 
+                (mouseleave)="this.fitnessTypeMapHoverState.set(sub.id, false)">
+                    <mat-icon>{{ this.fitnessTypeMapHoverState.get(sub.id) ? 'close' : 'done_all' }}</mat-icon>
+                    {{ this.fitnessTypeMapHoverState.get(sub.id) ? 'Unsubscribe' : 'Subscribed' }}
+                  </button></td>
             </tr>
         }
         </table>
