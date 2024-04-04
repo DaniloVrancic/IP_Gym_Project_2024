@@ -23,8 +23,8 @@ export class SubscriptionsComponent implements OnInit {
   public fitnessTypeMapHoverState: Map<number,boolean>;
 
 
-  constructor(subscribeService: SubscribeService, 
-              userService: UserService, fitnessTypeService: FitnessProgramTypeService)
+  constructor(private subscribeService: SubscribeService, 
+              private userService: UserService, private fitnessTypeService: FitnessProgramTypeService)
   {
     this.subscriptions = [];
     this.fitnessTypes = [];
@@ -46,5 +46,9 @@ export class SubscriptionsComponent implements OnInit {
 
     unsubscribeFromCategory(sub: any) {
       console.log(sub);
+      this.subscribeService.removeSubscriptionById(sub.id).subscribe(() => {
+        this.subscriptions = this.subscriptions.filter(item => item.id !== sub.id);
+        alert("Removed: " + this.fitnessTypeMap.get(sub.fitnessProgramTypeId))
+      });
       }
 }

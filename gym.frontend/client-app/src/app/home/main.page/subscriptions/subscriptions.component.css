@@ -34,6 +34,11 @@
     max-width: 80%;
 }
 
+td{
+    justify-content: space-evenly;
+    border: 1px solid black;
+}
+
 .element{
 
 }
@@ -44,6 +49,13 @@
 
 .unsubscribe-button
 {
+    background-color: greenyellow;
     width: 10rem;
+}
+
+.unsubscribe-button:hover
+{
+    background-color: red;
+    color: white;
 }
 

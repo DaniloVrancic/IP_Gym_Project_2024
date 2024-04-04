@@ -3,9 +3,11 @@
         Subscribed categories
     </div>
     <div class="content">
-        <table>
-         <th>Name</th>
-         <th>Button</th>
+        <table class="table">
+         <tr>
+            <th>Name</th>
+            <th>Button</th>
+        </tr>
         
         @for(sub of this.subscriptions; track sub)
         {
@@ -20,6 +22,6 @@
             </tr>
         }
         </table>
-        <button (click)="onClick()"></button>
     </div>
 </div>
+<button (click)="onClick()"></button>
