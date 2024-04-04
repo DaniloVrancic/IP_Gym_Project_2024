@@ -1,0 +1,43 @@
+.container
+{
+    display: inline-block;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    text-align: center;
+    justify-content: center;
+    max-width: 100%;
+    width: 100%;
+    min-width: 250px;
+    
+    
+    margin-left: 0;
+    border: 1px solid black;
+}
+
+.title
+{
+    font-size: xx-large;
+    padding: 2rem;
+    border: 1px solid gray;
+    background-color: var(--secondary-color);
+    color: rgb(50, 10, 85);
+    max-width: 100%;
+    width: 100%;
+    min-width: 250px;
+    height: 1rem;
+    font-weight: 700;
+}
+
+.content
+{
+    width: 80%;
+    max-width: 80%;
+}
+
+.element{
+
+}
+
+.element-row{
+    
+}

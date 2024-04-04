@@ -1,1 +1,19 @@
-<p>subscriptions works!</p>
+<div class="container">
+    <div class="title montserrat-strong">
+        Subscribed categories
+    </div>
+    <div class="content">
+        <table>
+         <th>Name</th>
+         <th></th>
+        
+        @for(sub of this.subscriptions; track sub)
+        {
+            <tr class="element-row">
+            <td class="element">{{this.fitnessTypeMap.get(sub.fitnessProgramTypeId)}}</td>
+            </tr>
+        }
+        </table>
+        <button (click)="onClick()"></button>
+    </div>
+</div>
