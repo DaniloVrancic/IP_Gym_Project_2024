@@ -12,13 +12,14 @@
     
     margin-left: 0;
     border: 1px solid black;
+    border-bottom: 0;
 }
 
 .title
 {
     font-size: xx-large;
-    padding: 2rem;
-    border: 1px solid gray;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
     background-color: var(--secondary-color);
     color: rgb(50, 10, 85);
     max-width: 100%;
@@ -30,17 +31,34 @@
 
 .content
 {
+    display: flex;
     width: 80%;
     max-width: 80%;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.table{
+    width: auto;
+    justify-content: space-between;
+}
+
+tr{
+    display: flex;
+    width: 100%;
+    margin-top: 1rem;
+    margin-left: 15%;
+    justify-content: space-between;
+    align-items: center;
 }
 
 td{
     justify-content: space-evenly;
-    border: 1px solid black;
 }
 
 .element{
-
+    font-size: xx-large;
+    padding: 0.3rem;
 }
 
 .element-row{
@@ -51,6 +69,7 @@ td{
 {
     background-color: greenyellow;
     width: 10rem;
+    justify-content: flex-end;
 }
 
 .unsubscribe-button:hover

@@ -40,10 +40,6 @@ export class SubscriptionsComponent implements OnInit {
     
   }
 
-  onClick() {
-    console.log(this.subscriptions);
-    }
-
     unsubscribeFromCategory(sub: any) {
       console.log(sub);
       this.subscribeService.removeSubscriptionById(sub.id).subscribe(() => {
