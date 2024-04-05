@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.scheduling.annotation.Schedules;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.unibl.etf.onlinefitnessmanager.model.entities.FitnessProgramEntity;
@@ -177,10 +176,23 @@ public class FitnessProgramController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Scheduled(cron = "0 0 * * *")
+    @Scheduled(fixedRate = 10_000)
     public void sendEmailsToSubscribers()
     {
-        System.out.println("RUNNING METHOD AT: " + new Date());
+        System.out.println("RUNNING MAILING METHOD AT: " + new Date());
+        try(BufferedReader reader = new BufferedReader(new FileReader(fullPath.toFile())))
+        {
+            reader.readLine(); //SKIP THE FIRST LINE OF THE DOCUMENT
+            String readLine = "";
+            while((readLine = reader.readLine()) != null)
+            {
+                fitnessProgramService.sendToSubs(readLine); //Reads the newly added programs one by one and will send an email about them to all users
+            }
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
 }

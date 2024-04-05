@@ -51,4 +51,46 @@ public class EmailService implements EmailSender{
             throw new IllegalStateException("Failed to send e-mail.", ex);
         }
     }
+
+    public void send(String to, String email, String subject) {
+        try{
+            String[] emailParts = email.split("\\|\\|\\|"); // Split text and HTML content
+            String textContent = emailParts[0];
+            String htmlContent = emailParts[1];
+
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
+            helper.setText(textContent, htmlContent);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setFrom(DEFAULT_EMAIL_FROM);
+
+            mailSender.send(mimeMessage);
+        }catch (MessagingException ex)
+        {
+            LOGGER.error("Failed to send e-mail.", ex);
+            throw new IllegalStateException("Failed to send e-mail.", ex);
+        }
+    }
+
+    public void send(String to, String email, String subject, String from) {
+        try{
+            String[] emailParts = email.split("\\|\\|\\|"); // Split text and HTML content
+            String textContent = emailParts[0];
+            String htmlContent = emailParts[1];
+
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
+            helper.setText(textContent, htmlContent);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setFrom(from);
+
+            mailSender.send(mimeMessage);
+        }catch (MessagingException ex)
+        {
+            LOGGER.error("Failed to send e-mail.", ex);
+            throw new IllegalStateException("Failed to send e-mail.", ex);
+        }
+    }
 }

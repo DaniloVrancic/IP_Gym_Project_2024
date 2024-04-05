@@ -2,11 +2,13 @@ package org.unibl.etf.onlinefitnessmanager.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.unibl.etf.onlinefitnessmanager.additional.email.EmailSender;
 import org.unibl.etf.onlinefitnessmanager.exception.FitnessProgramNotFoundException;
 import org.unibl.etf.onlinefitnessmanager.model.entities.FitnessProgramEntity;
 import org.unibl.etf.onlinefitnessmanager.model.entities.FitnessProgramTypeEntity;
 import org.unibl.etf.onlinefitnessmanager.model.entities.UserEntity;
 import org.unibl.etf.onlinefitnessmanager.repositories.FitnessProgramRepository;
+import org.unibl.etf.onlinefitnessmanager.repositories.SubscriptionRepository;
 
 
 import java.io.ByteArrayInputStream;
@@ -15,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
 import java.util.Set;
@@ -26,10 +29,19 @@ import java.util.stream.Collectors;
 public class FitnessProgramService {
 
     private final FitnessProgramRepository programRepository;
+    private final EmailSender emailSender;
+    private final SubscriptionService subscriptionService;
+    private final FitnessProgramTypeService fitnessProgramTypeService;
 
     @Autowired
-    public FitnessProgramService(FitnessProgramRepository programRepository) {
-        this.programRepository = programRepository;
+    public FitnessProgramService(FitnessProgramRepository programRepository,
+                                 FitnessProgramTypeService fitnessProgramTypeService,
+                                 SubscriptionService subscriptionService,
+                                 EmailSender emailSender) {
+            this.programRepository = programRepository;
+            this.fitnessProgramTypeService = fitnessProgramTypeService;
+            this.subscriptionService = subscriptionService;
+            this.emailSender = emailSender;
     }
 
     public FitnessProgramEntity addFitnessProgram(FitnessProgramEntity entity)
@@ -101,6 +113,71 @@ public class FitnessProgramService {
         System.out.println(outputPath);
         return outputPath.toString();
     }
+
+    /**
+     * Method that is specific only for file types created by this application, to read contents accordingly and send relevant info to subscribers
+     * @param fullLine the full line of code including '#' symbol seperators
+     */
+    public void sendToSubs(String fullLine)
+    {
+        String[] tokens         =   fullLine.split("#");
+        Integer typeId          =   Integer.parseInt(tokens[0]);
+        String  type            =   tokens[1];
+        Integer programId       =   Integer.parseInt(tokens[2]);
+        String  programName     =   tokens[3];
+        Integer programDuration =   Integer.parseInt(tokens[4]);
+        Double  programPrice    =   Double.parseDouble(tokens[5]);
+        Integer userId          =   Integer.parseInt(tokens[6]);
+        String  userName        =   tokens[7];
+        String  userLocation    =   tokens[8];
+        String  userEmail       =   tokens[9];
+        LocalDateTime dateTime  =   LocalDateTime.parse(tokens[10]);
+
+        System.out.println("typeId: " + typeId);
+        System.out.println("type: " + type);
+        System.out.println("programId: " + programId);
+        System.out.println("programName: " + programName);
+        System.out.println("programDuration: " + programDuration);
+        System.out.println("programPrice: " + programPrice);
+        System.out.println("userId: " + userId);
+        System.out.println("userName: " + userName);
+        System.out.println("userLocation: " + userLocation);
+        System.out.println("userEmail: " + userEmail);
+        System.out.println("dateTime: " + dateTime);
+
+        //TODO: FINISH this method by finding all subscribers for a given category. Then building an email and sending it to each of them.
+    }
+    private String buildEmail(String category, String programName, String trainerName, String trainerEmail, String location, String price, String duration, String date) {
+
+        StringBuilder textContentBuilder = new StringBuilder();
+        StringBuilder htmlContentBuilder = new StringBuilder();
+
+        textContentBuilder.append("A new fitness program that might interest you has been announced, for the category ").append(category).append(".\n\n")
+                .append("Fitness program name: ").append(programName).append("\n")
+                .append("Hosted by: ").append(trainerName).append("\n")
+                .append("E-mail: ").append(trainerEmail).append("\n")
+                .append("Location of program: ").append(location).append("\n")
+                .append("Duration: ").append(duration).append("\n")
+                .append("Price of joining: ").append(price).append("\n")
+                .append("The program was added on: ").append(date).append("\n")
+                .append("For more information visit us at our website!");
+
+        htmlContentBuilder.append("<body>")
+                .append("<p>A new fitness program that might interest you has been announced, for the category: ").append(category).append("</p>")
+                .append("<p>Fitness program name: ").append(programName).append("</p>")
+                .append("<p>Hosted by: ").append(trainerName).append("</p>")
+                .append("<p>E-mail: ").append(trainerEmail).append("</p>")
+                .append("<p>Location of program: ").append(location).append("</p>")
+                .append("<p>Duration: ").append(duration).append("</p>")
+                .append("<p>Price of joining: ").append(price).append("</p>")
+                .append("<p style='color:orange'>The program was added on: ").append(date).append("</p>")
+                .append("<p style='color:red'>For more information visit us at our website!</p>")
+                .append("</body>");
+
+        // Construct a wrapper object to hold both text and HTML content
+        return textContentBuilder.toString() + "|||" + htmlContentBuilder.toString();
+    }
+
 
 
 }
