@@ -11,8 +11,9 @@ import { CommonModule } from '@angular/common';
 import { environment } from '../../../../../environments/environment';
 import { FitnessProgramTypeService } from '../../fitness-program-type.service';
 import { FitnessProgramType } from '../../fitness-program-type';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 
 @Component({
@@ -26,9 +27,9 @@ import { MatFormFieldControl } from '@angular/material/form-field';
 export class FitnessExercisesComponent implements OnInit {
 
 
-lowerSelectedDuration: number | null = 0;
-upperSelectedDuration: number | null = 4000;
-categoriesGroup!: FormGroup<any>;
+  lowerSelectedDuration: number | null = 0;
+  upperSelectedDuration: number | null = 4000;
+  categoriesGroup: FormGroup<any> = new FormGroup([]);
 
 
   formatLabel(value: number): string {
@@ -38,6 +39,7 @@ categoriesGroup!: FormGroup<any>;
   fitnessPrograms: FitnessProgram[] = [];
   displayedExercises: FitnessProgram[] = [];
   public fitnessProgramTypes: FitnessProgramType[] = [];
+  public checkBoxControl: any[] = [];
   public apiUrl: string;
 
   lowerSelectedPrice: number | null = 0;
@@ -49,9 +51,11 @@ categoriesGroup!: FormGroup<any>;
   constructor(public userService: UserService, 
     private fitnessProgramService: FitnessProgramService,
     private fitnessProgramTypeService: FitnessProgramTypeService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private _formBuilder: FormBuilder) {
       this.apiUrl = environment.apiBaseUrl;
      }
+
 
   ngOnInit(): void {
     this.loadFitnessPrograms();
@@ -101,8 +105,15 @@ categoriesGroup!: FormGroup<any>;
         console.log("Upper Selected Price:", this.upperSelectedPrice);
         console.log("Lower Selected Duration:", this.lowerSelectedDuration);
         console.log("Upper Selected Duration:", this.upperSelectedDuration);
-}
+  }
 
+  checkboxChange(fitnessProgramType: FitnessProgramType, event: any)
+  {
+    console.log(event.checked);
+  }
+
+
+//CHANGE VALUES ON SLIDER
 
 changeLowerPrice(event: any) {
   this.lowerSelectedPrice = event.target.value as number;
@@ -117,5 +128,5 @@ changeLowerDuration(event: any) {
   }
 changeUpperDuration(event: any) {
     this.upperSelectedDuration = event.target.value as number;
-    }
+  }
 }

@@ -20,7 +20,7 @@
           <ul>
           @for(fitnessProgramType of this.fitnessProgramTypes; track fitnessProgramType)
           {
-            <li><mat-checkbox formControlName="{{fitnessProgramType.name}}FormControl">{{fitnessProgramType.name}}</mat-checkbox></li>
+            <li><mat-checkbox (change)="checkboxChange(fitnessProgramType, $event)" checked="true">{{fitnessProgramType.name}}</mat-checkbox></li>
           }
           </ul>
         </section>
