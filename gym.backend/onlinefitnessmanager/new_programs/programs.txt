@@ -1,3 +1,1 @@
 TYPE_ID	-	TYPE	-	PROGRAM_ID	-	PROGRAM_NAME	-	PROGRAM_DURATION	-	PROGRAM_PRICE	-	USER_ID	-	USER_NAME	-	USER_LOCATION	-	USER_EMAIL	-	DATE
-3#Brzina#4#Tennis#80#399.99#2#user2#HeheCity#user2@student.etf.unibl.org#2024-04-06T00:20:47.425601
-2#Kardio#5#Hunt#360#99.88#2#user2#HeheCity#user2@student.etf.unibl.org#2024-04-06T00:23:07.708621800

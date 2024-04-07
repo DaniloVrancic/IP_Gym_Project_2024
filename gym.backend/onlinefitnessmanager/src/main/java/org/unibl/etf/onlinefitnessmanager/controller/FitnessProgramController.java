@@ -26,6 +26,8 @@ public class FitnessProgramController {
     private final String FILEPATH_FOR_UPDATE_SUBSCRIBERS = "./new_programs/";
     private final String FILE_NAME = "programs.txt";
 
+    private final String DEFAULT_FIRST_LINE_STRING = "TYPE_ID\t-\tTYPE\t-\tPROGRAM_ID\t-\tPROGRAM_NAME\t-\tPROGRAM_DURATION\t-\tPROGRAM_PRICE\t-\tUSER_ID\t-\tUSER_NAME\t-\tUSER_LOCATION\t-\tUSER_EMAIL\t-\tDATE";
+
     private final Path fullPath = Paths.get(FILEPATH_FOR_UPDATE_SUBSCRIBERS + FILE_NAME);
 
     private PrintWriter fileWriter = null;
@@ -62,7 +64,7 @@ public class FitnessProgramController {
             try
             {
             fileWriter = new PrintWriter(new BufferedWriter(new FileWriter(fullPath.toString())));
-            fileWriter.println("TYPE_ID\t-\tTYPE\t-\tPROGRAM_ID\t-\tPROGRAM_NAME\t-\tPROGRAM_DURATION\t-\tPROGRAM_PRICE\t-\tUSER_ID\t-\tUSER_NAME\t-\tUSER_LOCATION\t-\tUSER_EMAIL\t-\tDATE");
+            fileWriter.println(DEFAULT_FIRST_LINE_STRING);
             fileWriter.close();
             }
             catch(IOException ex)
@@ -121,6 +123,11 @@ public class FitnessProgramController {
 
             //WRITING THIS NEW PROGRAM TO THE TEXT FILE FOR SUBSCRIBERS -->
 
+            System.out.println("JUST ADDED: ");
+            System.out.println("FitnessProgramType ID: " + newProgramWithPhoto.getFitnessProgramType().getId());
+            System.out.println("FitnessProgramType Name: " + newProgramWithPhoto.getFitnessProgramType().getName());
+            System.out.println("New proGRam ID: " + newProgramWithPhoto.getId());
+            System.out.println("New program Name: " + newProgramWithPhoto.getName());
             fileWriter = new PrintWriter(new BufferedWriter(new FileWriter(fullPath.toString(), true)));
             StringBuilder sb = new StringBuilder();
             sb.append(newProgramWithPhoto.getFitnessProgramType().getId());
@@ -176,7 +183,7 @@ public class FitnessProgramController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Scheduled(fixedRate = 10_000)
+    @Scheduled(cron = "0 0 14 * * ?", zone = "Europe/Belgrade") //Will trigger exactly at 14:00
     public void sendEmailsToSubscribers()
     {
         System.out.println("RUNNING MAILING METHOD AT: " + new Date());
@@ -188,11 +195,22 @@ public class FitnessProgramController {
             {
                 fitnessProgramService.sendToSubs(readLine); //Reads the newly added programs one by one and will send an email about them to all users
             }
-        }
+        }//Finished reading file after this line
         catch(Exception ex)
         {
             ex.printStackTrace();
         }
+
+
+        try(PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(fullPath.toFile()))))
+        {
+            writer.println(DEFAULT_FIRST_LINE_STRING); //COMMENTED OUT JUST FOR TESTING
+        }
+        catch(IOException ex)
+        {
+            ex.printStackTrace();
+        }
+
     }
 
 }

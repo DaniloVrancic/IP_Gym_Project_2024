@@ -6,6 +6,7 @@ import org.unibl.etf.onlinefitnessmanager.additional.email.EmailSender;
 import org.unibl.etf.onlinefitnessmanager.exception.FitnessProgramNotFoundException;
 import org.unibl.etf.onlinefitnessmanager.model.entities.FitnessProgramEntity;
 import org.unibl.etf.onlinefitnessmanager.model.entities.FitnessProgramTypeEntity;
+import org.unibl.etf.onlinefitnessmanager.model.entities.SubscriptionEntity;
 import org.unibl.etf.onlinefitnessmanager.model.entities.UserEntity;
 import org.unibl.etf.onlinefitnessmanager.repositories.FitnessProgramRepository;
 import org.unibl.etf.onlinefitnessmanager.repositories.SubscriptionRepository;
@@ -33,13 +34,17 @@ public class FitnessProgramService {
     private final SubscriptionService subscriptionService;
     private final FitnessProgramTypeService fitnessProgramTypeService;
 
+    private final UserService userService;
+
     @Autowired
     public FitnessProgramService(FitnessProgramRepository programRepository,
                                  FitnessProgramTypeService fitnessProgramTypeService,
+                                 UserService userService,
                                  SubscriptionService subscriptionService,
                                  EmailSender emailSender) {
             this.programRepository = programRepository;
             this.fitnessProgramTypeService = fitnessProgramTypeService;
+            this.userService = userService;
             this.subscriptionService = subscriptionService;
             this.emailSender = emailSender;
     }
@@ -127,10 +132,10 @@ public class FitnessProgramService {
         String  programName     =   tokens[3];
         Integer programDuration =   Integer.parseInt(tokens[4]);
         Double  programPrice    =   Double.parseDouble(tokens[5]);
-        Integer userId          =   Integer.parseInt(tokens[6]);
-        String  userName        =   tokens[7];
-        String  userLocation    =   tokens[8];
-        String  userEmail       =   tokens[9];
+        Integer trainerId          =   Integer.parseInt(tokens[6]);
+        String  trainerName        =   tokens[7];
+        String  trainerLocation    =   tokens[8];
+        String  trainerEmail       =   tokens[9];
         LocalDateTime dateTime  =   LocalDateTime.parse(tokens[10]);
 
         System.out.println("typeId: " + typeId);
@@ -139,13 +144,33 @@ public class FitnessProgramService {
         System.out.println("programName: " + programName);
         System.out.println("programDuration: " + programDuration);
         System.out.println("programPrice: " + programPrice);
-        System.out.println("userId: " + userId);
-        System.out.println("userName: " + userName);
-        System.out.println("userLocation: " + userLocation);
-        System.out.println("userEmail: " + userEmail);
+        System.out.println("trainerId: " + trainerId);
+        System.out.println("trainerName: " + trainerName);
+        System.out.println("trainerLocation: " + trainerLocation);
+        System.out.println("trainerEmail: " + trainerEmail);
         System.out.println("dateTime: " + dateTime);
 
-        //TODO: FINISH this method by finding all subscribers for a given category. Then building an email and sending it to each of them.
+        List<Integer> subscribersForCategory = subscriptionService.findAllByProgramTypeId(typeId)
+                                               .stream().map(entry -> entry.getUserId()).distinct().collect(Collectors.toList()); //Finds the ID's of all users subscribed to this category
+
+        String emailToSend = buildEmail(type,programName,trainerName,trainerEmail, trainerLocation,programPrice.toString(),programDuration.toString(),dateTime.toString());
+        String subjectForEmail = "SUBSCRIBER NEWS: Category " + type + " just got a new fitness program!";
+        String emailFrom = "danilo.vrancic@student.etf.unibl.org";
+        for(int foundUserId : subscribersForCategory) //for each userId, mail them
+        {
+            UserEntity foundUserEntity = userService.findUserById(foundUserId);
+
+            try
+            {
+                emailSender.send(foundUserEntity.getEmail(), emailToSend, subjectForEmail, emailFrom);
+            }
+            catch(Exception ex)
+            {
+                ex.printStackTrace();
+            }
+
+        }
+
     }
     private String buildEmail(String category, String programName, String trainerName, String trainerEmail, String location, String price, String duration, String date) {
 
