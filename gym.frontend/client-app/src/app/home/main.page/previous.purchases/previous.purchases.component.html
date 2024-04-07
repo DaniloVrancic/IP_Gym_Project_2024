@@ -1,5 +1,5 @@
 <div class="container homenaje-strong">
-    <div class="title">Previously purchased programs:</div>
+    <div class="title montserrat-strong">Previously purchased programs:</div>
     <div class="purchased-items">
 
     <table>
@@ -17,7 +17,7 @@
         </tr>
     @for(purchasedProgram of this.purchasedPrograms; track purchasedProgram)
     {
-    <tr class="program-container homenaje-regular">
+    <tr class="program-container homenaje-regular" (click)="this.openDialog(purchasedProgram)">
         <td>{{purchasedProgram.id}}</td>
         <td class="image-cell"><img [src]="this.apiUrl + '/photo/program/' + purchasedProgram.id" class="image" style="width: auto; height: 100%; max-width: 10rem; max-height: 7.5rem; padding: 0 0 0 75%; margin: 0;"/></td>
         

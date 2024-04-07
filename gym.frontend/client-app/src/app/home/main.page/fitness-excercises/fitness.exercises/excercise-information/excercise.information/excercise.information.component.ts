@@ -55,8 +55,8 @@ export class ExcerciseInformationComponent implements AfterViewInit{
     this.isPostCommentDisabled = true;
     this.isSubscribed = false;
     this.isHovered = false; //tracks if this button is hovered on with the mouse cursor
-    subscribeService.userHasSubscription(userService.getCurrentUser()?.id as number, this.caughtExcercise?.fitnessProgramType?.id as number).subscribe(hasSubscribed => {console.log(hasSubscribed);this.isSubscribed = hasSubscribed;});
-    if(this.userService.getCurrentUser()?.email)
+    subscribeService.userHasSubscription(userService.getCurrentUser()?.id as number, this.caughtExcercise?.fitnessProgramType?.id as number).subscribe(hasSubscribed => {this.isSubscribed = hasSubscribed;});
+    if(this.userService.getCurrentUser()?.email && this.caughtExcercise.status == 0)
     {
       this.isParticipateDisabled = false;
     }
@@ -120,7 +120,6 @@ postComment(event: MouseEvent) {
     }
 
     subscribeToCategory(event: any) {
-      console.log(this.userService.getCurrentUser()?.id as number, this.caughtExcercise.fitnessProgramType?.id as number);
         this.subscribeService.addSubscription(
           this.userService.getCurrentUser()?.id as number, this.caughtExcercise.fitnessProgramType?.id as number)
           .subscribe((result) => {this.isSubscribed=true; alert("Subscribed")});

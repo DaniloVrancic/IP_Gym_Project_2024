@@ -60,6 +60,31 @@ export class MyProgramsComponent implements OnInit{
     dialogRef.afterClosed().subscribe(result => {}).unsubscribe();
   }
 
+  markAsFinished(event: MouseEvent, programToUpdate: FitnessProgram) {
+    event.stopPropagation();
+
+    const confirmation = window.confirm(`Are you sure you want to mark program\nID: ${programToUpdate.id}\nname: '${programToUpdate.name}'\nas finished?`);
+
+    if(confirmation) //if user clicked OK
+    {
+        const index : number = this.myPrograms.indexOf(programToUpdate);
+        if (index !== -1) {
+          programToUpdate.status = 1;
+          this.fitnessProgramService.updateFitnessProgram(programToUpdate).subscribe(response => {
+              this.myPrograms[index] = response; // Remove just the program from the array
+              alert(`Successfully finished: ${programToUpdate.name}`);
+          });
+      } else {
+          console.error('Program not found in the array');
+      }
+    }
+    else //if user clicked Cancel
+    {
+      
+    }
+    
+    }
+
   deleteExcercise(event: Event, programToDelete: FitnessProgram) {
 
     event.stopPropagation();

@@ -9,10 +9,16 @@
 .title
 {
     text-align: center;
-    font-size: 3rem;
+    font-size: xx-large;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    background-color: var(--secondary-color);
+    color: rgb(50, 10, 85);
+    max-width: 100%;
+    width: 100%;
+    min-width: 250px;
+    height: 1rem;
     font-weight: 700;
-    padding-top: 1rem;
-    text-wrap: wrap;
 }
 
 .purchased-items

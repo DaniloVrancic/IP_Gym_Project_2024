@@ -22,15 +22,8 @@ export class EditProfileComponent implements OnInit {
   constructor(private fb: FormBuilder, public userService: UserService, private cdr: ChangeDetectorRef) {
     this.currentUser = JSON.parse(sessionStorage.getItem(environment.userKeyString) as string);
     this.apiUrl = environment.apiBaseUrl;
-    
-    //userService.getUser(14).subscribe(response => {this.currentUser = response; console.log(response)});
-
-    //ONLY FOR TESTING, TODO: DELETE THIS CODE SEGMENT LATER:
-
 
     this.userDisplay  = {...this.currentUser};
-    console.log("THIS USER DISPLAY");
-    console.log(this.userDisplay);
 
     if(this.userDisplay?.avatar == null || this.userDisplay.avatar.length === 0)
     {
@@ -78,8 +71,6 @@ export class EditProfileComponent implements OnInit {
 onFileSelect(event: any) //selects and reads the file and assigns it to the avatar variable inside currentUser (or null if the file can't be read)
  {
    const file = event.target?.files[0];
-   console.log("EVENT TARGET:");
-   console.log(event);
    const reader = new FileReader();
    var currentUser = this.currentUser;
    var userForRegister : User = {

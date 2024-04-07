@@ -95,7 +95,13 @@
                     Participate
                   </button>
                   <br>
-                  @if(this.userHasPurchased)
+                  @if(this.caughtExcercise.status == 1)
+                  {
+                    <div class="already-purchased-container">
+                        <span>This program has finished and can't be bought anymore.</span>
+                    </div>
+                  }
+                  @else if(this.userHasPurchased)
                   {
                     <div class="already-purchased-container">
                       <span>You have already purchased this program {{this.userService.getCurrentUser()?.firstName}}.</span>

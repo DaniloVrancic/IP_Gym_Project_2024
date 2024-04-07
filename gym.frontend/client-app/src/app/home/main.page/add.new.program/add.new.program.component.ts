@@ -132,7 +132,7 @@ onFileSelect(event: any)   {
       this.fitnessProgramToAdd.fitnessProgramType = this.programForm.get("category")?.value;
 
       this.fitnessProgramService.addFitnessProgram(this.fitnessProgramToAdd).subscribe(
-        result => {console.log("ADDED:"); console.log(result); alert("Successfuly added new program."); this.router.navigate(["/main-page"]);});
+        result => {alert("Successfuly added new program."); this.router.navigate(["/main-page"]);});
   
     }
  }
