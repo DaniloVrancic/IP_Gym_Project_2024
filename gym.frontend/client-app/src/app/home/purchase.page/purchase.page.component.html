@@ -11,13 +11,15 @@
                 [(ngModel)]="paymentMethod"
                 [ngModelOptions]="{standalone: true}">
                 <div class="radio-button-container">
-                @for (method of payMethods; track method) {
-                <mat-radio-button class="radio-button" [value]="method">{{method}}</mat-radio-button>
-                }
+                
+                <mat-radio-button class="radio-button" id="radio-button-{{this.payMethods[0]}}" [value]="this.payMethods[0]">{{this.payMethods[0]}}</mat-radio-button>
+                <mat-radio-button class="radio-button" id="radio-button-{{this.payMethods[1]}}" [value]="this.payMethods[1]">{{this.payMethods[1]}}</mat-radio-button>
+                <mat-radio-button class="radio-button" id="radio-button-{{this.payMethods[2]}}" [value]="this.payMethods[2]" [disabled]="this.fitnessProgramService.getCurrentFitnessProgram()?.locationOfEvent?.toLowerCase() === 'online'">{{this.payMethods[2]}}</mat-radio-button>
+                
             </div>
             </mat-radio-group>
             <hr>
-            @if(paymentMethod == 'Credit Card')
+            @if(this.paymentMethod == this.payMethods[0])
             {
             <mat-form-field class="half-width">
             
@@ -32,9 +34,8 @@
                 }
             </mat-form-field>
             }
-            @else if(paymentMethod === 'PayPal')
+            @else if(this.paymentMethod === this.payMethods[1])
             {
-
 
 
             <mat-form-field class="half-width">
@@ -49,7 +50,7 @@
                 }
             </mat-form-field>
             }
-            @else if(paymentMethod === 'In person')
+            @else if(this.paymentMethod === this.payMethods[2])
             {
                 <mat-label class="live-payment-method">You have selected to pay for this program in person.</mat-label>
             }
