@@ -1,0 +1,37 @@
+<div class="container homenaje-strong">
+    <div class="title">My programs:</div>
+    <div class="purchased-items">
+
+    <table>
+        <tr class=" homenaje-regular">
+            <th>Id</th>
+            <th style="max-width: 10px;">Image</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Location</th>
+            <th>Duration</th>
+            <th>Difficulty</th>
+            <th>Type</th>
+            <th>Option</th>
+        </tr>
+    @for(myProgram of this.myPrograms; track myProgram)
+    {
+    <tr class="program-container homenaje-regular" (click)="this.openDialog(myProgram)">
+        <td>{{myProgram.id}}</td>
+        <td class="image-cell"><img [src]="this.apiUrl + '/photo/program/' + myProgram.id" class="image" style="width: auto; height: 100%; max-width: 10rem; max-height: 7.5rem; padding: 0 0 0 75%; margin: 0;"/></td>
+        
+        <td>{{myProgram.name}}</td>
+        <td>{{myProgram.price}}</td>
+        <td>{{myProgram.status == 0 ? "Active" : (myProgram.status == 1 ? "Finished" : "Undefined")}}</td>
+        <td>{{myProgram.locationOfEvent}}</td>
+        <td>{{myProgram.duration}} mins</td>
+        <td>{{myProgram.difficultyLevel == 1 ? "Begginer" : (myProgram.difficultyLevel == 2) ? "Intermediate" : myProgram.difficultyLevel == 3 ? "Advanced" : "Undefined"}}</td>
+        <td>{{myProgram.fitnessProgramType?.name}}</td>
+        <td><button mat-flat-button (click)="deleteExcercise($event, myProgram)" color="warn">Delete Program</button></td>
+    </tr>
+    <br>
+    }
+    </table>
+    </div>
+</div>

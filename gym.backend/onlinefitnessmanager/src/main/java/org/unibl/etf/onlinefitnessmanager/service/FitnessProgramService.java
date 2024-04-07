@@ -76,6 +76,11 @@ public class FitnessProgramService {
         return this.programRepository.findById(id).orElseThrow(() -> new FitnessProgramNotFoundException());
     }
 
+    public List<FitnessProgramEntity> findFitnessProgramByUserId(Integer userId)
+    {
+        return this.programRepository.findAll().stream().filter(program -> program.getUser_creator().getId().equals(userId)).collect(Collectors.toList());
+    }
+
     public void deleteFitnessProgramById(Integer id)
     {
         this.programRepository.deleteById(id);

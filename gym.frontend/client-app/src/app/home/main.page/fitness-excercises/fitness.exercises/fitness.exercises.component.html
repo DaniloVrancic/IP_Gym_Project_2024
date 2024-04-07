@@ -1,9 +1,9 @@
 <div class="paginator-container">
     
     <div class="exercise-container">
-    @for(exercise of displayedExercises; track exercise)
+    @for(exercise of this.displayedExercises; track exercise)
     {
-        <mat-card class="card" (click)="openDialog(exercise)">
+        <mat-card class="card" (click)="this.openDialog(exercise)">
         <mat-card-header class="card-header" style="transform: translateY(1px); scale: 1.02;">
             <mat-card-title style=" overflow:hidden; text-overflow: ellipsis;">{{ exercise.name }}</mat-card-title>
         </mat-card-header>

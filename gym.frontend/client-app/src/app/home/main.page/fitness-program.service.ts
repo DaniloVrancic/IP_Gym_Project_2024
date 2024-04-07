@@ -26,6 +26,10 @@ export class FitnessProgramService {
     return this.http.get<FitnessProgram>(`${this.apiServerUrl + this.baseUrl}/find/${id}`);
   }
 
+  findFitnessProgramByUserId(id: number): Observable<FitnessProgram[]> {
+    return this.http.get<FitnessProgram[]>(`${this.apiServerUrl + this.baseUrl}/find_by_userId/${id}`);
+  }
+
   addFitnessProgram(newEntity: FitnessProgram): Observable<FitnessProgram> {
     return this.http.post<FitnessProgram>(`${this.apiServerUrl + this.baseUrl}/add`, newEntity);
   }

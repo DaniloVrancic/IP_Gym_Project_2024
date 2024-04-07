@@ -15,9 +15,6 @@ import { environment } from '../../../../environments/environment';
 })
 export class NavbarComponent {
 
-
-
-
   currentUser: User | null = null;
   apiUrl: string;
 
@@ -80,6 +77,10 @@ takeToPreviousPurchases() {
 
 takeToSubscriptions() {
     this.router.navigate(["/subscriptions"]);
+  }
+
+myProgramsClick() {
+   this.router.navigate(["/my-programs"]);
   }
 
 }

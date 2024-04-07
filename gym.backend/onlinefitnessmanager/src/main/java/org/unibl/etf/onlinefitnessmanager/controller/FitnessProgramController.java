@@ -96,6 +96,15 @@ public class FitnessProgramController {
         return new ResponseEntity<>(null, HttpStatus.OK); //TODO: MAKE A NEW CLASS FOR FILTER PARAMETERS AND IMPLEMENT STREAM API FILTERING HERE
     }
 
+    @GetMapping("/find_by_userId/{id}")
+    public ResponseEntity<List<FitnessProgramEntity>> findFitnessProgramByUserId(@PathVariable Integer id)
+    {
+        List<FitnessProgramEntity> entity = fitnessProgramService.findFitnessProgramByUserId(id);
+
+
+        return new ResponseEntity<>(entity, HttpStatus.OK);
+    }
+
     @GetMapping("/find/{id}")
     public ResponseEntity<FitnessProgramEntity> findFitnessProgramById(@PathVariable Integer id)
     {
