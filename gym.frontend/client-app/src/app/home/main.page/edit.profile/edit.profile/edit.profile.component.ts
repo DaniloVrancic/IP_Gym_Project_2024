@@ -106,6 +106,7 @@ onFileSelect(event: any) //selects and reads the file and assigns it to the avat
        
        this.currentUser.avatar = imgBase64;
        this.userDisplay.avatar = imgBase64;
+       document.getElementById("displayed-photo")?.setAttribute("src", imgBase64 as string); //Sets the image on the page to the selected image
    };
 
    if(file != null)

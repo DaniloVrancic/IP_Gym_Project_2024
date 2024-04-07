@@ -27,6 +27,7 @@
 }
 
 .program-container{
+    cursor: pointer;
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;

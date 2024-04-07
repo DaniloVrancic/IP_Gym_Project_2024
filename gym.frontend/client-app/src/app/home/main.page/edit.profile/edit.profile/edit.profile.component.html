@@ -9,7 +9,8 @@
         <div class="profile-pic-editor">
         <div class="profile-image">
           <img [src]="this.apiUrl + '/photo/profile/' + (this.userService.getCurrentUser()?.id)"
-          onerror="this.src='../../../../assets/default_images/defaultUser.png'">
+          onerror="this.src='../../../../assets/default_images/defaultUser.png'"
+          id="displayed-photo">
           <ng-template #defaultImage>
             <div class="default-image"></div>
           </ng-template>

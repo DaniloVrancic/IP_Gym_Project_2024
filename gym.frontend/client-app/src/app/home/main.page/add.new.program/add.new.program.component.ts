@@ -42,7 +42,7 @@ export class AddNewProgramComponent implements OnInit{
       location: [``, Validators.required],
       difficulty: [``, [Validators.required, Validators.min(1), Validators.max(3), Validators.pattern('^[1-3]$')]],
       category: [``, Validators.required], //CATEGORY
-      price: [``, Validators.pattern("[0-9]+\.?[0-9]*")],
+      price: [``, Validators.pattern("[0-9]{1,4}\.?[0-9]{0,4}")],
       duration: [``, Validators.pattern("[1-3]?[0-9]{1,3}")],
       programImage: [] // You can initialize with a default image URL if needed
     });
