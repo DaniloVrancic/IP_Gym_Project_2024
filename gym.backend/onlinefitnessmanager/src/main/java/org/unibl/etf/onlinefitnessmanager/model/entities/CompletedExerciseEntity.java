@@ -3,6 +3,7 @@ package org.unibl.etf.onlinefitnessmanager.model.entities;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -23,7 +24,7 @@ public class CompletedExerciseEntity {
     private Integer intensity;
     @Basic
     @Column(name = "day_of_completion", nullable = false)
-    private Date dayOfCompletion;
+    private LocalDate dayOfCompletion;
     @Basic
     @Column(name = "weight_loss", nullable = false)
     private Integer weightLoss;
@@ -67,11 +68,11 @@ public class CompletedExerciseEntity {
         this.intensity = intensity;
     }
 
-    public Date getDayOfCompletion() {
+    public LocalDate getDayOfCompletion() {
         return dayOfCompletion;
     }
 
-    public void setDayOfCompletion(Date dayOfCompletion) {
+    public void setDayOfCompletion(LocalDate dayOfCompletion) {
         this.dayOfCompletion = dayOfCompletion;
     }
 
@@ -89,6 +90,16 @@ public class CompletedExerciseEntity {
 
     public void setResultDescription(String resultDescription) {
         this.resultDescription = resultDescription;
+    }
+
+    public Integer getUserId()
+    {
+        return this.user_id;
+    }
+
+    public void setUserId(Integer user_id)
+    {
+        this.user_id = user_id;
     }
 
     @Override
