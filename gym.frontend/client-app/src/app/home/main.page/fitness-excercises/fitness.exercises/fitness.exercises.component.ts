@@ -28,7 +28,7 @@ export class FitnessExercisesComponent implements OnInit {
 
 
   lowerSelectedDuration: number | null = 0;
-  upperSelectedDuration: number | null = 4000;
+  upperSelectedDuration: number | null = 2000;
   categoriesGroup: FormGroup<any> = new FormGroup([]);
   searchFormControl = new FormControl('', []);
   paginatorControl = new FormControl();
@@ -44,9 +44,10 @@ export class FitnessExercisesComponent implements OnInit {
   public fitnessProgramTypes: FitnessProgramType[] = [];
   public checkBoxControl: any[] = [];
   public apiUrl: string;
+  typesMap: Map<string, boolean> = new Map<string, boolean>();
 
   lowerSelectedPrice: number | null = 0;
-  upperSelectedPrice: number | null = 10_000;
+  upperSelectedPrice: number | null = 2_000;
 
   
 
@@ -77,6 +78,10 @@ export class FitnessExercisesComponent implements OnInit {
   {
     this.fitnessProgramTypeService.getAllFitnessProgramTypes().subscribe(response => {
       this.fitnessProgramTypes = response;
+      for(let fitnessType of this.fitnessProgramTypes)
+        {
+          this.typesMap.set(fitnessType.name, true);
+        }
     }
     )
   }
@@ -103,18 +108,12 @@ export class FitnessExercisesComponent implements OnInit {
   }
 
   filterClick() {
-
-
-        console.log("Lower Selected Price:", this.lowerSelectedPrice);
-        console.log("Upper Selected Price:", this.upperSelectedPrice);
-        console.log("Lower Selected Duration:", this.lowerSelectedDuration);
-        console.log("Upper Selected Duration:", this.upperSelectedDuration);
-
         let newDisplayArray: FitnessProgram[] = [];
 
         for(let fitnessProgram of this.fitnessPrograms)
           {
-            if(this.filterNameCheck(fitnessProgram) && this.filterPriceRangeCheck(fitnessProgram))
+            if(this.filterNameCheck(fitnessProgram) && this.filterCategoryCheck(fitnessProgram) && 
+               this.filterPriceRangeCheck(fitnessProgram) && this.filterDurationRangeCheck(fitnessProgram))
               {
                 newDisplayArray.push(fitnessProgram);
               }
@@ -126,10 +125,6 @@ export class FitnessExercisesComponent implements OnInit {
           }
         this.bufferedFitnessPrograms = newDisplayArray;
         this.displayedExercises = this.bufferedFitnessPrograms.slice(0, 5);
-        
-
-        
-
   }
 
   filterNameCheck(excercise: FitnessProgram): boolean
@@ -153,7 +148,23 @@ export class FitnessExercisesComponent implements OnInit {
     }
   }
 
-  filterPriceRangeCheck(excercise: FitnessProgram)
+  filterCategoryCheck(excercise: FitnessProgram): boolean
+  {
+    let flag : boolean = false;
+    this.typesMap.forEach((value,key) => {
+      if(this.typesMap.get(key))
+        {
+          if(key == excercise.fitnessProgramType?.name)
+            {
+              flag = true;
+              return;
+            }
+        }
+    });
+    return flag;
+  }
+
+  filterPriceRangeCheck(excercise: FitnessProgram) : boolean
   {
     if((this.lowerSelectedPrice as number) < (excercise.price as number) && (this.upperSelectedPrice as number) > (excercise.price as number))
       {
@@ -164,9 +175,22 @@ export class FitnessExercisesComponent implements OnInit {
       return false;
     }
   }
+
+  filterDurationRangeCheck(excercise: FitnessProgram) : boolean
+  {
+    if((this.lowerSelectedDuration as number) < (excercise.duration as number) && (this.upperSelectedDuration as number) > (excercise.duration as number))
+      {
+        return true;
+      }
+    else
+    {
+      return false;
+    }
+  }
+
   checkboxChange(fitnessProgramType: FitnessProgramType, event: any)
   {
-    console.log(event.checked);
+    this.typesMap.set(fitnessProgramType.name, event.checked);
   }
 
 

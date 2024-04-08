@@ -28,14 +28,14 @@
   </div>
   <div class="filter-item range-slider-container">
     <span>Price range:</span>
-      <mat-slider min="0" max="10000" step="1" discrete [displayWith]="formatLabel">
+      <mat-slider min="0" max="2000" step="1" discrete [displayWith]="formatLabel">
         <input matSliderStartThumb [value]="this.lowerSelectedPrice" (input)="changeLowerPrice($event)">
         <input matSliderEndThumb [value]="this.upperSelectedPrice" (input)="changeUpperPrice($event)">
       </mat-slider>
   </div>
   <div class="filter-item range-slider-container">
     <span>Duration range:</span>
-      <mat-slider min="0" max="4000" step="1" discrete [displayWith]="formatLabel">
+      <mat-slider min="0" max="2000" step="1" discrete [displayWith]="formatLabel">
         <input matSliderStartThumb [value]="this.lowerSelectedDuration" (input)="changeLowerDuration($event)">
         <input matSliderEndThumb [value]="this.upperSelectedDuration" (input)="changeUpperDuration($event)">
       </mat-slider>
