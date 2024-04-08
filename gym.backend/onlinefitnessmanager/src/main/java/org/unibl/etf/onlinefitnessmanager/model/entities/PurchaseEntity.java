@@ -2,6 +2,7 @@ package org.unibl.etf.onlinefitnessmanager.model.entities;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -18,8 +19,8 @@ public class PurchaseEntity {
     @Column(name = "user_id", nullable = false)
     private Integer userId;
     @Basic
-    @Column(name = "number_of_card", nullable = false, length = 32)
-    private String numberOfCard;
+    @Column(name = "time_of_purchase")
+    private LocalDateTime timeOfPurchase;
 
     public Integer getId() {
         return id;
@@ -45,12 +46,12 @@ public class PurchaseEntity {
         this.userId = userId;
     }
 
-    public String getNumberOfCard() {
-        return numberOfCard;
+    public LocalDateTime getTimeOfPurchase() {
+        return this.timeOfPurchase;
     }
 
-    public void setNumberOfCard(String numberOfCard) {
-        this.numberOfCard = numberOfCard;
+    public void setTimeOfPurchase(LocalDateTime timeOfPurchase) {
+        this.timeOfPurchase = timeOfPurchase;
     }
 
     @Override
@@ -58,11 +59,11 @@ public class PurchaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PurchaseEntity that = (PurchaseEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(fitnessProgramId, that.fitnessProgramId) && Objects.equals(userId, that.userId) && Objects.equals(numberOfCard, that.numberOfCard);
+        return Objects.equals(id, that.id) && Objects.equals(fitnessProgramId, that.fitnessProgramId) && Objects.equals(userId, that.userId) && Objects.equals(timeOfPurchase, that.timeOfPurchase);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, fitnessProgramId, userId, numberOfCard);
+        return Objects.hash(id, fitnessProgramId, userId, timeOfPurchase);
     }
 }

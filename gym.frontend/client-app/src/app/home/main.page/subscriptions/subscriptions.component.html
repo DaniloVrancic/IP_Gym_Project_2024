@@ -1,1 +1,28 @@
-<p>subscriptions works!</p>
+<div class="container">
+    <div class="title montserrat-strong">
+        Subscribed categories
+    </div>
+    <div class="content">
+        <table class="table">
+         <tr>
+            <th>Name</th>
+            <th>Button</th>
+        </tr>
+        <br>
+        
+        @for(sub of this.subscriptions; track sub)
+        {
+            <tr class="element-row">
+            <td class="element montserrat-strong">{{this.fitnessTypeMap.get(sub.fitnessProgramTypeId)}}</td>
+            <td class="element-button"><button mat-fab extended (click)="unsubscribeFromCategory(sub)" class="unsubscribe-button"
+                (mouseenter)="this.fitnessTypeMapHoverState.set(sub.id, true)" 
+                (mouseleave)="this.fitnessTypeMapHoverState.set(sub.id, false)">
+                    <mat-icon>{{ this.fitnessTypeMapHoverState.get(sub.id) ? 'close' : 'done_all' }}</mat-icon>
+                    {{ this.fitnessTypeMapHoverState.get(sub.id) ? 'Unsubscribe' : 'Subscribed' }}
+                  </button></td>
+            </tr>
+            <hr style="border-color:orange; width: 100%; margin: 1rem; transform: translateX(10%);">
+        }
+        </table>
+    </div>
+</div>

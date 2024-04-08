@@ -138,9 +138,8 @@ public class UserService {
                 {
 
 
-            emailSender.send(savedUser.getEmail(),
-                                                    buildEmail(savedUser.getFirstName(),
-                                                            "http://localhost:8080/user/verify?activationToken=" + newVerificationToken.getToken()));
+            emailSender.send(savedUser.getEmail(), buildEmail(savedUser.getFirstName(),
+                                                        "http://localhost:8080/user/verify?activationToken=" + newVerificationToken.getToken()));
                  }
                 catch (Exception ex)
                 {

@@ -29,12 +29,12 @@
     <img [src]="this.apiUrl + '/photo/profile/' + (this.currentUser?.id)"
     class="profile-picture" 
     onerror="this.src='../../../../assets/default_images/defaultUser.png'"
-    style="border-radius: 1000rem;">
+    style="border-radius: 100rem;">
   }
   @else {
     <img src="../../../../assets/default_images/defaultUser.png"
     class="profile-picture" 
-    style="border-radius: 1000rem;">
+    style="border-radius: 100rem;">
   }
     
      <div class="menu">
@@ -48,6 +48,7 @@
         }
         @else 
         {
+          <button mat-menu-item (click)="myProgramsClick()">My Programs</button>
           <button mat-menu-item (click)="settingsClick()">Settings</button>
           <button mat-menu-item (click)="logoutClick()">Logout</button>
         }

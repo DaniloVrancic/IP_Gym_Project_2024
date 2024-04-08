@@ -15,9 +15,6 @@ import { environment } from '../../../../environments/environment';
 })
 export class NavbarComponent {
 
-
-
-
   currentUser: User | null = null;
   apiUrl: string;
 
@@ -49,6 +46,7 @@ export class NavbarComponent {
 logoutClick() {
  this.userService.setCurrentUser(null);
  sessionStorage.removeItem(environment.userKeyString);
+ sessionStorage.removeItem(environment.fitnessProgramKeyString);
  this.router.navigate(["/start-page"]);
 }
 
@@ -79,6 +77,10 @@ takeToPreviousPurchases() {
 
 takeToSubscriptions() {
     this.router.navigate(["/subscriptions"]);
+  }
+
+myProgramsClick() {
+   this.router.navigate(["/my-programs"]);
   }
 
 }

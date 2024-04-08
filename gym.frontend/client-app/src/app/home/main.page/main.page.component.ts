@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MaterialModule } from '../../material/material.module';
 import { UserService } from '../../user.service';
 import { User } from '../../user';
-import { FitnessProgramService } from '../../fitness.program.service';
+import { FitnessProgramService } from './fitness-program.service';
 import { FitnessExercisesComponent } from './fitness-excercises/fitness.exercises/fitness.exercises.component';
 import { RssNewsComponent } from "./rss.news/rss.news/rss.news.component";
 import { environment } from '../../../environments/environment';

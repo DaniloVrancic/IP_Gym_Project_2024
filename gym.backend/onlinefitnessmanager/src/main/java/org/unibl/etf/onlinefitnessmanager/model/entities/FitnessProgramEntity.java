@@ -42,7 +42,7 @@ public class FitnessProgramEntity {
     private List<CommentEntity> comments;
     @ManyToOne
     @JoinColumn(name = "fitness_program_type_id", referencedColumnName = "id", nullable = false)
-    private FitnessProgramTypeEntity fitnessProgramTypeByFitnessProgramTypeId;
+    private FitnessProgramTypeEntity fitnessProgramType;
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private UserEntity user_creator;
@@ -143,12 +143,12 @@ public class FitnessProgramEntity {
         this.comments = comments;
     }
 
-    public FitnessProgramTypeEntity getFitnessProgramTypeByFitnessProgramTypeId() {
-        return fitnessProgramTypeByFitnessProgramTypeId;
+    public FitnessProgramTypeEntity getFitnessProgramType() {
+        return fitnessProgramType;
     }
 
-    public void setFitnessProgramTypeByFitnessProgramTypeId(FitnessProgramTypeEntity fitnessProgramTypeByFitnessProgramTypeId) {
-        this.fitnessProgramTypeByFitnessProgramTypeId = fitnessProgramTypeByFitnessProgramTypeId;
+    public void setFitnessProgramType(FitnessProgramTypeEntity fitnessProgramType) {
+        this.fitnessProgramType = fitnessProgramType;
     }
 
     public UserEntity getUser_creator() {

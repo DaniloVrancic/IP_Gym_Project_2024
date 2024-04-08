@@ -4,7 +4,7 @@
             <div class="homenaje-strong card-name">{{this.caughtExcercise.name}}</div>
         
 
-            <img class="card-image" [src]="caughtExcercise.imageUrl" alt="excercise-photo" onerror="this.src='../../../../../../../assets/default_images/defaultProgram.png'">
+            <img class="card-image" [src]="this.apiUrl + '/photo/program/' + (this.caughtExcercise.id)" alt="excercise-photo" onerror="this.src=this.defaultImage">
             
         </div>
         <div class="card-text-content">
@@ -13,17 +13,32 @@
                 <p id="description">{{this.caughtExcercise.description}}</p>
                 <hr>
             </div>
-            @if(this.caughtExcercise.difficultyLevel != null || this.caughtExcercise.difficultyLevel > 5)
+            @if(this.caughtExcercise.difficultyLevel != null)
             {
             <div class="card-text-attribute">
                 <p class="title">Difficulty level:</p>
-                <p> {{this.caughtExcercise.difficultyLevel}}</p>
+                <p> {{(this.caughtExcercise.difficultyLevel == 1) ? "Begginer" : (this.caughtExcercise.difficultyLevel == 2) ? "Intermediate" : (this.caughtExcercise.difficultyLevel == 3) ? "Advanced" : "Unknown"}}</p>
                 <hr>
             </div>
             }
             <div class="card-text-attribute">
                 <p class="title">Type:</p>
-                <p> {{this.caughtExcercise.fitnessProgramTypeByFitnessProgramTypeId.name}}</p>
+                @if(this.isSubscribed === false)
+                {
+                    <button mat-fab extended (click)="subscribeToCategory($event)" class="subscribe-button">
+                        <mat-icon>done</mat-icon>
+                        Subscribe
+                      </button>
+                }
+                @else {
+                    <button mat-fab extended (click)="unsubscribeFromCategory($event)" class="subscribe-button-subscribed"
+                    (mouseenter)="this.isHovered = true" 
+                    (mouseleave)="this.isHovered = false">
+                        <mat-icon>{{ this.isHovered ? 'close' : 'done_all' }}</mat-icon>
+                        {{ isHovered ? 'Unsubscribe' : 'Subscribed' }}
+                      </button>
+                }
+                <p> {{this.caughtExcercise.fitnessProgramType?.name}}</p>
                 <hr>
             </div>
             <div class="card-text-attribute">
@@ -59,18 +74,41 @@
                 <p> ${{this.caughtExcercise.price}}</p>
                 <hr>
             </div>
+            @if(this.caughtExcercise.user_creator)
+            {
+
+            
             <div class="card-created-by">
                 <p class="title"><b>Program hosted by:</b></p>
-                <p> {{this.caughtExcercise.user_creator.firstName + " " + this.caughtExcercise.user_creator.lastName}} from {{this.caughtExcercise.user_creator.city}}</p>
+                @if(this.caughtExcercise.user_creator.firstName != null && this.caughtExcercise.user_creator.lastName != null)
+                {
+                    <p> {{this.caughtExcercise.user_creator.firstName + " " + this.caughtExcercise.user_creator.lastName}} from {{this.caughtExcercise.user_creator.city}}</p>
+                }
                 <p> <b>Username:</b> {{this.caughtExcercise.user_creator.username}}</p>
                 <p> <b>E-mail:</b> {{this.caughtExcercise.user_creator.email}}</p>
                 <hr>
             </div>
+        }
             <div class="participate-section">
-                <button mat-fab extended (click)="routeToPurchasePage()" style="background-color: var(--secondary-color);">
+                <button mat-fab extended (click)="routeToPurchasePage()" [disabled]="isParticipateDisabled" style="background-color: var(--secondary-color);">
                     <mat-icon>fitness_center</mat-icon>
                     Participate
                   </button>
+                  <br>
+                  @if(this.caughtExcercise.status == 1)
+                  {
+                    <div class="already-purchased-container">
+                        <span>This program has finished and can't be bought anymore.</span>
+                    </div>
+                  }
+                  @else if(this.userHasPurchased)
+                  {
+                    <div class="already-purchased-container">
+                      <span>You have already purchased this program {{this.userService.getCurrentUser()?.firstName}}.</span>
+                      <br>
+                      <span>Buy another one?</span>
+                    </div>
+                  }
             </div>
             <div class="card-comment-section">
                 <div class="write-comment-section">
@@ -83,16 +121,14 @@
                 @if(this.commentsOnProgram != null)
                 {   
                 <div class="read-comment-section">
-                    @for(comment of commentsOnProgram; track comment)
+                    @for(comment of this.commentsOnProgram; track comment)
                     {
                         <div class="comment-field">
                             <div class="comment-user"><p>{{comment.user_commenter.username}} at {{comment.commentTime}}</p></div>
                             <div class="comment-content"><p>{{comment.comment}}</p></div>
                             <hr>
                         </div>
-
                     }
-
                 </div>
                 }
             </div>

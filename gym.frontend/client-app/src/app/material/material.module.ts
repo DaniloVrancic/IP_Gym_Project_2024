@@ -9,6 +9,10 @@ import {MatCardModule} from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatRadioModule} from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import {MatSliderModule} from '@angular/material/slider';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 const MaterialComponents = [
@@ -22,6 +26,10 @@ const MaterialComponents = [
   MatDialogModule,
   MatPaginatorModule,
   MatRadioModule,
+  MatSelectModule,
+  MatSliderModule,
+  MatExpansionModule,
+  MatCheckboxModule
 ];
 
 @NgModule({

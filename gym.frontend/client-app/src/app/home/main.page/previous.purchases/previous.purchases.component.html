@@ -1,1 +1,37 @@
-<p>previous.purchases works!</p>
+<div class="container homenaje-strong">
+    <div class="title montserrat-strong">Previously purchased programs:</div>
+    <div class="purchased-items">
+
+    <table>
+        <tr class=" homenaje-regular">
+            <th>Id</th>
+            <th style="max-width: 10px;">Image</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Location</th>
+            <th>Duration</th>
+            <th>Difficulty</th>
+            <th>Type</th>
+            <th>Creator</th>
+        </tr>
+    @for(purchasedProgram of this.purchasedPrograms; track purchasedProgram)
+    {
+    <tr class="program-container homenaje-regular" (click)="this.openDialog(purchasedProgram)">
+        <td>{{purchasedProgram.id}}</td>
+        <td class="image-cell"><img [src]="this.apiUrl + '/photo/program/' + purchasedProgram.id" class="image" style="width: auto; height: 100%; max-width: 10rem; max-height: 7.5rem; padding: 0 0 0 75%; margin: 0;"/></td>
+        
+        <td>{{purchasedProgram.name}}</td>
+        <td>{{purchasedProgram.price}}</td>
+        <td>{{purchasedProgram.status == 0 ? "Active" : (purchasedProgram.status == 1 ? "Finished" : "Undefined")}}</td>
+        <td>{{purchasedProgram.locationOfEvent}}</td>
+        <td>{{purchasedProgram.duration}} mins</td>
+        <td>{{purchasedProgram.difficultyLevel == 1 ? "Begginer" : (purchasedProgram.difficultyLevel == 2) ? "Intermediate" : purchasedProgram.difficultyLevel == 3 ? "Advanced" : "Undefined"}}</td>
+        <td>{{purchasedProgram.fitnessProgramType?.name}}</td>
+        <td>{{purchasedProgram.user_creator?.username}}</td>
+    </tr>
+    <br>
+    }
+    </table>
+    </div>
+</div>

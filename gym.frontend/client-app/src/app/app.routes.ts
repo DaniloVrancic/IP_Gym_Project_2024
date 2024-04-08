@@ -9,6 +9,7 @@ import { AddNewProgramComponent } from './home/main.page/add.new.program/add.new
 import { DiaryComponent } from './home/main.page/diary/diary.component';
 import { PreviousPurchasesComponent } from './home/main.page/previous.purchases/previous.purchases.component';
 import { SubscriptionsComponent } from './home/main.page/subscriptions/subscriptions.component';
+import { MyProgramsComponent } from './home/main.page/my-programs/my-programs.component';
 
 export const routes: Routes = [
     { path: 'start-page', component: StartPageComponent},
@@ -21,5 +22,6 @@ export const routes: Routes = [
     { path: 'add-new-program', component: AddNewProgramComponent},
     { path: 'my-diary', component: DiaryComponent},
     { path: 'previous-purchases', component: PreviousPurchasesComponent},
-    { path: 'subscriptions', component: SubscriptionsComponent}
+    { path: 'subscriptions', component: SubscriptionsComponent},
+    { path: 'my-programs', component: MyProgramsComponent}
 ];

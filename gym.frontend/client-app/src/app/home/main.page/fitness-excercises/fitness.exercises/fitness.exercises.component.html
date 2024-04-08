@@ -1,16 +1,65 @@
+<form class="filters" autocomplete="off">
+  <div class="filter-item">
+    <mat-form-field>
+    <mat-label>Search</mat-label>
+    <input matInput type="text" class="search form-control" name="search-field" [formControl]="searchFormControl" value="">
+    </mat-form-field>
+  </div>
+  <div class="filter-item">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Categories
+          </mat-panel-title>
+          <mat-panel-description class="panel-description">
+            Select your categories here.
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <!--PRIMARY CONTENT OF PANEL STARTS HERE-->
+        <section class="checkbox-group" [formGroup]="categoriesGroup">
+          <ul>
+          @for(fitnessProgramType of this.fitnessProgramTypes; track fitnessProgramType)
+          {
+            <li><mat-checkbox (change)="checkboxChange(fitnessProgramType, $event)" checked="true">{{fitnessProgramType.name}}</mat-checkbox></li>
+          }
+          </ul>
+        </section>
+      </mat-expansion-panel>
+  </div>
+  <div class="filter-item range-slider-container">
+    <span>Price range:</span>
+      <mat-slider min="0" max="2000" step="1" discrete [displayWith]="formatLabel">
+        <input matSliderStartThumb [value]="this.lowerSelectedPrice" (input)="changeLowerPrice($event)">
+        <input matSliderEndThumb [value]="this.upperSelectedPrice" (input)="changeUpperPrice($event)">
+      </mat-slider>
+  </div>
+  <div class="filter-item range-slider-container">
+    <span>Duration range:</span>
+      <mat-slider min="0" max="2000" step="1" discrete [displayWith]="formatLabel">
+        <input matSliderStartThumb [value]="this.lowerSelectedDuration" (input)="changeLowerDuration($event)">
+        <input matSliderEndThumb [value]="this.upperSelectedDuration" (input)="changeUpperDuration($event)">
+      </mat-slider>
+  </div>
+  <div class="filter-item">
+        <button mat-fab matTooltip="Primary" color="primary" aria-label="Filter button" (click)="filterClick()" type="button">
+        <mat-icon>filter_alt</mat-icon>
+      </button>
+  </div>
+</form>
+
 <div class="paginator-container">
-    
+
     <div class="exercise-container">
-    @for(exercise of displayedExercises; track exercise)
+    @for(exercise of this.displayedExercises; track exercise)
     {
-        <mat-card class="card" (click)="openDialog(exercise)">
-        <mat-card-header class="card-header">
-            <mat-card-title>{{ exercise.name }}</mat-card-title>
+        <mat-card class="card" (click)="this.openDialog(exercise)">
+        <mat-card-header class="card-header" style="transform: translateY(1px); scale: 1.02;">
+            <mat-card-title style=" overflow:hidden; text-overflow: ellipsis;">{{ exercise.name }}</mat-card-title>
         </mat-card-header>
-        <mat-card-content class="card-content">
-          <img />
-          <p>{{ exercise.description }}</p>
-          <p>Price: ${{ exercise.price }}</p>
+        <mat-card-content class="card-content" style="padding: 0;">
+          <img [src]="this.apiUrl + '/photo/program/' + (exercise.id)" alt="excercise-photo" onerror="this.src=this.defaultImage" style="width: 100%; height: auto; transform: translateY(-0.25rem)"/>
+          <p style="padding: 1rem; max-height: 4rem; overflow: hidden; text-overflow: ellipsis;">{{ exercise.description }}</p>
+          <p style="padding: 1rem; overflow: hidden; text-overflow: ellipsis;">Price: ${{ exercise.price }}</p>
         </mat-card-content>
       </mat-card>
     }

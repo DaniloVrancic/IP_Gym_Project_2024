@@ -1,0 +1,80 @@
+.container
+{
+    display: inline-block;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    text-align: center;
+    justify-content: center;
+    max-width: 100%;
+    width: 100%;
+    min-width: 250px;
+    
+    
+    margin-left: 0;
+    border: 1px solid black;
+    border-bottom: 0;
+}
+
+.title
+{
+    font-size: xx-large;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    background-color: var(--secondary-color);
+    color: rgb(50, 10, 85);
+    max-width: 100%;
+    width: 100%;
+    min-width: 250px;
+    height: 1rem;
+    font-weight: 700;
+}
+
+.content
+{
+    display: flex;
+    width: 80%;
+    max-width: 80%;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.table{
+    width: auto;
+    justify-content: space-between;
+}
+
+tr{
+    display: flex;
+    width: 100%;
+    margin-top: 1rem;
+    margin-left: 15%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+td{
+    justify-content: space-evenly;
+}
+
+.element{
+    font-size: xx-large;
+    padding: 0.3rem;
+}
+
+.element-row{
+
+}
+
+.unsubscribe-button
+{
+    background-color: greenyellow;
+    width: 10rem;
+    justify-content: flex-end;
+}
+
+.unsubscribe-button:hover
+{
+    background-color: red;
+    color: white;
+}
+
