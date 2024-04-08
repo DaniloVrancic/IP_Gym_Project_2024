@@ -30,6 +30,8 @@ export class FitnessExercisesComponent implements OnInit {
   lowerSelectedDuration: number | null = 0;
   upperSelectedDuration: number | null = 4000;
   categoriesGroup: FormGroup<any> = new FormGroup([]);
+  searchFormControl = new FormControl('', []);
+  paginatorControl = new FormControl();
 
 
   formatLabel(value: number): string {
@@ -37,6 +39,7 @@ export class FitnessExercisesComponent implements OnInit {
   }
 
   fitnessPrograms: FitnessProgram[] = [];
+  bufferedFitnessPrograms: FitnessProgram[] = [];
   displayedExercises: FitnessProgram[] = [];
   public fitnessProgramTypes: FitnessProgramType[] = [];
   public checkBoxControl: any[] = [];
@@ -65,7 +68,8 @@ export class FitnessExercisesComponent implements OnInit {
   loadFitnessPrograms() {
     this.fitnessProgramService.findAllFitnessPrograms().subscribe(response => {
       this.fitnessPrograms = response;
-      this.displayedExercises = this.fitnessPrograms.slice(0, 5);
+      this.bufferedFitnessPrograms = [...this.fitnessPrograms];
+      this.displayedExercises = this.bufferedFitnessPrograms.slice(0, 5);
     });
   }
 
@@ -80,7 +84,7 @@ export class FitnessExercisesComponent implements OnInit {
   pageChanged(event: any) {
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
-    this.displayedExercises = this.fitnessPrograms.slice(startIndex, endIndex);
+    this.displayedExercises = this.bufferedFitnessPrograms.slice(startIndex, endIndex);
   }
 
   openDialog(exercise: FitnessProgram) {
@@ -105,8 +109,61 @@ export class FitnessExercisesComponent implements OnInit {
         console.log("Upper Selected Price:", this.upperSelectedPrice);
         console.log("Lower Selected Duration:", this.lowerSelectedDuration);
         console.log("Upper Selected Duration:", this.upperSelectedDuration);
+
+        let newDisplayArray: FitnessProgram[] = [];
+
+        for(let fitnessProgram of this.fitnessPrograms)
+          {
+            if(this.filterNameCheck(fitnessProgram) && this.filterPriceRangeCheck(fitnessProgram))
+              {
+                newDisplayArray.push(fitnessProgram);
+              }
+            else
+            {
+              this.bufferedFitnessPrograms = [...this.fitnessPrograms];
+              this.displayedExercises = this.bufferedFitnessPrograms.slice(0, 5);
+            }
+          }
+        this.bufferedFitnessPrograms = newDisplayArray;
+        this.displayedExercises = this.bufferedFitnessPrograms.slice(0, 5);
+        
+
+        
+
   }
 
+  filterNameCheck(excercise: FitnessProgram): boolean
+  {
+    let searchValue = this.searchFormControl.value as string;
+
+    if(searchValue.length == 0)
+      {
+        return true;
+      }
+    else
+    {
+      if((excercise.name?.toLowerCase())?.includes(searchValue.toLowerCase()))
+        {
+          return true;
+        }
+      else
+      {
+        return false;
+      }
+    }
+  }
+
+  filterPriceRangeCheck(excercise: FitnessProgram)
+  {
+    if((this.lowerSelectedPrice as number) < (excercise.price as number) && (this.upperSelectedPrice as number) > (excercise.price as number))
+      {
+        return true;
+      }
+    else
+    {
+      return false;
+    }
+  }
   checkboxChange(fitnessProgramType: FitnessProgramType, event: any)
   {
     console.log(event.checked);

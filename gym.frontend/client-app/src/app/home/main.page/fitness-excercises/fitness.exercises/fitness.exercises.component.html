@@ -2,7 +2,7 @@
   <div class="filter-item">
     <mat-form-field>
     <mat-label>Search</mat-label>
-    <input matInput type="text" class="search form-control" name="search-field" value="">
+    <input matInput type="text" class="search form-control" name="search-field" [formControl]="searchFormControl" value="">
     </mat-form-field>
   </div>
   <div class="filter-item">
