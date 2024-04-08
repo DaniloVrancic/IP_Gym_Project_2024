@@ -72,8 +72,6 @@ public class FitnessProgramController {
                 ex.printStackTrace();
             }
         }
-
-
     }
 
     @GetMapping("/find_all")
@@ -93,7 +91,7 @@ public class FitnessProgramController {
     @GetMapping("/find_with_filter")
     public ResponseEntity<List<FitnessProgramEntity>> findFitnessProgramsWithFilter(@RequestBody Object filterObject)
     {
-        return new ResponseEntity<>(null, HttpStatus.OK); //TODO: MAKE A NEW CLASS FOR FILTER PARAMETERS AND IMPLEMENT STREAM API FILTERING HERE
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @GetMapping("/find_by_userId/{id}")

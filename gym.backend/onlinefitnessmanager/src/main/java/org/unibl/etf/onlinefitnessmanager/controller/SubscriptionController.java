@@ -35,11 +35,11 @@ public class SubscriptionController {
             newSub.setUserId(userId);
             newSub.setFitnessProgramTypeId(programTypeId);
 
-            Optional<SubscriptionEntity> foundOptional = subscriptionService.subscriptionExists(newSub.getUserId(), newSub.getFitnessProgramTypeId());
+            Optional<SubscriptionEntity> foundOptional = subscriptionService.subscriptionExists(newSub.getUserId(), newSub.getFitnessProgramTypeId()); //if the subscription already exists, just assign that one
 
                 returnedSub = foundOptional.orElse(null);
 
-            if(returnedSub == null)
+            if(returnedSub == null) //if the record doesn't exist in the database, then add it, this segment was reserved for detection of existing records
             {
                 returnedSub = subscriptionService.addSubscription(newSub);
             }
