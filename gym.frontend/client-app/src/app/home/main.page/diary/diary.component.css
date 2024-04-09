@@ -60,6 +60,18 @@
 }
 
 .graphs-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.graph-title{
+
+}
+
+.graph-content{
 
 }
 
@@ -109,6 +121,22 @@
     border-right: 0;
     padding: 1rem 2rem 1rem 2rem;
     margin-bottom: 1rem;
+}
+
+#textareaFormField{
+    max-height: 10rem;
+}
+
+.nothing-found-message
+{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    text-wrap: wrap;
+    line-height: 4rem;
+    font-size: 5rem;
+    margin: 1rem;
+    padding: 2.5rem;
 }
 
 

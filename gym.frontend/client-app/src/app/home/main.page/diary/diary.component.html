@@ -36,7 +36,6 @@
                     <mat-form-field class="item">
                         <mat-label>Finished excercise on</mat-label>
                         <input matInput [matDatepicker]="datePicker" (dateInput)="dateInputMethod($event)" [value]="dateControl.value" [formControl]="dateControl">
-                        <mat-hint>DD/MM/YYYY</mat-hint>
                         <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
                         <mat-datepicker #datePicker></mat-datepicker>
                     </mat-form-field>
@@ -51,17 +50,26 @@
     </div>
 
     <div class="stats-display-container">
+        @if(this.completedExerciseForUser.length > 0)
+        {
+            <div class="stats-buttons">
+                <button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; scale: 1.35;" type="button" (click)="onClick1Week($event)">Last Week</button>
+                <button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; scale: 1.35;" type="button" (click)="onClick1Month($event)">Last Month</button>
+                <button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; scale: 1.35;" type="button" (click)="onClick1Year($event)">Last Year</button>
+                <button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; scale: 1.35;" type="button" (click)="onClickAllTime()">All Time</button>
+            </div>
+            @if(this.filteredExerciseForUser.length > 0)
+            {
+        
         <div class="graphs-container">
-
+            <div class="graph-title"></div>
+            <div class="graph-content"></div>
         </div>
         <mat-divider></mat-divider>
         <div class="done-exercise-list">
-            @if(this.filteredExerciseForUser.length > 0)
-            {
             <table>
                 <tr class=" homenaje-regular">
                     <th>Type</th>
-
                     <th>Duration (mins)</th>
                     <th>Intensity</th>
                     <th>Weight Loss (in kg)</th>
@@ -81,17 +89,11 @@
                     </tr>
                 }
             </table>
-        }@else {
             
-        }
-
+            
         </div>
         <mat-divider></mat-divider>
-        <div class="stats-buttons">
-            <button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; scale: 1.35;" type="button" (click)="onClick1Week($event)">Last Week</button>
-            <button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; scale: 1.35;" type="button" (click)="onClick1Month($event)">Last Month</button>
-            <button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; scale: 1.35;" type="button" (click)="onClick1Year($event)">Last Year</button>
-            <button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; scale: 1.35;" type="button" (click)="onClickAllTime($event)">All Time</button>
-        </div>
+            }
+        }@else {<div class="monserrat-strong nothing-found-message">No completed exercise found.</div>}
     </div>
 </div>

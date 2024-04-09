@@ -24,7 +24,7 @@ export class DiaryComponent implements OnInit{
   controlGroup: FormGroup;
   apiUrl: string;
   fitnessProgramTypes: FitnessProgramType[] = [];
-  completedExerciseForUser: CompletedExercise[] = [];
+  public completedExerciseForUser: CompletedExercise[] = [];
   public filteredExerciseForUser: CompletedExercise[] = [];
 
 
@@ -36,13 +36,13 @@ export class DiaryComponent implements OnInit{
     this.dateAdapter.setLocale(this._locale);
     this.apiUrl = environment.apiBaseUrl;
 
-    this.controlGroup = this._fb.group({
+    this.controlGroup = this._fb.group({ //grouping all the controls on this page
       completedCategory: [``, [Validators.required]],
       completedDuration: [``, [Validators.required]],
       completedIntensity: [``, [Validators.required, Validators.min(1), Validators.max(3)]],
       completedWeightLoss: [``,[Validators.required]],
       completedDescription: [``,[]],
-      dateControl: [``,[]]
+      dateControl: [``,[]] //unused in code but good to have grouped
     });
   }
 
@@ -112,12 +112,62 @@ export class DiaryComponent implements OnInit{
     completedExerciseToAdd.userId = this.userService.getCurrentUser()?.id as number;
     this.completedExerciseService.addCompletedExercise(completedExerciseToAdd).subscribe(result => {
       this.completedExerciseForUser.push(result);
+      this.onClickAllTime();
+      alert("Successfully added exercise to diary!");
     });
 
   }
 
-  onClick1Week(event: any){}
-  onClick1Month(event: any){}
-  onClick1Year(event: any){}
-  onClickAllTime(event: any){}
+  onClick1Week(event: any)
+  {
+    // Get today's date
+    const today = new Date();
+
+    // Get the date one week ago
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+  // Filter completedExercises based on dayOfCompletion within today's date and one week before
+    this.filteredExerciseForUser = this.completedExerciseForUser.filter(exercise => {
+    const exerciseDate = new Date(exercise.dayOfCompletion);
+    return exerciseDate >= oneWeekAgo && exerciseDate <= today;
+});
+
+  }
+  onClick1Month(event: any)
+  {
+    // Get today's date
+    const today = new Date();
+
+    // Get the date one month ago
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+  // Filter completedExercises based on dayOfCompletion within today's date and one month ago
+    this.filteredExerciseForUser = this.completedExerciseForUser.filter(exercise => {
+    const exerciseDate = new Date(exercise.dayOfCompletion);
+    return exerciseDate >= oneMonthAgo && exerciseDate <= today;
+});
+
+  }
+  onClick1Year(event: any)
+  {
+    // Get today's date
+    const today = new Date();
+
+    // Get the date one year ago
+    const oneYearAgo = new Date();
+    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
+  // Filter completedExercises based on dayOfCompletion within today's date and one year ago
+    this.filteredExerciseForUser = this.completedExerciseForUser.filter(exercise => {
+    let exerciseDate = new Date(exercise.dayOfCompletion);
+    return exerciseDate >= oneYearAgo && exerciseDate <= today;
+});
+
+  }
+  onClickAllTime()
+  {
+    this.filteredExerciseForUser = [...this.completedExerciseForUser];
+  }
 }
