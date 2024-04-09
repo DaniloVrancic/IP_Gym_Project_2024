@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MaterialModule } from '../../../material/material.module';
 import { UserService } from '../../../user.service';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DateAdapter, provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerControl, MatDatepickerPanel } from '@angular/material/datepicker';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-diary',
@@ -16,11 +17,18 @@ import { MatDatepickerControl, MatDatepickerPanel } from '@angular/material/date
 export class DiaryComponent implements OnInit{
   dateControl = new FormControl();
   private _locale: string;
-controlGroup: FormGroup<any> = new FormGroup([]);
-  constructor(private userService: UserService, private dateAdapter: DateAdapter<Date>)
+  controlGroup: FormGroup;
+  apiUrl: string;
+  constructor(private userService: UserService, private dateAdapter: DateAdapter<Date>, private _fb: FormBuilder)
   {
     this._locale = "en-EN"
     this.dateAdapter.setLocale(this._locale);
+    this.apiUrl = environment.apiBaseUrl;
+
+    this.controlGroup = this._fb.group({
+      completedCategory: [``, [Validators.required]],
+      completedDuration: [``, [Validators.required]]
+    });
   }
 
   ngOnInit(): void {
