@@ -20,6 +20,10 @@ export class CompletedExerciseService {
     return this.http.get<CompletedExercise>(`${this.apiServerUrl}/completed/find/${id}`);
   }
 
+  public getCompletedExerciseForUserId(id: number): Observable<CompletedExercise[]> {
+    return this.http.get<CompletedExercise[]>(`${this.apiServerUrl}/completed/find_by_user/${id}`);
+  }
+
   public addCompletedExercise(completedExercise: CompletedExercise): Observable<CompletedExercise> {
     return this.http.post<CompletedExercise>(`${this.apiServerUrl}/completed/add`, completedExercise);
   }

@@ -25,6 +25,7 @@ export class DiaryComponent implements OnInit{
   apiUrl: string;
   fitnessProgramTypes: FitnessProgramType[] = [];
   completedExerciseForUser: CompletedExercise[] = [];
+  public filteredExerciseForUser: CompletedExercise[] = [];
 
 
   constructor(private userService: UserService, private dateAdapter: DateAdapter<Date>, 
@@ -48,6 +49,10 @@ export class DiaryComponent implements OnInit{
   ngOnInit(): void {
       this.fitnessProgramTypeService.getAllFitnessProgramTypes().subscribe(response => {
         this.fitnessProgramTypes = response;
+      })
+      this.completedExerciseService.getCompletedExerciseForUserId(this.userService.getCurrentUser()?.id as number).subscribe(response => {
+        this.completedExerciseForUser = response;
+        this.filteredExerciseForUser = [...this.completedExerciseForUser];
       })
   }
 
@@ -103,10 +108,16 @@ export class DiaryComponent implements OnInit{
       {
         completedExerciseToAdd.resultDescription = "";
       }
-
+    
+    completedExerciseToAdd.userId = this.userService.getCurrentUser()?.id as number;
     this.completedExerciseService.addCompletedExercise(completedExerciseToAdd).subscribe(result => {
       this.completedExerciseForUser.push(result);
     });
 
   }
+
+  onClick1Week(event: any){}
+  onClick1Month(event: any){}
+  onClick1Year(event: any){}
+  onClickAllTime(event: any){}
 }

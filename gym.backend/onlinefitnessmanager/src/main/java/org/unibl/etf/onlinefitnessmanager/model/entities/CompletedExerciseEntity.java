@@ -23,7 +23,7 @@ public class CompletedExerciseEntity {
     @Column(name = "intensity", nullable = false)
     private Integer intensity;
     @Basic
-    @Column(name = "day_of_completion", nullable = false)
+    @Column(name = "day_of_completion", nullable = true)
     private LocalDate dayOfCompletion;
     @Basic
     @Column(name = "weight_loss", nullable = false)

@@ -54,8 +54,44 @@
         <div class="graphs-container">
 
         </div>
+        <mat-divider></mat-divider>
         <div class="done-exercise-list">
+            @if(this.filteredExerciseForUser.length > 0)
+            {
+            <table>
+                <tr class=" homenaje-regular">
+                    <th>Type</th>
 
+                    <th>Duration (mins)</th>
+                    <th>Intensity</th>
+                    <th>Weight Loss (in kg)</th>
+                    <th>Day of Completion</th>
+                    <th>Description</th>
+                </tr>
+
+                @for(exercise of this.filteredExerciseForUser; track exercise)
+                {
+                    <tr class="exercise-container homenaje-regular">
+                        <td>{{exercise.type}}</td>
+                        <td>{{exercise.duration}}</td>
+                        <td>{{exercise.intensity}}</td>
+                        <td>{{exercise.weightLoss}}</td>
+                        <td>{{exercise.dayOfCompletion}}</td>
+                        <td>{{(exercise.resultDescription) ? exercise.resultDescription : "/"}}</td>
+                    </tr>
+                }
+            </table>
+        }@else {
+            
+        }
+
+        </div>
+        <mat-divider></mat-divider>
+        <div class="stats-buttons">
+            <button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; scale: 1.35;" type="button" (click)="onClick1Week($event)">Last Week</button>
+            <button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; scale: 1.35;" type="button" (click)="onClick1Month($event)">Last Month</button>
+            <button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; scale: 1.35;" type="button" (click)="onClick1Year($event)">Last Year</button>
+            <button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; scale: 1.35;" type="button" (click)="onClickAllTime($event)">All Time</button>
         </div>
     </div>
 </div>

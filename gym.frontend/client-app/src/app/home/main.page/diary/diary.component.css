@@ -46,7 +46,17 @@
 
 
 .stats-display-container{
-
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    min-width: 95%;
+    height: 99%;
+    border: 1px solid black;
+    border-radius: 0.6rem;
+    margin: 0.5rem;
+    padding: 0.5rem;
 }
 
 .graphs-container{
@@ -54,6 +64,51 @@
 }
 
 .done-exercise-list{
-
+    justify-content: center;
+    align-items: center;
+    min-width: 100%;
+    width: auto;
 }
+
+
+.done-exercise-list table{
+    flex-direction: column;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+}
+
+.done-exercise-list table tr{
+    flex-direction: row;
+}
+
+.done-exercise-list table th td{
+    padding: 1rem 3rem;
+}
+
+.stats-buttons{
+    display: flex;
+    flex-direction: row;
+}
+
+.stats-buttons button{
+    padding: 1rem;
+    margin: 10rem;
+}
+
+.exercise-container{
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    text-align: center;
+    width: 100%;
+    font-weight: 500;
+    font-size: larger;
+    border: 1px solid black;
+    border-left: 0;
+    border-right: 0;
+    padding: 1rem 2rem 1rem 2rem;
+    margin-bottom: 1rem;
+}
+
 
