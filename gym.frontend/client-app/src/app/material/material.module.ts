@@ -13,6 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 
 const MaterialComponents = [
@@ -29,7 +30,8 @@ const MaterialComponents = [
   MatSelectModule,
   MatSliderModule,
   MatExpansionModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatDatepickerModule
 ];
 
 @NgModule({

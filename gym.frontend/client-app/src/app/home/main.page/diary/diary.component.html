@@ -1,1 +1,58 @@
-<p>diary works!</p>
+<div class="diary-container">
+    <div class="title montserrat-strong">
+        My Work Diary
+    </div>
+
+    <div class="input-container">
+        <form [formGroup]="controlGroup">
+            <div class="border-line-element">
+                <mat-form-field id="selectFormField" class="item">
+                    <mat-label>Category</mat-label>
+                    <mat-select required>
+                    <mat-option value="one">First option</mat-option>
+                    <mat-option value="two">Second option</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="item">
+                    <mat-label>Duration (in minutes)</mat-label>
+                    <input matInput type="number" min="0" max="1440" required>
+                    <mat-error>Must be a number.</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="item">
+                        <mat-label>Intensity</mat-label>
+                        <input matInput type="number" min="1" max="3" required>
+                        <mat-error>Must be a number.</mat-error>
+                    </mat-form-field>
+                    <br>
+                    <mat-form-field appearance="fill" class="item">
+                    <mat-label>Weight lost (in kg)</mat-label>
+                    <input matInput type="number" min="0" max="200" required>
+                    <mat-error>Must be a number.</mat-error>
+                    </mat-form-field>
+                    <br>
+                    <mat-form-field class="item">
+                        <mat-label>Finished excercise on</mat-label>
+                        <input matInput [matDatepicker]="datePicker" (dateInput)="dateInputMethod($event)" [value]="dateControl.value" [formControl]="dateControl">
+                        <mat-hint>DD/MM/YYYY</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #datePicker></mat-datepicker>
+                    </mat-form-field>
+                    <br>
+                <mat-form-field class="item" style="width:100%;">
+                    <mat-label>Description of exercise</mat-label>
+                    <textarea matInput rows="1" cols="50" id="textareaFormField"></textarea>
+                </mat-form-field>
+                <button mat-flat-button color="primary" style="margin: 2rem 0.5rem 0.5rem 0.5rem; scale: 1.35;">Add New Completed Exercise</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="stats-display-container">
+        <div class="graphs-container">
+
+        </div>
+        <div class="done-exercise-list">
+
+        </div>
+    </div>
+</div>

@@ -3,6 +3,10 @@
         Subscribed categories
     </div>
     <div class="content">
+        @if(this.subscriptions.length > 0)
+        {
+
+        
         <table class="table">
          <tr>
             <th>Name</th>
@@ -24,5 +28,11 @@
             <hr style="border-color:orange; width: 100%; margin: 1rem; transform: translateX(10%);">
         }
         </table>
+    }
+    @else {
+        <div class="display-for-empty">
+            <h1 class="for-empty-text montserrat-strong">No subscriptions found yet.</h1>
+        </div>
+    }
     </div>
 </div>

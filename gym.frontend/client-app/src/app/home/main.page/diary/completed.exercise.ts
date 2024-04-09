@@ -3,9 +3,9 @@ export interface CompletedExercise {
     type: string;
     duration: number;
     intensity: number;
-    dayOfCompletion: string; // Assuming it's in ISO format (YYYY-MM-DD), otherwise adjust accordingly
+    dayOfCompletion: string;
     weightLoss: number;
-    resultDescription: string | null; // Nullable string
-    userId: number; // Assuming this represents the user ID associated with the completed exercise
+    resultDescription: string | null; 
+    userId: number; // Represents the user associated with this completed exercise (Key for individual stat tracking)
   }
   

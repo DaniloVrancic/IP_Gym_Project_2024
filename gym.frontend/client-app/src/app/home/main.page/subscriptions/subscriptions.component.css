@@ -78,3 +78,30 @@ td{
     color: white;
 }
 
+.display-for-empty
+{
+  
+    height: 100%;
+    width: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 30rem;
+}
+
+.for-empty-text{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    margin: 10rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 4rem;
+    line-height: 5rem;
+}
+
