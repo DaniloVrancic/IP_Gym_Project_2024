@@ -154,7 +154,6 @@ export class DiaryComponent implements OnInit{
   {
     // Get today's date
     const today = new Date();
-
     // Get the date one year ago
     const oneYearAgo = new Date();
     oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
