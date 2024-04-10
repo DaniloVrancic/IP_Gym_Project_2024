@@ -31,6 +31,7 @@ export class DiaryComponent implements OnInit, AfterViewInit{
   public filteredExerciseForUser: CompletedExercise[] = [];
 
   weightLossChartData: ChartData<"line",(number|Point|null)[],unknown>|undefined;
+  timeSpentChartData: ChartData<"line",(number|Point|null)[],unknown>|undefined;
   numberOfSelectedDays = 7; // will be used to plot charts based on how many days are selected
 
 
@@ -59,7 +60,7 @@ export class DiaryComponent implements OnInit, AfterViewInit{
       this.completedExerciseService.getCompletedExerciseForUserId(this.userService.getCurrentUser()?.id as number).subscribe(response => {
         this.completedExerciseForUser = response;
         this.filteredExerciseForUser = [...this.completedExerciseForUser];
-        this.drawWeightLossChart();
+        this.drawCharts();
       })
   }
 
@@ -163,7 +164,7 @@ export class DiaryComponent implements OnInit, AfterViewInit{
     this.numberOfSelectedDays = 7;
     return exerciseDate >= oneWeekAgo && exerciseDate <= today;
   });
-  this.drawWeightLossChart();
+  this.drawCharts();
   }
   onClick1Month(event: any)
   {
@@ -181,7 +182,7 @@ export class DiaryComponent implements OnInit, AfterViewInit{
     return exerciseDate >= oneMonthAgo && exerciseDate <= today;
   });
   
-  this.drawWeightLossChart();
+  this.drawCharts();
   }
   onClick1Year(event: any)
   {
@@ -198,15 +199,16 @@ export class DiaryComponent implements OnInit, AfterViewInit{
     this.numberOfSelectedDays = 366;
     return exerciseDate >= oneYearAgo && exerciseDate <= today;
 });
-  this.drawWeightLossChart();
+  this.drawCharts();
   }
   onClickAllTime()
   {
     this.numberOfSelectedDays = -1;
     this.filteredExerciseForUser = [...this.completedExerciseForUser];
-    this.drawWeightLossChart();
+    this.drawCharts();
   }
   weightLossChartOptions: any;
+  timeSpentChartOptions: any;
   public drawWeightLossChart() {
     let labelsForThisChart: string[] = this.getDateLabels();
     let valuesForThisChart: number[] = this.getWeightLossData(this.filteredExerciseForUser);
@@ -226,7 +228,30 @@ export class DiaryComponent implements OnInit, AfterViewInit{
     };
     this.weightLossChartOptions = {
       responsive: true,
-      scale: 1
+      scale: 1.1
+    }
+  }
+
+  public drawTimeSpentChart() {
+    let labelsForThisChart: string[] = this.getDateLabels();
+    let valuesForThisChart: number[] = this.getTimeSpentData(this.filteredExerciseForUser);
+
+    
+    this.timeSpentChartData = {
+      labels: [...labelsForThisChart],
+      datasets: [
+        {
+          label: "Duration (mins)",
+          data: [...valuesForThisChart],
+          backgroundColor: 'orange',
+          fill: true
+        }
+
+      ]
+    };
+    this.timeSpentChartOptions = {
+      responsive: true,
+      scale: 1.1
     }
   }
 
@@ -282,6 +307,26 @@ export class DiaryComponent implements OnInit, AfterViewInit{
       return allValuesToReturn;
   }
 
+  getTimeSpentData(completedExerciseArray: CompletedExercise[]): number[]
+  {
+    let allDateLabels: string[] = this.getDateLabels();
+    let allValuesToReturn: number[] = [] as number[];
+    let valueToPush = 0
+    for(let dateLabel of allDateLabels)
+      {
+        valueToPush = 0;
+        for(let j = 0; j < this.filteredExerciseForUser.length; ++j)
+          {
+            if(this.isSameDate(new Date(this.filteredExerciseForUser[j].dayOfCompletion),new Date(dateLabel)))
+              {
+                valueToPush += this.filteredExerciseForUser[j].duration;
+              }
+          }
+          allValuesToReturn.push(valueToPush);
+      }
+      return allValuesToReturn;
+  }
+
   isSameDate(date1: Date, date2: Date)
   {
   if(date1.getDate() == date2.getDate() && date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear())
@@ -292,6 +337,17 @@ export class DiaryComponent implements OnInit, AfterViewInit{
     return false;
   }
 }
+
+drawCharts()
+{
+  this.drawWeightLossChart();
+  this.drawTimeSpentChart();
+}
+
+  makePdf(event: any)
+  {
+
+  }
 }
 
 

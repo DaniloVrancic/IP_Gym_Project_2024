@@ -50,31 +50,33 @@
     </div>
 
     <div class="stats-display-container">
+        <div id="pdf-container">
         @if(this.completedExerciseForUser.length > 0)
         {
+            <div class="make-pdf"><button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; padding: 0rem 3.5rem; scale: 1.35;" type="button" (click)="makePdf($event)">Make PDF</button></div>
             <div class="stats-buttons">
                 <button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; scale: 1.35;" type="button" (click)="onClick1Week($event)">Last Week</button>
                 <button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; scale: 1.35;" type="button" (click)="onClick1Month($event)">Last Month</button>
                 <button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; scale: 1.35;" type="button" (click)="onClick1Year($event)">Last Year</button>
                 <button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; scale: 1.35;" type="button" (click)="onClickAllTime()">All Time</button>
             </div>
+            
             @if(this.filteredExerciseForUser.length > 0)
             {
         <div class="graphs-container">
             <div class="graph-title" style="margin-right: 2rem;">Weight Loss:</div>
-            <div class="graph-content" style="display: block; width: 400px; height: 400px;">
+            <div class="graph-content" style="height: 20rem;">
                 <canvas baseChart [data]="weightLossChartData" [options]="weightLossChartOptions" [type]="'line'"> </canvas>
             </div>
-            <div class="graph-title"></div>
-            <div class="graph-content">
-                <canvas id="durationChart"></canvas>
+            <div style="visibility: hidden;">::after</div>
+        <br>
+            <div class="graph-title" style="margin-right: 2rem;">Time spent:</div>
+            <div class="graph-content" style="height: 20rem;">
+                <canvas baseChart [data]="timeSpentChartData" [options]="timeSpentChartOptions" [type]="'line'"> </canvas>
             </div>
-            <div class="graph-title"></div>
-            <div class="graph-content">
-                <canvas id="categoryBarChart"></canvas>
-            </div>
+        
         </div>
-        <mat-divider></mat-divider>
+        <mat-divider style="margin: 1rem; border: 1px solid gray; width:100%"></mat-divider>
         <div class="done-exercise-list">
             <table>
                 <tr class=" homenaje-regular">
@@ -104,5 +106,6 @@
         <mat-divider></mat-divider>
             }
         }@else {<div class="monserrat-strong nothing-found-message">No completed exercise found.</div>}
+        </div>
     </div>
 </div>
