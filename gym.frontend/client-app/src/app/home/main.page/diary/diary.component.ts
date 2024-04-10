@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MaterialModule } from '../../../material/material.module';
 import { UserService } from '../../../user.service';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -9,16 +9,19 @@ import { FitnessProgramTypeService } from '../fitness-program-type.service';
 import { FitnessProgramType } from '../fitness-program-type';
 import { CompletedExercise } from './completed.exercise';
 import { CompletedExerciseService } from './completed.exercise.service';
+import { Chart, ChartData, Point, registerables, scales } from 'chart.js/auto';
+import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 @Component({
   selector: 'app-diary',
   standalone: true,
-  imports: [MaterialModule, FormsModule, ReactiveFormsModule],
+  imports: [MaterialModule, FormsModule, ReactiveFormsModule, BaseChartDirective],
   templateUrl: './diary.component.html',
   styleUrl: './diary.component.css',
-  providers: [UserService, FitnessProgramTypeService, CompletedExerciseService, provideNativeDateAdapter()]
+  providers: [UserService, FitnessProgramTypeService, CompletedExerciseService, provideNativeDateAdapter(), provideCharts(withDefaultRegisterables())]
 })
-export class DiaryComponent implements OnInit{
+export class DiaryComponent implements OnInit, AfterViewInit{
+
   dateControl = new FormControl();
   private _locale: string;
   controlGroup: FormGroup;
@@ -26,6 +29,9 @@ export class DiaryComponent implements OnInit{
   fitnessProgramTypes: FitnessProgramType[] = [];
   public completedExerciseForUser: CompletedExercise[] = [];
   public filteredExerciseForUser: CompletedExercise[] = [];
+
+  weightLossChartData: ChartData<"line",(number|Point|null)[],unknown>|undefined;
+  numberOfSelectedDays = 7; // will be used to plot charts based on how many days are selected
 
 
   constructor(private userService: UserService, private dateAdapter: DateAdapter<Date>, 
@@ -53,7 +59,14 @@ export class DiaryComponent implements OnInit{
       this.completedExerciseService.getCompletedExerciseForUserId(this.userService.getCurrentUser()?.id as number).subscribe(response => {
         this.completedExerciseForUser = response;
         this.filteredExerciseForUser = [...this.completedExerciseForUser];
+        this.drawWeightLossChart();
       })
+  }
+
+  // Here is an improved version of the 'ngAfterViewInit' method:
+
+  ngAfterViewInit(): void {
+   
   }
 
   dateInputMethod(event: any)
@@ -72,6 +85,23 @@ export class DiaryComponent implements OnInit{
     let formattedDate;
     if (dateString) {
       const selectedDate = new Date(dateString);
+      const year = selectedDate.getFullYear();
+      const month = (selectedDate.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+      const day = selectedDate.getDate().toString().padStart(2, '0');
+      formattedDate = `${year}-${month}-${day}`;
+    }
+    else
+    {
+      formattedDate = '';
+    }
+    return formattedDate;
+  }
+
+  formatDateObject(date: Date): string
+  {
+    let formattedDate;
+    if (date) {
+      const selectedDate = date;
       const year = selectedDate.getFullYear();
       const month = (selectedDate.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
       const day = selectedDate.getDate().toString().padStart(2, '0');
@@ -130,10 +160,71 @@ export class DiaryComponent implements OnInit{
   // Filter completedExercises based on dayOfCompletion within today's date and one week before
     this.filteredExerciseForUser = this.completedExerciseForUser.filter(exercise => {
     const exerciseDate = new Date(exercise.dayOfCompletion);
+    this.numberOfSelectedDays = 7;
+
+
+    
+    this.drawWeightLossChart();
     return exerciseDate >= oneWeekAgo && exerciseDate <= today;
 });
 
   }
+
+  public getDateLabels(): string[]
+  {
+    const today = new Date();
+    const pastInterval = new Date();
+    pastInterval.setDate(pastInterval.getDate() - this.numberOfSelectedDays);
+
+    let formattedDaysToReturn: string[] = [] as string[];
+    let step: number;
+    if(this.numberOfSelectedDays == -1)
+      {
+        step = 1;
+        pastInterval.setDate(pastInterval.getDate() - 366); //default to one year
+      }
+    else if(this.numberOfSelectedDays <= 10)
+      {
+        step = 1;
+      }
+      else if(this.numberOfSelectedDays > 10 && this.numberOfSelectedDays <= 50)
+        {
+          step = 1;
+        }
+        else
+        {
+          step = 1;
+        }
+    for(let i = today; i >= pastInterval; i.setDate(i.getDate() - step))
+      {
+        formattedDaysToReturn.push(this.formatDateObject(i));
+      }
+    return formattedDaysToReturn;
+  }
+
+  getWeightLossData(completedExerciseArray: CompletedExercise[]): number[]
+  {
+    let allDateLabels: string[] = this.getDateLabels();
+    let allValuesToReturn: number[] = [] as number[];
+    let valueToPush = 0
+    for(let dateLabel of allDateLabels)
+      {
+        valueToPush = 0;
+        for(let j = 0; j < this.filteredExerciseForUser.length; ++j)
+          {
+            if(this.filteredExerciseForUser[j].dayOfCompletion == dateLabel)
+              {
+                valueToPush += this.filteredExerciseForUser[j].weightLoss;
+              }
+          }
+          allValuesToReturn.push(valueToPush);
+      }
+      console.log("ALL RETURNED LABELS");
+      
+      return allValuesToReturn;
+  }
+
+
   onClick1Month(event: any)
   {
     // Get today's date
@@ -146,6 +237,8 @@ export class DiaryComponent implements OnInit{
   // Filter completedExercises based on dayOfCompletion within today's date and one month ago
     this.filteredExerciseForUser = this.completedExerciseForUser.filter(exercise => {
     const exerciseDate = new Date(exercise.dayOfCompletion);
+    this.numberOfSelectedDays = 30;
+    this.drawWeightLossChart();
     return exerciseDate >= oneMonthAgo && exerciseDate <= today;
 });
 
@@ -162,12 +255,41 @@ export class DiaryComponent implements OnInit{
   // Filter completedExercises based on dayOfCompletion within today's date and one year ago
     this.filteredExerciseForUser = this.completedExerciseForUser.filter(exercise => {
     let exerciseDate = new Date(exercise.dayOfCompletion);
+    this.numberOfSelectedDays = 366;
+    this.drawWeightLossChart();
     return exerciseDate >= oneYearAgo && exerciseDate <= today;
 });
 
   }
   onClickAllTime()
   {
+    this.numberOfSelectedDays = -1;
     this.filteredExerciseForUser = [...this.completedExerciseForUser];
+    this.drawWeightLossChart();
+  }
+  weightLossChartOptions: any;
+  public drawWeightLossChart() {
+    let labelsForThisChart: string[] = this.getDateLabels();
+    let valuesForThisChart: number[] = this.getWeightLossData(this.filteredExerciseForUser);
+
+    
+    this.weightLossChartData = {
+      labels: [...labelsForThisChart],
+      datasets: [
+        {
+          label: "Weight lost (kg)",
+          data: [...valuesForThisChart],
+          backgroundColor: 'red',
+          fill: true
+        }
+
+      ]
+    };
+    this.weightLossChartOptions = {
+      responsive: true,
+      scale: 3
+    }
   }
 }
+
+

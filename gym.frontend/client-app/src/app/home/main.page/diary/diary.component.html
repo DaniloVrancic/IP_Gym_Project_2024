@@ -60,10 +60,19 @@
             </div>
             @if(this.filteredExerciseForUser.length > 0)
             {
-        
         <div class="graphs-container">
+            <div class="graph-title" style="margin-right: 2rem;">Weight Loss:</div>
+            <div class="graph-content" style="display: block; width: 400px; height: 400px;">
+                <canvas baseChart [data]="weightLossChartData" [options]="weightLossChartOptions" [type]="'line'"> </canvas>
+            </div>
             <div class="graph-title"></div>
-            <div class="graph-content"></div>
+            <div class="graph-content">
+                <canvas id="durationChart"></canvas>
+            </div>
+            <div class="graph-title"></div>
+            <div class="graph-content">
+                <canvas id="categoryBarChart"></canvas>
+            </div>
         </div>
         <mat-divider></mat-divider>
         <div class="done-exercise-list">
