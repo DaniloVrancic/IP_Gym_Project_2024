@@ -254,7 +254,7 @@ CREATE TABLE IF NOT EXISTS `db_online_fitness`.`completed_exercise` (
   `duration` INT NOT NULL DEFAULT 0,
   `intensity` INT NOT NULL DEFAULT 0,
   `day_of_completion` DATE NOT NULL,
-  `weight_loss` INT NOT NULL,
+  `weight_loss` DOUBLE NOT NULL,
   `result_description` VARCHAR(64) NULL,
   `work_diary_id` INT NOT NULL,
   PRIMARY KEY (`id`),

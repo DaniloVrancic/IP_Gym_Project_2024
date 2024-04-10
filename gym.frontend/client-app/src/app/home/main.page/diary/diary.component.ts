@@ -161,13 +161,73 @@ export class DiaryComponent implements OnInit, AfterViewInit{
     this.filteredExerciseForUser = this.completedExerciseForUser.filter(exercise => {
     const exerciseDate = new Date(exercise.dayOfCompletion);
     this.numberOfSelectedDays = 7;
+    return exerciseDate >= oneWeekAgo && exerciseDate <= today;
+  });
+  this.drawWeightLossChart();
+  }
+  onClick1Month(event: any)
+  {
+    // Get today's date
+    const today = new Date();
 
+    // Get the date one month ago
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+  // Filter completedExercises based on dayOfCompletion within today's date and one month ago
+    this.filteredExerciseForUser = this.completedExerciseForUser.filter(exercise => {
+    const exerciseDate = new Date(exercise.dayOfCompletion);
+    this.numberOfSelectedDays = 30;
+    return exerciseDate >= oneMonthAgo && exerciseDate <= today;
+  });
+  
+  this.drawWeightLossChart();
+  }
+  onClick1Year(event: any)
+  {
+    // Get today's date
+    const today = new Date();
+
+    // Get the date one year ago
+    const oneYearAgo = new Date();
+    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
+  // Filter completedExercises based on dayOfCompletion within today's date and one year ago
+    this.filteredExerciseForUser = this.completedExerciseForUser.filter(exercise => {
+    let exerciseDate = new Date(exercise.dayOfCompletion);
+    this.numberOfSelectedDays = 366;
+    return exerciseDate >= oneYearAgo && exerciseDate <= today;
+});
+  this.drawWeightLossChart();
+  }
+  onClickAllTime()
+  {
+    this.numberOfSelectedDays = -1;
+    this.filteredExerciseForUser = [...this.completedExerciseForUser];
+    this.drawWeightLossChart();
+  }
+  weightLossChartOptions: any;
+  public drawWeightLossChart() {
+    let labelsForThisChart: string[] = this.getDateLabels();
+    let valuesForThisChart: number[] = this.getWeightLossData(this.filteredExerciseForUser);
 
     
-    this.drawWeightLossChart();
-    return exerciseDate >= oneWeekAgo && exerciseDate <= today;
-});
+    this.weightLossChartData = {
+      labels: [...labelsForThisChart],
+      datasets: [
+        {
+          label: "Weight lost (kg)",
+          data: [...valuesForThisChart],
+          backgroundColor: 'red',
+          fill: true
+        }
 
+      ]
+    };
+    this.weightLossChartOptions = {
+      responsive: true,
+      scale: 1
+    }
   }
 
   public getDateLabels(): string[]
@@ -212,84 +272,26 @@ export class DiaryComponent implements OnInit, AfterViewInit{
         valueToPush = 0;
         for(let j = 0; j < this.filteredExerciseForUser.length; ++j)
           {
-            if(this.filteredExerciseForUser[j].dayOfCompletion == dateLabel)
+            if(this.isSameDate(new Date(this.filteredExerciseForUser[j].dayOfCompletion),new Date(dateLabel)))
               {
                 valueToPush += this.filteredExerciseForUser[j].weightLoss;
               }
           }
           allValuesToReturn.push(valueToPush);
       }
-      console.log("ALL RETURNED LABELS");
-      
       return allValuesToReturn;
   }
 
-
-  onClick1Month(event: any)
+  isSameDate(date1: Date, date2: Date)
   {
-    // Get today's date
-    const today = new Date();
-
-    // Get the date one month ago
-    const oneMonthAgo = new Date();
-    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-
-  // Filter completedExercises based on dayOfCompletion within today's date and one month ago
-    this.filteredExerciseForUser = this.completedExerciseForUser.filter(exercise => {
-    const exerciseDate = new Date(exercise.dayOfCompletion);
-    this.numberOfSelectedDays = 30;
-    this.drawWeightLossChart();
-    return exerciseDate >= oneMonthAgo && exerciseDate <= today;
-});
-
-  }
-  onClick1Year(event: any)
+  if(date1.getDate() == date2.getDate() && date1.getMonth() == date2.getMonth() && date1.getFullYear() == date2.getFullYear())
   {
-    // Get today's date
-    const today = new Date();
-
-    // Get the date one year ago
-    const oneYearAgo = new Date();
-    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-
-  // Filter completedExercises based on dayOfCompletion within today's date and one year ago
-    this.filteredExerciseForUser = this.completedExerciseForUser.filter(exercise => {
-    let exerciseDate = new Date(exercise.dayOfCompletion);
-    this.numberOfSelectedDays = 366;
-    this.drawWeightLossChart();
-    return exerciseDate >= oneYearAgo && exerciseDate <= today;
-});
-
+    return true;
   }
-  onClickAllTime()
-  {
-    this.numberOfSelectedDays = -1;
-    this.filteredExerciseForUser = [...this.completedExerciseForUser];
-    this.drawWeightLossChart();
+  else{
+    return false;
   }
-  weightLossChartOptions: any;
-  public drawWeightLossChart() {
-    let labelsForThisChart: string[] = this.getDateLabels();
-    let valuesForThisChart: number[] = this.getWeightLossData(this.filteredExerciseForUser);
-
-    
-    this.weightLossChartData = {
-      labels: [...labelsForThisChart],
-      datasets: [
-        {
-          label: "Weight lost (kg)",
-          data: [...valuesForThisChart],
-          backgroundColor: 'red',
-          fill: true
-        }
-
-      ]
-    };
-    this.weightLossChartOptions = {
-      responsive: true,
-      scale: 3
-    }
-  }
+}
 }
 
 

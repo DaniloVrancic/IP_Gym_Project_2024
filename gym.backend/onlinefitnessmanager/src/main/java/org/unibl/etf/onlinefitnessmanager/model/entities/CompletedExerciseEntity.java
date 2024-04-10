@@ -27,7 +27,7 @@ public class CompletedExerciseEntity {
     private LocalDate dayOfCompletion;
     @Basic
     @Column(name = "weight_loss", nullable = false)
-    private Integer weightLoss;
+    private Double weightLoss;
     @Basic
     @Column(name = "result_description", nullable = true, length = 64)
     private String resultDescription;
@@ -76,11 +76,11 @@ public class CompletedExerciseEntity {
         this.dayOfCompletion = dayOfCompletion;
     }
 
-    public Integer getWeightLoss() {
+    public Double getWeightLoss() {
         return weightLoss;
     }
 
-    public void setWeightLoss(Integer weightLoss) {
+    public void setWeightLoss(Double weightLoss) {
         this.weightLoss = weightLoss;
     }
 
