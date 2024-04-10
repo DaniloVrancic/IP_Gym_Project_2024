@@ -68,11 +68,13 @@
 }
 
 .graph-title{
-
+    align-items: center;
+    font-size: large;
 }
 
 .graph-content{
-
+    width: 80%;
+    margin: 1.5rem;
 }
 
 .done-exercise-list{
