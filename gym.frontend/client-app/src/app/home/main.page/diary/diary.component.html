@@ -50,11 +50,11 @@
     </div>
 
     <div class="stats-display-container">
-        <div id="pdf-container">
+        <div id="pdf-container" #pdfContainer>
         @if(this.completedExerciseForUser.length > 0)
         {
-            <div class="make-pdf"><button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; padding: 0rem 3.5rem; scale: 1.35;" type="button" (click)="makePdf($event)">Make PDF</button></div>
-            <div class="stats-buttons">
+            <div class="make-pdf" style="margin-left: 2.5rem;"><button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; padding: 0rem 3.5rem; scale: 1.35;" type="button" (click)="makePdf($event)">Make PDF</button></div>
+            <div class="stats-buttons" style="margin-left: 2rem;">
                 <button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; scale: 1.35;" type="button" (click)="onClick1Week($event)">Last Week</button>
                 <button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; scale: 1.35;" type="button" (click)="onClick1Month($event)">Last Month</button>
                 <button mat-flat-button color="primary" style="margin: 2rem 5rem 1rem 0.5rem; scale: 1.35;" type="button" (click)="onClick1Year($event)">Last Year</button>

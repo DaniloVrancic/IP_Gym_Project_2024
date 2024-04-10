@@ -11,6 +11,8 @@ import { CompletedExercise } from './completed.exercise';
 import { CompletedExerciseService } from './completed.exercise.service';
 import { Chart, ChartData, Point, registerables, scales } from 'chart.js/auto';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-diary',
@@ -33,6 +35,8 @@ export class DiaryComponent implements OnInit, AfterViewInit{
   weightLossChartData: ChartData<"line",(number|Point|null)[],unknown>|undefined;
   timeSpentChartData: ChartData<"line",(number|Point|null)[],unknown>|undefined;
   numberOfSelectedDays = 7; // will be used to plot charts based on how many days are selected
+
+  @ViewChild('pdfContainer', {static: false}) el!: ElementRef;
 
 
   constructor(private userService: UserService, private dateAdapter: DateAdapter<Date>, 
@@ -344,10 +348,27 @@ drawCharts()
   this.drawTimeSpentChart();
 }
 
-  makePdf(event: any)
-  {
+makePdf(event: any) {
+  const element = this.el.nativeElement;
 
-  }
+  // Use html2canvas to capture the content of the div as an image
+  html2canvas(document.querySelector("#pdf-container") as HTMLElement).then(canvas => {
+    // Initialize jsPDF
+    const pdf = new jsPDF();
+
+    // Calculate width and height to maintain aspect ratio
+    const width = pdf.internal.pageSize.getWidth();
+    const height = canvas.height * (width / canvas.width);
+
+    // Add the image captured from html2canvas to the PDF
+    const imgData = canvas.toDataURL('image/png');
+    pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+
+    // Save the PDF
+    pdf.save("myDiary.pdf");
+  });
+}
+
 }
 
 
