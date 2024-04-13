@@ -2,20 +2,20 @@
 <nav class="custom-nav montserrat   -regular">
     <span class="title" (click)="takeToMainPage()">FitCheck</span>
     <div class="options">
-        <button mat-fab extended (click)="takeToAddNewProgram()">
+        <button mat-fab extended (click)="takeToAddNewProgram()" [disabled]="!this.currentUser?.email">
             <mat-icon>input</mat-icon>
             Add New Program
           </button>
-        <button mat-fab extended (click)="takeToPreviousPurchases()">
+        <button mat-fab extended (click)="takeToPreviousPurchases()" [disabled]="!this.currentUser?.email">
             <mat-icon>history</mat-icon>
             Previous Purchases
           </button>
           <br>
-          <button mat-fab extended (click)="takeToSubscriptions()">
+          <button mat-fab extended (click)="takeToSubscriptions()" [disabled]="!this.currentUser?.email">
             <mat-icon>subscriptions</mat-icon>
             Subscriptions
           </button>
-          <button mat-fab extended (click)="takeToMyDiary()">
+          <button mat-fab extended (click)="takeToMyDiary()" [disabled]="!this.currentUser?.email">
             <mat-icon>book</mat-icon>
             My Diary
           </button>

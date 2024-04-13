@@ -4,7 +4,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatDividerModule} from '@angular/material/divider';
 import {MatCardModule} from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatPaginatorModule} from '@angular/material/paginator';
@@ -13,6 +12,8 @@ import { MatSelectModule } from '@angular/material/select';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatDividerModule} from '@angular/material/divider';
 
 
 const MaterialComponents = [
@@ -29,7 +30,8 @@ const MaterialComponents = [
   MatSelectModule,
   MatSliderModule,
   MatExpansionModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatDatepickerModule
 ];
 
 @NgModule({
