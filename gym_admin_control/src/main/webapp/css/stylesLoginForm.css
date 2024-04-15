@@ -1,18 +1,18 @@
 body {
-    background-color: #d3d3d3; /* Grey background */
+    background-color: #d3d3d3;
 }
 
 h3 {
-    background-color: #4a286b; /* Purple header */
-    border-radius: 10px; /* Rounded border */
+    background-color: #4a286b;
+    border-radius: 0.65rem; 
     padding: 10px;
-    font-size: 24px; /* Biggest font size */
-    color: white; /* Text color */
+    font-size: 3.5rem;
+    color: white;
     text-align: center; /* Center the text */
 }
 
 label {
-    font-size: 18px; /* Smaller font size for labels */
+    font-size: 2rem; /* Smaller font size for labels */
 }
 
 .my-form {
@@ -20,7 +20,7 @@ label {
     padding: 20px;
     border-radius: 10px; /* Rounded border */
     margin: 0 auto; /* Center the form horizontally */
-    width: 300px; /* Set a fixed width for the form */
+    width: 50%;
 }
 
 .form-container {
@@ -32,6 +32,6 @@ label {
 .form-container .my-form input {
     display: block; /* Display each element on a new line */
     margin: 0.5rem 0; /* Add margin between elements */
-    width: 100%; /* Make elements full width */
+    width: 100%;
     box-sizing: border-box; /* Include padding and border in element's total width */
 }
