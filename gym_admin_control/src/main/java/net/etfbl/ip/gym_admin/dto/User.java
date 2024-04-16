@@ -142,6 +142,25 @@ public class User implements Serializable {
 			return false;
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+	    StringBuilder sb = new StringBuilder();
+	    sb.append("=============================").append("\n");
+	    sb.append("User ID: ").append(this.id).append("\n");
+	    sb.append("Username: ").append(this.username).append("\n");
+	    sb.append("Password: ").append(this.password).append("\n");
+	    sb.append("First Name: ").append(this.firstName).append("\n");
+	    sb.append("Last Name: ").append(this.lastName).append("\n");
+	    sb.append("City: ").append(this.city).append("\n");
+	    sb.append("Avatar: ").append(this.avatar).append("\n");
+	    sb.append("Email: ").append(this.email).append("\n");
+	    sb.append("Activated: ").append(this.activated).append("\n");
+	    sb.append("Type: ").append(this.type).append("\n");
+	    sb.append("=============================").append("\n");
+	    return sb.toString();
+	}
+
 
 	
 }
