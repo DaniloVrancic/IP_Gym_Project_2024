@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import net.etfbl.ip.gym_admin.dao.UserDAO;
 import net.etfbl.ip.gym_admin.dto.User;
+import net.etfbl.ip.gym_admin.util.Util;
 
 public class UserBean implements Serializable {
 	
@@ -12,9 +13,11 @@ public class UserBean implements Serializable {
 	
 	public boolean login(String username, String password)
 	{
-		_currentUser = UserDAO.selectById(5);
 		
-		if(_currentUser != null)
+		
+		String hashedPassword = (password.length() > 0) ? Util.hashString(password, "SHA-256") : "";
+		System.out.println(hashedPassword);
+		if()
 		{
 			System.out.println(_currentUser);
 		}
