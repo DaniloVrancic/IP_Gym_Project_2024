@@ -6,21 +6,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="css/stylesLoginForm.css">
-<title>Admin Login</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="css/stylesLoginForm.css">
+	<title>Admin Login</title>
 </head>
 <body>
 	
 	<div class="form-container">
 	<h3>Admin Control Page</h3>
 	
-	<form class="my-form" method="POST">
+	<form class="my-form" method="POST" action="?action=login">
 		<label for="username">Username:</label>
 		<input type="text" name="username" id="username"/>
 		<label for="password">Password:</label>
 		<input type="password" name="password" id="password"/>
-		<button (click)="" type="submit">Login</button>
+		<button type="submit">Login</button>
 	</form>
 	</div>
 	
@@ -41,7 +41,7 @@
             // Perform action based on login result
             if (loggedIn) {
                 // Redirect to another page upon successful login
-                response.sendRedirect("success.jsp");
+                response.sendRedirect("adminPage.jsp");
             } else {
                 // Show error message or handle unsuccessful login
                 // For simplicity, just print an error message

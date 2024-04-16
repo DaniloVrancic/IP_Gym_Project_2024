@@ -8,6 +8,9 @@ import net.etfbl.ip.gym_admin.util.Util;
 
 public class UserBean implements Serializable {
 	
+	
+	private static final long serialVersionUID = -7996958614906818103L;
+	
 	private User _currentUser = new User();
 	private boolean isLoggedIn = false;
 	
@@ -16,16 +19,32 @@ public class UserBean implements Serializable {
 		
 		
 		String hashedPassword = (password.length() > 0) ? Util.hashString(password, "SHA-256") : "";
-		System.out.println(hashedPassword);
-		if()
+		User selectedUser = UserDAO.selectByUsername(username);
+		
+		if(selectedUser != null)
 		{
-			System.out.println(_currentUser);
+			if(selectedUser.getPassword().equals(hashedPassword))
+			{
+				this._currentUser = selectedUser;
+				this.isLoggedIn = true;
+				System.out.println("Successful login.");
+			}
+			else
+			{
+				System.out.println("Incorrect password.");
+			}
 		}
 		else {
-			System.out.println("User not found.");
+			System.out.println("No such user found");
 		}
 		
 		return true;
+	}
+	
+	public void logout()
+	{
+		this._currentUser = new User();
+		this.isLoggedIn = false;
 	}
 	
 
