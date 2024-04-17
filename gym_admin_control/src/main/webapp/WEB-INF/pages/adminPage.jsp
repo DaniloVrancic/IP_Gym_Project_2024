@@ -11,7 +11,18 @@
 		<link rel="stylesheet" href="css/stylesAdminControl.css">
 	</head>
 	<body>
-	<h1>Welcome to admin page! :D</h1>
+	<jsp:include page="/WEB-INF/partials/header.jsp"></jsp:include>
+	<%
+    
+    UserBean userBean = (UserBean) session.getAttribute("userBean");
+    // If userBean is not null, get the current user's username
+    String username = "";
+    if (userBean != null) {
+        username = userBean.getCurrentUser().getUsername();
+    }
+	%>
+
+<h2 class="logged-in-message" style="padding:1rem;">Logged in as: <%= username %></h2>
 	</body>
 
 </html>

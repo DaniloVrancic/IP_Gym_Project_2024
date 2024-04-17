@@ -41,10 +41,21 @@ public class UserBean implements Serializable {
 		return true;
 	}
 	
+	public User getCurrentUser()
+	{
+		return _currentUser;
+	}
+	
 	public void logout()
 	{
 		this._currentUser = new User();
 		this.isLoggedIn = false;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return this._currentUser.getUsername();
 	}
 	
 

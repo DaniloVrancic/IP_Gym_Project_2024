@@ -18,10 +18,10 @@
 		 */
 		private static final long serialVersionUID = 1L;
 		
-		private final String contextPath = "/gym_admin_control";
-		private final String adminPagePath = "/WEB-INF/pages/adminPage.jsp";
-		private final String headerPath = "/WEB-INF/pages/header.jsp";
-		private final String loginPagePath = "/loginForm.jsp";
+		private static final String contextPath = "/gym_admin_control";
+		private static final String adminPagePath = "/WEB-INF/pages/adminPage.jsp";
+		private static final String headerPath = "/WEB-INF/partials/header.jsp";
+		private static final String loginPagePath = "/loginForm.jsp";
 		
 		public Controller() {
 			super();
