@@ -16,6 +16,11 @@
 	<h3>Admin Control Page</h3>
 	
 	<form class="my-form" method="POST" action="/gym_admin_control/Controller?action=login">
+		<%-- Check if there's a notification message in the session --%>
+   	 <% String notification = (String) session.getAttribute("notification"); %>
+    	<% if (notification != null && !notification.isEmpty()) { %>
+        <div class="error-message"><%= notification %></div>
+    	<% } %>
 		<label for="username">Username:</label>
 		<input type="text" name="username" id="username"/>
 		<label for="password">Password:</label>

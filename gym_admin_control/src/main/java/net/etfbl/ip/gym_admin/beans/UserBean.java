@@ -14,7 +14,7 @@ public class UserBean implements Serializable {
 	private User _currentUser = new User();
 	private boolean isLoggedIn = false;
 	
-	public boolean login(String username, String password)
+	public boolean login(String username, String password) throws RuntimeException
 	{
 		
 		
@@ -31,13 +31,11 @@ public class UserBean implements Serializable {
 			}
 			else
 			{
-				System.out.println("Incorrect password.");
-				return false;
+				throw new RuntimeException("Incorrect password for given user.");
 			}
 		}
 		else {
-			System.out.println("No such user found");
-			return false;
+			throw new RuntimeException("No such user found.");
 		}
 		
 		return true;
