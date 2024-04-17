@@ -12,6 +12,7 @@ import net.etfbl.ip.gym_admin.dto.User;
 public class UserDAO {
 	private static ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
 	private static final String SQL_SELECT_BY_USERNAME = "SELECT * FROM user WHERE username=?";
+	private static final String SQL_SELECT_ADMINS	= "SELECT * FROM user WHERE username=? AND type=?";
 	private static final String SQL_SELECT_BY_EMAIL = "SELECT * FROM user WHERE email=?";
 	private static final String SQL_FIND_BY_USERNAME = "SELECT * FROM user WHERE username = ?";
 	private static final String SQL_INSERT = "INSERT INTO user (username, password, first_name, last_name, city, avatar, email, activated, type) VALUES (?,?,?,?,?,?,?,?,?)";
@@ -29,6 +30,29 @@ public class UserDAO {
 			connection = connectionPool.checkOut();
 			PreparedStatement pstmt = DAOUtil.prepareStatement(connection,
 					SQL_SELECT_BY_USERNAME, false, values);
+			rs = pstmt.executeQuery();
+			if (rs.next()){
+				user = new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"), rs.getString("first_name"), rs.getString("last_name"),
+						rs.getString("city"), rs.getString("avatar"), rs.getString("email"), rs.getBoolean("activated"), rs.getInt("type"));
+			}
+			pstmt.close();
+		} catch (SQLException exp) {
+			exp.printStackTrace();
+		} finally {
+			connectionPool.checkIn(connection);
+		}
+		return user;
+	}
+	
+	public static User selectAdminByUsername(String username){
+		User user = null;
+		Connection connection = null;
+		ResultSet rs = null;
+		Object values[] = {username, 1}; // the one represents the type (1 = ADMIN)
+		try {
+			connection = connectionPool.checkOut();
+			PreparedStatement pstmt = DAOUtil.prepareStatement(connection,
+					SQL_SELECT_ADMINS, false, values);
 			rs = pstmt.executeQuery();
 			if (rs.next()){
 				user = new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"), rs.getString("first_name"), rs.getString("last_name"),

@@ -10,7 +10,7 @@
 	
 	import java.io.IOException;
 	
-	@WebServlet("/Controller")
+	@WebServlet({"/Controller", ""})
 	public class Controller extends HttpServlet{
 	
 		/**
@@ -32,7 +32,7 @@
 				throws ServletException, IOException {
 			
 			request.setCharacterEncoding("UTF-8");
-			String address = "/WEB-INF/pages/login.jsp";
+			String address = loginPagePath;
 			String action = request.getParameter("action");
 			HttpSession session = null;
 			if(session == null)
@@ -40,10 +40,10 @@
 				session = request.getSession(true);
 			}
 			
-			session.setAttribute("notification", "");
+			session.setAttribute("login_notification", "");
 			
 			if (action == null || action.equals("")) {
-				address = contextPath + loginPagePath;
+				
 			}
 			else if("login".equals(action))
 			{
@@ -63,25 +63,26 @@
 		            }
 		            catch(Exception ex)
 		            {
-		            	session.setAttribute("notification", ex.getLocalizedMessage());
+		            	session.setAttribute("login_notification", ex.getLocalizedMessage());
 		            }
 		            
 		            // Perform action based on login result
 		            if (loggedIn) {
 		            	session = request.getSession(true);
 		            	session.setAttribute("userBean", userBean);
-		            	session.setAttribute("notification", "");
+		            	session.setAttribute("login_notification", "");
 		                // Redirect to another page upon successful login
 		            	request.getRequestDispatcher(adminPagePath).forward(request, response);
 		            	return;
 		            } else {
 		                // Show error message or handle unsuccessful login
-		                
+		                response.sendRedirect(contextPath + loginPagePath);
 		            	
 		            	return;
 		            }
 		        
 			}
+			request.getRequestDispatcher(address).forward(request, response);
 
 		}
 		

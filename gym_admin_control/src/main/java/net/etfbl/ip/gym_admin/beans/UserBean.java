@@ -19,7 +19,7 @@ public class UserBean implements Serializable {
 		
 		
 		String hashedPassword = (password.length() > 0) ? Util.hashString(password, "SHA-256") : "";
-		User selectedUser = UserDAO.selectByUsername(username);
+		User selectedUser = UserDAO.selectAdminByUsername(username);
 		
 		if(selectedUser != null)
 		{
