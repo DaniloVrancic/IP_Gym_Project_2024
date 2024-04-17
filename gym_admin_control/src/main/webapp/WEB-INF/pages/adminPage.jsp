@@ -11,6 +11,7 @@
 		<link rel="stylesheet" href="css/stylesAdminControl.css">
 	</head>
 	<body>
+	<h1>Welcome to admin page! :D</h1>
 	</body>
 
 </html>

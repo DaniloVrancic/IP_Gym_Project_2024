@@ -32,10 +32,12 @@ public class UserBean implements Serializable {
 			else
 			{
 				System.out.println("Incorrect password.");
+				return false;
 			}
 		}
 		else {
 			System.out.println("No such user found");
+			return false;
 		}
 		
 		return true;
