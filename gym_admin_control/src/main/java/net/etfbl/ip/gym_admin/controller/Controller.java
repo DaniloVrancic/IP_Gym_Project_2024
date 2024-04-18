@@ -131,6 +131,16 @@ import net.etfbl.ip.gym_admin.beans.UserBean;
 					return;
 				}
 			}
+			else if("userAdd".equals(action))
+			{
+				System.out.println("You did USER ADD!");
+				return;
+			}
+			else if("userUpdate".equals(action))
+			{
+				System.out.println("You did USER UPDATE!");
+				return;
+			}
 			request.getRequestDispatcher(address).forward(request, response);
 
 		}
