@@ -21,6 +21,10 @@
 		private static final String contextPath = "/gym_admin_control";
 		private static final String adminPagePath = "/WEB-INF/pages/adminPage.jsp";
 		private static final String headerPath = "/WEB-INF/partials/header.jsp";
+		private static final String categoriesPath = "/WEB-INF/pages/categoriesPage.jsp";
+		private static final String usersPath = "/WEB-INF/pages/usersPage.jsp";
+		private static final String statisticsPath = "/WEB-INF/pages/statisticsPage.jsp";
+		private static final String notFoundPage = "/WEB-INF/pages/404NotFound.jsp";
 		private static final String loginPagePath = "/loginForm.jsp";
 		
 		public Controller() {
@@ -81,6 +85,51 @@
 		            	return;
 		            }
 		        
+			}
+			else if("logout".equals(action))
+			{
+				session.invalidate();
+				address = (loginPagePath);
+			}
+			else if("categories".equals(action))
+			{
+				
+				if(!session.getAttribute("userBean").equals(null))
+				{
+					request.getRequestDispatcher(categoriesPath).forward(request, response);
+					return;
+				}
+				else
+				{
+					request.getRequestDispatcher(notFoundPage).forward(request, response);
+					return;
+				}
+			}
+			else if("users".equals(action))
+			{
+				if(!session.getAttribute("userBean").equals(null))
+				{
+					request.getRequestDispatcher(usersPath).forward(request, response);
+					return;
+				}
+				else
+				{
+					request.getRequestDispatcher(notFoundPage).forward(request, response);
+					return;
+				}
+			}
+			else if("statistics".equals(action))
+			{
+				if(!session.getAttribute("userBean").equals(null))
+				{
+					request.getRequestDispatcher(statisticsPath).forward(request, response);
+					return;
+				}
+				else
+				{
+					request.getRequestDispatcher(notFoundPage).forward(request, response);
+					return;
+				}
 			}
 			request.getRequestDispatcher(address).forward(request, response);
 

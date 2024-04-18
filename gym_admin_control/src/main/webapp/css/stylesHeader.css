@@ -36,7 +36,7 @@ a{
 
 .list-item:hover{
 	background-color: #f3f3f3;
-	color: black;
+	color: #d16a3b;
 }
 
 @keyframes buttonAnimation {

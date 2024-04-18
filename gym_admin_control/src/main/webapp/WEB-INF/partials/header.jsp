@@ -14,9 +14,10 @@
 	<header class="jersey-25-regular">
 	<h1 >Admin Control Panel</h1>
     <ul class="list" style="display:flex; flex-direction: row; flex-wrap=wrap">
-      <a href="https://www.youtube.com"><li class="list-item">Categories</li></a>
-      <a><li class="list-item">Users</li></a>
-      <a><li class="list-item">Statistics</li></a>
+      <a href="/gym_admin_control/Controller?action=categories"><li class="list-item">Categories</li></a>
+      <a href="/gym_admin_control/Controller?action=users"><li class="list-item">Users</li></a>
+      <a href="/gym_admin_control/Controller?action=statistics"><li class="list-item">Statistics</li></a>
+      <a href="/gym_admin_control/Controller?action=logout"><li class="list-item">Logout</li></a>
     </ul>
   </header>
 	
