@@ -157,7 +157,7 @@ public class User implements Serializable {
 	    sb.append("Email: ").append(this.email).append("\n");
 	    sb.append("Activated: ").append(this.activated).append("\n");
 	    sb.append("Type: ").append(this.type).append("\n");
-	    sb.append("=============================").append("\n");
+	    sb.append("=============================");
 	    return sb.toString();
 	}
 
