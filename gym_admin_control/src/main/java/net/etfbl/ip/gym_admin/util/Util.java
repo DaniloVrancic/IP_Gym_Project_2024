@@ -4,9 +4,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public final class Util {
-	
+
 	/**
-	 * 
+	 *
 	 * @param plainText The string to get hashed
 	 * @param algorithm Needs to be one of the possible algorithm Strings in MessageDigest class
 	 * @return Hashed text
@@ -19,7 +19,9 @@ public final class Util {
 	        StringBuilder hexString = new StringBuilder();
 	        for (byte b : hash) {
 	            String hex = Integer.toHexString(0xff & b);
-	            if (hex.length() == 1) hexString.append('0');
+	            if (hex.length() == 1) {
+					hexString.append('0');
+				}
 	            hexString.append(hex);
 	        }
 	        return hexString.toString();

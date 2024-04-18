@@ -3,9 +3,9 @@ package net.etfbl.ip.gym_admin.dto;
 import java.io.Serializable;
 
 public class SpecificProgramAttribute implements Serializable {
-    
+
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private Integer id;
@@ -46,18 +46,20 @@ public class SpecificProgramAttribute implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) {
+			return true;
+		}
+        if ((obj == null) || (getClass() != obj.getClass())) {
+			return false;
+		}
         SpecificProgramAttribute other = (SpecificProgramAttribute) obj;
         if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
+            if (other.id != null) {
+				return false;
+			}
+        } else if (!id.equals(other.id)) {
+			return false;
+		}
         return true;
     }
 

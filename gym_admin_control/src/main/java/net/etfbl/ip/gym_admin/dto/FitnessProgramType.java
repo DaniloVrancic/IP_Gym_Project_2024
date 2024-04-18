@@ -3,9 +3,9 @@ package net.etfbl.ip.gym_admin.dto;
 import java.io.Serializable;
 
 public class FitnessProgramType implements Serializable{
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -13,10 +13,10 @@ public class FitnessProgramType implements Serializable{
 	{
 		super();
 	}
-	
+
 	private Integer id;
 	private String name;
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -29,7 +29,7 @@ public class FitnessProgramType implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -40,18 +40,19 @@ public class FitnessProgramType implements Serializable{
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
 		User other = (User) obj;
-		if (!id.equals(other.getId()))
+		if (!id.equals(other.getId())) {
 			return false;
+		}
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 	    StringBuilder sb = new StringBuilder();
@@ -61,5 +62,5 @@ public class FitnessProgramType implements Serializable{
 	    return sb.toString();
 	}
 
-	
+
 }

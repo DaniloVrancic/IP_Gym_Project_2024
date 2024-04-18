@@ -2,8 +2,11 @@ package net.etfbl.ip.gym_admin.dao;
 
 
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+import java.util.Vector;
 
 
 public class ConnectionPool {
@@ -16,7 +19,7 @@ public class ConnectionPool {
 
   static {
     ResourceBundle bundle =
-      PropertyResourceBundle.getBundle("net.etfbl.ip.gym_admin.dao.ConnectionPool");
+      ResourceBundle.getBundle("net.etfbl.ip.gym_admin.dao.ConnectionPool");
     String jdbcURL = bundle.getString("jdbcURL");
     String username = bundle.getString("username");
     String password = bundle.getString("password");
@@ -51,8 +54,8 @@ public class ConnectionPool {
     int aMaxConnections)
     throws ClassNotFoundException, SQLException {
 
-    freeConnections = new Vector<Connection>();
-    usedConnections = new Vector<Connection>();
+    freeConnections = new Vector<>();
+    usedConnections = new Vector<>();
     jdbcURL = aJdbcURL;
     username = aUsername;
     password = aPassword;
@@ -74,7 +77,7 @@ public class ConnectionPool {
 
     Connection conn = null;
     if (freeConnections.size() > 0) {
-      conn = (Connection)freeConnections.elementAt(0);
+      conn = freeConnections.elementAt(0);
       freeConnections.removeElementAt(0);
       usedConnections.addElement(conn);
     } else {
@@ -86,7 +89,7 @@ public class ConnectionPool {
       } else {
         try {
           wait();
-          conn = (Connection)freeConnections.elementAt(0);
+          conn = freeConnections.elementAt(0);
           freeConnections.removeElementAt(0);
           usedConnections.addElement(conn);
         } catch (InterruptedException ex) {
@@ -98,14 +101,14 @@ public class ConnectionPool {
   }
 
   public synchronized void checkIn(Connection aConn) {
-    if (aConn ==  null)
-      return;
+    if (aConn ==  null) {
+		return;
+	}
     if (usedConnections.removeElement(aConn)) {
       freeConnections.addElement(aConn);
       while (freeConnections.size() > maxIdleConnections) {
         int lastOne = freeConnections.size() - 1;
-        Connection conn = (Connection)
-          freeConnections.elementAt(lastOne);
+        Connection conn = freeConnections.elementAt(lastOne);
         try { conn.close(); } catch (SQLException ex) { }
         freeConnections.removeElementAt(lastOne);
       }

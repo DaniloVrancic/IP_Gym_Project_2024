@@ -5,10 +5,10 @@ import java.io.Serializable;;
 public class User implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -7249814167430841592L;
-	
+
 	private int id;
 	private String username;
 	private String password;
@@ -19,9 +19,9 @@ public class User implements Serializable {
 	private String email;
 	private Boolean activated;
 	private Integer type;
-	
+
 	public User() {}
-	
+
 	public User(int id, String username, String password, String firstName, String lastName,
 			String city, String avatar, String email, Boolean activated, Integer type) {
 		super();
@@ -60,11 +60,11 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public String getFirstName() {
 		return firstName;
 	}
-	
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -128,21 +128,23 @@ public class User implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
 		User other = (User) obj;
 		if (username == null) {
-			if (other.username != null)
+			if (other.username != null) {
 				return false;
-		} else if (!username.equals(other.username))
+			}
+		} else if (!username.equals(other.username)) {
 			return false;
+		}
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 	    StringBuilder sb = new StringBuilder();
@@ -162,5 +164,5 @@ public class User implements Serializable {
 	}
 
 
-	
+
 }
