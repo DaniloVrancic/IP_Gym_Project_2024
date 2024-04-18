@@ -38,14 +38,17 @@
             document.getElementById("email").value = "";
             document.getElementById("addUserButton").disabled = true;
             document.getElementById("updateButton").disabled = true;
+            document.getElementById("activatedNo").checked="checked";
         }
         
         function enableUpdateButton() {
             var userId = document.getElementById("userId").value.trim();
-            if (userId !== '') {
-                document.getElementById("updateButton").disabled = true;
-            } else {
+            if (userId.length > 0 && userId != null) {
                 document.getElementById("updateButton").disabled = false;
+                document.getElementById("deleteButton").disabled = false;
+            } else {
+                document.getElementById("updateButton").disabled = true;
+                document.getElementById("deleteButton").disabled = true;
             }
         }
         
@@ -61,6 +64,7 @@
             var lastName = selectedOption.getAttribute("data-lastname");
             var avatar = selectedOption.getAttribute("data-avatar");
             var email = selectedOption.getAttribute("data-email");
+            var activated = selectedOption.getAttribute("data-activated");
 
             // Assign values to corresponding text-boxes
             document.getElementById("userId").value = id;
@@ -70,10 +74,15 @@
             document.getElementById("lastName").value = lastName;
             document.getElementById("avatar").value = avatar;
             document.getElementById("email").value = email;
+            console.log(activated);
+            if(activated == "false")
+            	{
+            	document.getElementById("activatedNo").checked = "checked";
+            	}
+            else{
+            	document.getElementById("activatedYes").checked = "checked";
+            	}
             };
-          
-        
-       
     </script>
 </head>
 <body>
@@ -95,7 +104,8 @@
             data-firstName="<%=regularUser.getFirstName()%>" 
             data-lastName="<%=regularUser.getLastName()%>" 
             data-avatar="<%=regularUser.getAvatar()%>" 
-            data-email="<%=regularUser.getEmail()%>">
+            data-email="<%=regularUser.getEmail()%>" 
+            data-activated="<%=regularUser.getActivated()%>">
             <%= regularUser.getUsername()%></option> <%
             }
             %>
@@ -116,9 +126,18 @@
         <input type="text" id="avatar" name="avatar"><br>
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" oninput="validateInputs();"><br>
+        
+    <label for="activated">Activated:</label><br>
+    <input type="radio" id="activatedYes" name="activated" value="true">
+    <label for="activatedYes">Yes</label>
+    <input checked="checked" type="radio" id="activatedNo" name="activated" value="false">
+    <label for="activatedNo">No</label><br>
+    
+    
         <button type="submit" id="addUserButton" formaction="/gym_admin_control/Controller?action=userAdd" disabled>Add User</button>
         <button type="button" onclick="clearInputs();">Clear All Inputs</button>
         <button type="submit" id="updateButton" formaction="/gym_admin_control/Controller?action=userUpdate" disabled>Update User</button>
+        <button type="submit" id="deleteButton" formaction="/gym_admin_control/Controller?action=userRemove" disabled>Remove User</button>
     </form>
 </div>
 </body>

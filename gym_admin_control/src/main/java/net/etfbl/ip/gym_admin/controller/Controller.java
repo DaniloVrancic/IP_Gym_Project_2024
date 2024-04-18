@@ -9,6 +9,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.etfbl.ip.gym_admin.beans.UserBean;
+import net.etfbl.ip.gym_admin.dao.UserDAO;
+import net.etfbl.ip.gym_admin.dto.User;
+import net.etfbl.ip.gym_admin.util.Util;
 
 	@WebServlet({"/Controller", ""})
 	public class Controller extends HttpServlet{
@@ -133,12 +136,17 @@ import net.etfbl.ip.gym_admin.beans.UserBean;
 			}
 			else if("userAdd".equals(action))
 			{
-				System.out.println("You did USER ADD!");
+				addUserToRepository(request, response);
 				return;
 			}
 			else if("userUpdate".equals(action))
 			{
-				System.out.println("You did USER UPDATE!");
+				updateUserInRepository(request, response);
+				return;
+			}
+			else if("userRemove".equals(action))
+			{
+				removeUserFromRepository(request, response);
 				return;
 			}
 			request.getRequestDispatcher(address).forward(request, response);
@@ -150,6 +158,104 @@ import net.etfbl.ip.gym_admin.beans.UserBean;
 				throws ServletException, IOException {
 
 			doGet(request, response);
+		}
+		
+		private void addUserToRepository(HttpServletRequest request, HttpServletResponse response)
+		{
+			
+			String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String firstName = request.getParameter("firstName");
+            String lastName = request.getParameter("lastName");
+            String city = request.getParameter("city");
+            String avatar = request.getParameter("avatar").length() > 0 ? request.getParameter("avatar") : null;
+            String email = request.getParameter("email");
+            Boolean activated = Boolean.parseBoolean(request.getParameter("activated"));
+            
+            User userToAdd = new User();
+            userToAdd.setUsername(username);
+            String hashedPassword = Util.hashString(password, "SHA-256");
+            userToAdd.setPassword(hashedPassword);
+            userToAdd.setFirstName(firstName);
+            userToAdd.setLastName(lastName);
+            userToAdd.setCity(city);
+            userToAdd.setAvatar(avatar);
+            userToAdd.setEmail(email);
+            userToAdd.setActivated(activated);
+            userToAdd.setType(3); // Wanna make it so that admins from the control panel
+            					  //can only add User type users.
+            
+            
+            
+            try {
+            	
+            if(UserDAO.insert(userToAdd))
+            {
+            	System.out.println("Successfuly added:" + userToAdd.getUsername());
+            	          	
+            }
+            }
+            catch(Exception ex)
+            {
+            	System.out.println(ex.getLocalizedMessage());
+            }
+            
+            
+            
+		}
+		
+		private void updateUserInRepository(HttpServletRequest request, HttpServletResponse response)
+		{
+			Integer userId = Integer.parseInt(request.getParameter("userId"));
+			String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String firstName = request.getParameter("firstName");
+            String lastName = request.getParameter("lastName");
+            String city = request.getParameter("city");
+            String avatar = request.getParameter("avatar").length() > 0 ? request.getParameter("avatar") : null;
+            String email = request.getParameter("email");
+            Boolean activated = Boolean.parseBoolean(request.getParameter("activated"));
+            
+            User userToUpdate = UserDAO.selectById(userId);
+            if(username.length() > 0) {userToUpdate.setUsername(username);}
+            if(password.length() > 0) {userToUpdate.setPassword(Util.hashString(password, "SHA-256"));};
+            if(firstName.length() > 0) {userToUpdate.setFirstName(firstName);}
+            if(lastName.length() > 0) {userToUpdate.setLastName(lastName);}
+            if(city.length() > 0) {userToUpdate.setCity(city);}
+            if(avatar != null && avatar.length() > 0) {userToUpdate.setAvatar(avatar);}
+            else {userToUpdate.setAvatar(null);}
+            if(email.length() > 0) {userToUpdate.setEmail(email);}
+            userToUpdate.setActivated(activated);
+            
+            
+            try {
+            	
+            if(UserDAO.update(userToUpdate))
+            {
+            	System.out.println("Successfuly updated:");
+            	System.out.println(userToUpdate);            	
+            }
+            }
+            catch(Exception ex)
+            {
+            	System.out.println(ex.getLocalizedMessage());
+            }
+		}
+		
+		private void removeUserFromRepository(HttpServletRequest request, HttpServletResponse response)
+		{
+			Integer userId = Integer.parseInt(request.getParameter("userId"));
+			
+			try {
+				if(UserDAO.remove(userId))
+				{
+					System.out.println("Successfuly removed user with ID: " + userId);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.out.println(ex.getLocalizedMessage());
+			}
 		}
 	}
 
