@@ -1,6 +1,8 @@
 	package net.etfbl.ip.gym_admin.controller;
 
 	import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,7 +11,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.etfbl.ip.gym_admin.beans.UserBean;
+import net.etfbl.ip.gym_admin.dao.SpecificProgramAttributeDAO;
 import net.etfbl.ip.gym_admin.dao.UserDAO;
+import net.etfbl.ip.gym_admin.dto.SpecificProgramAttribute;
 import net.etfbl.ip.gym_admin.dto.User;
 import net.etfbl.ip.gym_admin.util.Util;
 
@@ -148,6 +152,46 @@ import net.etfbl.ip.gym_admin.util.Util;
 			{
 				removeUserFromRepository(request, response);
 				return;
+			}
+			else if ("specificAttributes".equals(action)) {
+			    int programTypeId = Integer.parseInt(request.getParameter("programTypeId"));
+			    
+			    
+			    // Call a method to retrieve specific attributes based on programTypeId
+			    List<SpecificProgramAttribute> attributes = SpecificProgramAttributeDAO.selectByFitnessProgramTypeId(programTypeId);
+			    
+			    for(SpecificProgramAttribute attribu : attributes)
+			    {
+			    	System.out.println(attribu);
+			    }
+			    // Manually construct JSON string
+			    StringBuilder jsonBuilder = new StringBuilder("[");
+			    for (int i = 0; i < attributes.size(); i++) {
+			        SpecificProgramAttribute attribute = attributes.get(i);
+			        jsonBuilder.append("{");
+			        jsonBuilder.append("\"id\":").append(attribute.getId()).append(",");
+			        jsonBuilder.append("\"attributeName\":\"").append(attribute.getAttributeName()).append("\",");
+			        jsonBuilder.append("\"attributeValue\":\"").append(attribute.getValue()).append("\",");
+			        jsonBuilder.append("\"programType\":").append(attribute.getProgramType());
+			        jsonBuilder.append("}");
+			        if (i < attributes.size() - 1) {
+			            jsonBuilder.append(",");
+			        }
+			    }
+			    jsonBuilder.append("]");
+			    String json = jsonBuilder.toString();
+			    
+			    // Set response content type and character encoding
+			    response.setContentType("application/json");
+			    response.setCharacterEncoding("UTF-8");
+			    
+			    // Write JSON string to response
+			    try (PrintWriter out = response.getWriter()) {
+			        out.write(json);
+			    } catch (IOException e) {
+			        e.printStackTrace();
+			    }
+			    return;
 			}
 			request.getRequestDispatcher(address).forward(request, response);
 

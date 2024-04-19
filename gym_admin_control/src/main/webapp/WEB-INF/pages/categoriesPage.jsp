@@ -10,8 +10,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+25&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/stylesHeader.css">
     <link rel="stylesheet" href="css/stylesAdminControl.css">
+    <link rel="stylesheet" href="css/stylesCategoriesPage.css">
+    <link rel="stylesheet" href="css/form-style.css">
+    
+    
     <title>Fitness Categories</title>
     <script>
     	function checkTypeButtons()
@@ -76,9 +86,15 @@
     		let categorySelect 		 = document.getElementById("programTypeSelect");
     		let categorySelectOption = categorySelect.options[categorySelect.selectedIndex];
     		let attributeValueTextBox= document.getElementById("attributeValue");
+    		let typeForAttributeInput= document.getElementById("typeForAttribute");
+    		
     		
     		var selectedTypeId = categorySelectOption.getAttribute("data-id");
     		var selectedTypeName = categorySelectOption.getAttribute("data-name");
+    		typeForAttributeInput.value = selectedTypeId;
+    		getNewAttributeList();
+    		
+    		
     		
     		if(selectedTypeId.length == 0) //If no type is selected, all the buttons are disabled and no need to check further.
     			{
@@ -92,19 +108,83 @@
     			
     			}
     	}
+    	
+    	function getNewAttributeList(){
+    		let typeForAttributeInput = document.getElementById("typeForAttribute");
+    		
+    		if(typeForAttributeInput.value.length > 0)
+    			{
+    			populateSpecificAttributes(typeForAttributeInput.value);
+    			}
+    		else{
+    			var select = document.getElementById('specificAttributeSelect');
+    			select.innerHTML = ''; //Clear all leftover options from before
+    			var defaultOption = document.createElement('option');
+                
+                defaultOption.text = '(none)';
+                defaultOption.value = '';
+                defaultOption.setAttribute('data-id', '');
+                defaultOption.setAttribute('data-name', '');
+                defaultOption.setAttribute('data-value', '');
+                defaultOption.setAttribute('data-type', '');
+                select.appendChild(defaultOption);
+    		}
+    		
+    	}
+    	
+    	function populateSpecificAttributes(programTypeId) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var attributes = JSON.parse(xhr.responseText);
+                        var select = document.getElementById('specificAttributeSelect');
+                        select.innerHTML = ''; // Clear existing options
+                        var defaultOption = document.createElement('option');
+                        
+                        defaultOption.text = '(none)';
+                        defaultOption.value = '';
+                        defaultOption.setAttribute('data-id', '');
+                        defaultOption.setAttribute('data-name', '');
+                        defaultOption.setAttribute('data-value', '');
+                        defaultOption.setAttribute('data-type', '');
+                        
+                        select.appendChild(defaultOption);
+                        for (var i = 0; i < attributes.length; i++) {
+                            var option = document.createElement('option');
+                            option.text = attributes[i].attributeName;
+                            option.setAttribute('data-id', attributes[i].id);
+                            option.setAttribute('data-type', attributes[i].programType);
+                            option.setAttribute('data-name', attributes[i].attributeName);
+                            option.setAttribute('data-value', attributes[i].attributeValue);
+                            select.appendChild(option);
+                        }
+                    } else {
+                        console.error("Failed to fetch specific attributes. Status code: " + xhr.status);
+                    }
+                }
+            };
+            xhr.open('POST', 'Controller', true); // Specify your controller servlet URL
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            
+            xhr.send('action=specificAttributes&programTypeId=' + programTypeId); // Send parameters in request body
+        }
     </script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/partials/header.jsp"></jsp:include>
 <% List<FitnessProgramType> allTypes = FitnessProgramTypeDAO.selectAllTypes(); %>
-<div>
-    <h1>Fitness Categories</h1>
+
+<div class="main-content-div">
+    <h1 class="form-title">Fitness Categories</h1><br>
     <div id="fitnessTypes">
-        <h2>Fitness Types</h2>
         <!-- Form for adding/updating fitness types -->
-        <form id="fitnessTypeForm" method="POST">
-        	<label for="existingProgramSelect">Program Type:</label>
-        	<select id="existingProgramSelect" name="existingProgramSelect" onchange="checkTypeButtons();selectUpdateTextField();">
+        <div id="form-content-div-id">
+        <form id="fitnessTypeForm" method="POST" class="fixed-width-form fixed-height-form">
+        <h2 class="form-title">Fitness Types</h2>
+        
+        	<label for="existingProgramSelect" class="input-field-descriptor">Program Type:</label>
+        	<select id="existingProgramSelect" name="existingProgramSelect" class="input-field select-input" onchange="checkTypeButtons();selectUpdateTextField();">
             <option data-id="" data-name="">(none)</option>
                 <% 
                 for(FitnessProgramType programType : allTypes)
@@ -115,22 +195,24 @@
                 %>
             </select>
             <input type="hidden" id="fitnessTypeId" name="fitnessTypeId">
-            <label for="fitnessTypeName">Name:</label>
-            <input type="text" id="fitnessTypeName" name="fitnessTypeName" oninput="checkTypeButtons();">
-            <button type="submit" id="addFitnessTypeButton" disabled>Add Fitness Type</button>
-            <button type="submit" id="updateFitnessTypeButton" disabled>Update Fitness Type</button>
-            <button type="submit" id="deleteFitnessTypeButton" disabled>Delete Fitness Type</button>
+            
+            <label for="fitnessTypeName" class="input-field-descriptor">Name:</label>
+            <input type="text" id="fitnessTypeName" name="fitnessTypeName" class="input-field" placeholder=" " oninput="checkTypeButtons();">
+            <br><br>
+            <div class="buttons-area">
+                <button type="submit" id="addFitnessTypeButton" disabled>Add Fitness Type</button>
+                <button type="submit" id="updateFitnessTypeButton" disabled>Update Fitness Type</button>
+                <button type="submit" id="deleteFitnessTypeButton" disabled>Delete Fitness Type</button>
+            </div>
         </form>
-        <div id="fitnessTypeList">
-            <!-- Fitness type list will be displayed here -->
-        </div>
-    </div>
+        
+    
     <div id="specificAttributes">
-        <h2>Specific Attributes</h2>
         <!-- Form for adding/updating specific attributes -->
-        <form id="specificAttributeForm" method="POST">
-            <label for="programTypeSelect">Program Type:</label>
-            <select id="programTypeSelect" name="programTypeSelect" onchange="checkAttributeButtons();">
+        <form id="specificAttributeForm" method="POST" class="fixed-width-form fixed-height-form">
+        	<h2 class="form-title">Specific Attributes</h2>
+            <label for="programTypeSelect" class="input-field-descriptor">Program Type:</label>
+            <select id="programTypeSelect" name="programTypeSelect" class="input-field select-input" onchange="checkAttributeButtons();">
             <option data-id="" data-name="">(none)</option>
                 <% 
                 for(FitnessProgramType programType : allTypes)
@@ -140,19 +222,24 @@
                 
                 %>
             </select>
-            <label for="attributeList">Specific attributes:</label>
-            <select>
-            <!-- Attribute list will be displayed here -->
+            <input type="hidden" name="typeForAttribute" id="typeForAttribute">
+            <label for="attributeList" class="input-field-descriptor">Specific attributes:</label>
+            <select id="specificAttributeSelect" class="input-field select-input">
+            <option data-name="" data-value="">(none)</option>
+            <!-- Attribute list will be displayed here, depending on selected Fitness Program Type -->
             </select>
-            <label for="attributeName">Attribute Name:</label>
-            <input type="text" id="attributeName" name="attributeName" oninput="checkAttributeButtons();">
-            <label for="attributeValue">Attribute value:</label>
-            <input type="text" id="attributeValue" name="attributeValue" oninput="checkAttributeButtons();">
-            <button type="submit" id="addAttributeButton" disabled>Add Attribute</button>
-            <button type="submit" id="updateAttributeButton" disabled>Update Attribute</button>
-            <button type="submit" id="deleteAttributeButton" disabled>Delete Attribute</button>
+            <label for="attributeName" class="input-field-descriptor">Attribute Name:</label>
+            <input type="text" id="attributeName" name="attributeName" class="input-field" placeholder=" " oninput="checkAttributeButtons();">
+            <label for="attributeValue" class="input-field-descriptor">Attribute value:</label>
+            <input type="text" id="attributeValue" name="attributeValue" class="input-field" placeholder=" " oninput="checkAttributeButtons();">
+            <div class="buttons-area">
+	            <button type="submit" id="addAttributeButton" disabled>Add Attribute</button>
+	            <button type="submit" id="updateAttributeButton" disabled>Update Attribute</button>
+	            <button type="submit" id="deleteAttributeButton" disabled>Delete Attribute</button>
+            </div>
         </form>
-        
+        </div>
+        </div>
     </div>
 </div>
 </body>

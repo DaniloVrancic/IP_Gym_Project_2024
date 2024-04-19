@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+body {
+    margin: 0px;
+    width: 100%;
+    text-align: center;
+    background-color: #909090;
+}
+
+.main-content-div {
+    margin-top: 10px;
+}

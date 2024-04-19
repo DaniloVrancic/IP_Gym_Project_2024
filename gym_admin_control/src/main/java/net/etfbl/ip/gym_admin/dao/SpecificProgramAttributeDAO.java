@@ -32,6 +32,7 @@ public class SpecificProgramAttributeDAO {
                 attribute.setId(rs.getInt("id"));
                 attribute.setAttributeName(rs.getString("attribute_name"));
                 attribute.setProgramType(rs.getInt("fitness_program_type_id"));
+                attribute.setValue(rs.getString("value"));
             }
             pstmt.close();
         } catch (SQLException exp) {
@@ -54,8 +55,9 @@ public class SpecificProgramAttributeDAO {
             while (rs.next()) {
                 SpecificProgramAttribute attribute = new SpecificProgramAttribute();
                 attribute.setId(rs.getInt("id"));
-                attribute.setAttributeName(rs.getString("attribute_name"));
+                attribute.setAttributeName(rs.getString("name"));
                 attribute.setProgramType(rs.getInt("fitness_program_type_id"));
+                attribute.setValue(rs.getString("value"));
                 allAttributes.add(attribute);
             }
             pstmt.close();
@@ -79,8 +81,9 @@ public class SpecificProgramAttributeDAO {
             while (rs.next()) {
                 SpecificProgramAttribute attribute = new SpecificProgramAttribute();
                 attribute.setId(rs.getInt("id"));
-                attribute.setAttributeName(rs.getString("attribute_name"));
+                attribute.setAttributeName(rs.getString("name"));
                 attribute.setProgramType(rs.getInt("fitness_program_type_id"));
+                attribute.setValue(rs.getString("value"));
                 attributes.add(attribute);
             }
             pstmt.close();

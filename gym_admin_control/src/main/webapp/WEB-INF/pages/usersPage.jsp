@@ -7,8 +7,19 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+25&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/stylesHeader.css">
     <link rel="stylesheet" href="css/stylesAdminControl.css">
+    <link rel="stylesheet" href="css/stylesUsersPage.css">
+    <link rel="stylesheet" href="css/form-style.css">
+    
+    
     <title>User Management</title>
+    
     <script>
         function validateInputs() {
             var username = document.getElementById("username").value.trim();
@@ -88,11 +99,11 @@
 <body>
 <jsp:include page="/WEB-INF/partials/header.jsp"></jsp:include>
 <% User selectedUser = new User(); %>
-<div>
-    <h1>User Management</h1>
-    <form method="POST">
-    	<label for="userSelect">Select User:</label>
-        <select id="userSelect" name="userSelect" onchange="selectUser(); enableUpdateButton()">
+<div class="main-content-div">
+    <form method="POST" class="centered-form">
+    <h1 class="form-title">User Management</h1>
+    	<label for="userSelect" class="input-field-descriptor">Select User:</label>
+        <select id="userSelect" name="userSelect" class="input-field select-input" onchange="selectUser(); enableUpdateButton()">
         	<option data-id="" data-username="" data-city="" data-firstName="" data-lastName="" data-avatar="" data-email="">(none)</option>
             <% 
             for(User regularUser : UserDAO.selectAllRegularUsers())
@@ -110,34 +121,45 @@
             }
             %>
         </select><br>
-    	<label for="userId">Selected User ID:</label>
-        <input type="text" readonly="readonly" id="userId" name="userId"><br>
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" oninput="validateInputs(); enableUpdateButton();"><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" oninput="validateInputs();"><br>
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName" oninput="validateInputs();"><br>
-        <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="lastName" oninput="validateInputs();"><br>
-        <label for="city">City:</label>
-        <input type="text" id="city" name="city" oninput="validateInputs();"><br>
-        <label for="avatar">Avatar:</label>
-        <input type="text" id="avatar" name="avatar"><br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" oninput="validateInputs();"><br>
+    	<label for="userId" class="input-field-descriptor">Selected User ID:</label>
+        <input type="text" readonly="readonly" id="userId" name="userId" class="input-field" placeholder=" "><br>
         
-    <label for="activated">Activated:</label><br>
-    <input type="radio" id="activatedYes" name="activated" value="true">
-    <label for="activatedYes">Yes</label>
-    <input checked="checked" type="radio" id="activatedNo" name="activated" value="false">
-    <label for="activatedNo">No</label><br>
-    
-    
+        <label for="username" class="input-field-descriptor">Username:</label>
+        <input type="text" id="username" name="username" class="input-field" placeholder=" " oninput="validateInputs(); enableUpdateButton();"><br>
+        
+        <label for="password" class="input-field-descriptor">Password:</label>
+        <input type="password" id="password" name="password" class="input-field" placeholder=" " oninput="validateInputs();"><br>
+        
+        <label for="firstName" class="input-field-descriptor">First Name:</label>
+        <input type="text" id="firstName" name="firstName" class="input-field" placeholder=" " oninput="validateInputs();"><br>
+        
+        <label for="lastName" class="input-field-descriptor">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" class="input-field" placeholder=" " oninput="validateInputs();"><br>
+        
+        <label for="city" class="input-field-descriptor">City:</label>
+        <input type="text" id="city" name="city" class="input-field" placeholder=" " oninput="validateInputs();"><br>
+        
+        <label for="avatar" class="input-field-descriptor">Avatar:</label>
+        <input type="text" id="avatar" name="avatar" class="input-field" placeholder=" "><br>
+        
+        <label for="email" class="input-field-descriptor">Email:</label>
+        <input type="email" id="email" name="email" class="input-field" placeholder=" " oninput="validateInputs();"><br>
+        
+        
+    <label for="activated" class="input-field-descriptor">Activated:</label>
+    <div class="input-field">
+	    <input type="radio" id="activatedYes" name="activated" value="true" class="radio-input">
+	    <label for="activatedYes">Yes</label>
+	    <input checked="checked" type="radio" id="activatedNo" name="activated" value="false" class="radio-input">
+	    <label for="activatedNo">No</label><br>
+	</div>
+    <br>
+    <div class="buttons-area">
         <button type="submit" id="addUserButton" formaction="/gym_admin_control/Controller?action=userAdd" disabled>Add User</button>
         <button type="button" onclick="clearInputs();">Clear All Inputs</button>
         <button type="submit" id="updateButton" formaction="/gym_admin_control/Controller?action=userUpdate" disabled>Update User</button>
         <button type="submit" id="deleteButton" formaction="/gym_admin_control/Controller?action=userRemove" disabled>Remove User</button>
+    </div>
     </form>
 </div>
 </body>
