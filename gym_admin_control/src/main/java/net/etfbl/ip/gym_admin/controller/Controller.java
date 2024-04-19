@@ -202,7 +202,7 @@ import net.etfbl.ip.gym_admin.util.Util;
 				updateTypeInRepository(request, response);
 				return;
 			}
-			else if("typeRemove".equals(action))
+			else if("typeDelete".equals(action))
 			{
 				removeTypeFromRepository(request, response);
 				return;
