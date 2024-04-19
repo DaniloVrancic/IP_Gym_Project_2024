@@ -279,9 +279,9 @@
             <input type="text" id="fitnessTypeName" name="fitnessTypeName" class="input-field" placeholder=" " oninput="checkTypeButtons();">
             <br><br>
             <div class="buttons-area">
-                <button type="submit" id="addFitnessTypeButton" disabled>Add Fitness Type</button>
-                <button type="submit" id="updateFitnessTypeButton" disabled>Update Fitness Type</button>
-                <button type="submit" id="deleteFitnessTypeButton" disabled>Delete Fitness Type</button>
+                <button type="submit" id="addFitnessTypeButton"    formaction="/gym_admin_control/Controller?action=typeAdd" disabled>Add Fitness Type</button>
+                <button type="submit" id="updateFitnessTypeButton" formaction="/gym_admin_control/Controller?action=typeUpdate" disabled>Update Fitness Type</button>
+                <button type="submit" id="deleteFitnessTypeButton" formaction="/gym_admin_control/Controller?action=typeDelete" disabled>Delete Fitness Type</button>
             </div>
         </form>
         

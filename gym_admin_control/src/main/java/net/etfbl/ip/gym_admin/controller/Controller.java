@@ -11,8 +11,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.etfbl.ip.gym_admin.beans.UserBean;
+import net.etfbl.ip.gym_admin.dao.FitnessProgramTypeDAO;
 import net.etfbl.ip.gym_admin.dao.SpecificProgramAttributeDAO;
 import net.etfbl.ip.gym_admin.dao.UserDAO;
+import net.etfbl.ip.gym_admin.dto.FitnessProgramType;
 import net.etfbl.ip.gym_admin.dto.SpecificProgramAttribute;
 import net.etfbl.ip.gym_admin.dto.User;
 import net.etfbl.ip.gym_admin.util.Util;
@@ -190,6 +192,21 @@ import net.etfbl.ip.gym_admin.util.Util;
 			    }
 			    return;
 			}
+			else if("typeAdd".equals(action))
+			{
+				addTypeInRepository(request, response);
+				return;
+			}
+			else if("typeUpdate".equals(action))
+			{
+				updateTypeInRepository(request, response);
+				return;
+			}
+			else if("typeRemove".equals(action))
+			{
+				removeTypeFromRepository(request, response);
+				return;
+			}
 			else if("attributeAdd".equals(action))
 			{
 				addAttributeInRepository(request, response);
@@ -306,6 +323,60 @@ import net.etfbl.ip.gym_admin.util.Util;
 				if(UserDAO.remove(userId))
 				{
 					System.out.println("Successfuly removed user with ID: " + userId);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.out.println(ex.getLocalizedMessage());
+			}
+		}
+		
+		private void addTypeInRepository(HttpServletRequest request, HttpServletResponse response)
+		{
+			String nameToAdd = request.getParameter("fitnessTypeName");
+			
+			FitnessProgramType newType = new FitnessProgramType();
+			newType.setName(nameToAdd);
+			try {
+				if(FitnessProgramTypeDAO.insert(newType))
+				{
+					System.out.println("Successfuly add Type with name: " + nameToAdd);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.out.println(ex.getLocalizedMessage());
+			}
+		}
+		
+		private void updateTypeInRepository(HttpServletRequest request, HttpServletResponse response)
+		{
+			Integer typeId	 = Integer.parseInt(request.getParameter("fitnessTypeId"));
+			String nameToAdd = request.getParameter("fitnessTypeName");
+			
+			FitnessProgramType newType = new FitnessProgramType();
+			newType.setId(typeId);
+			newType.setName(nameToAdd);
+			try {
+				if(FitnessProgramTypeDAO.update(newType))
+				{
+					System.out.println("Successfuly updated Type with Id: " + typeId);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.out.println(ex.getLocalizedMessage());
+			}
+		}
+		
+		private void removeTypeFromRepository(HttpServletRequest request, HttpServletResponse response)
+		{
+			Integer typeId	 = Integer.parseInt(request.getParameter("fitnessTypeId"));
+			
+			try {
+				if(FitnessProgramTypeDAO.remove(typeId))
+				{
+					System.out.println("Successfuly removed Type with Id: " + typeId);
 				}
 			}
 			catch(Exception ex)
