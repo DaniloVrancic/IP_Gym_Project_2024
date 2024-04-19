@@ -14,8 +14,8 @@ public class SpecificProgramAttributeDAO {
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM specific_program_attribute WHERE id=?";
     private static final String SQL_SELECT_ALL = "SELECT * FROM specific_program_attribute";
     private static final String SQL_SELECT_BY_FITNESS_PROGRAM_TYPE_ID = "SELECT * FROM specific_program_attribute WHERE fitness_program_type_id=?";
-    private static final String SQL_INSERT = "INSERT INTO specific_program_attribute (attribute_name, fitness_program_type_id) VALUES (?, ?)";
-    private static final String SQL_UPDATE = "UPDATE specific_program_attribute SET attribute_name=?, fitness_program_type_id=? WHERE id=?";
+    private static final String SQL_INSERT = "INSERT INTO specific_program_attribute (name, fitness_program_type_id, value) VALUES (?, ?, ?)";
+    private static final String SQL_UPDATE = "UPDATE specific_program_attribute SET name=?, fitness_program_type_id=?, value=? WHERE id=?";
     private static final String SQL_DELETE = "DELETE FROM specific_program_attribute WHERE id=?";
 
     public static SpecificProgramAttribute selectById(int id) {
@@ -30,7 +30,7 @@ public class SpecificProgramAttributeDAO {
             if (rs.next()) {
                 attribute = new SpecificProgramAttribute();
                 attribute.setId(rs.getInt("id"));
-                attribute.setAttributeName(rs.getString("attribute_name"));
+                attribute.setAttributeName(rs.getString("name"));
                 attribute.setProgramType(rs.getInt("fitness_program_type_id"));
                 attribute.setValue(rs.getString("value"));
             }
@@ -99,7 +99,7 @@ public class SpecificProgramAttributeDAO {
         boolean result = false;
         Connection connection = null;
         ResultSet generatedKeys = null;
-        Object values[] = {attribute.getAttributeName(), attribute.getProgramType()};
+        Object values[] = {attribute.getAttributeName(), attribute.getProgramType(), attribute.getValue()};
         try {
             connection = connectionPool.checkOut();
             PreparedStatement pstmt = DAOUtil.prepareStatement(connection, SQL_INSERT, true, values);
@@ -123,7 +123,7 @@ public class SpecificProgramAttributeDAO {
     public static boolean update(SpecificProgramAttribute attribute) {
         boolean result = false;
         Connection connection = null;
-        Object values[] = {attribute.getAttributeName(), attribute.getProgramType(), attribute.getId()};
+        Object values[] = {attribute.getAttributeName(), attribute.getProgramType(), attribute.getValue(), attribute.getId()};
         try {
             connection = connectionPool.checkOut();
             PreparedStatement pstmt = DAOUtil.prepareStatement(connection, SQL_UPDATE, false, values);

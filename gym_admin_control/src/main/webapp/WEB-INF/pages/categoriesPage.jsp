@@ -76,23 +76,47 @@
     		fitnessTypeId.value = selectedId;
     	}
     	
+    	function changeType()
+    	{
+    		let categorySelect 		 = document.getElementById("programTypeSelect"); //Input (Select) for Fitness type
+    		let categorySelectOption = categorySelect.options[categorySelect.selectedIndex]; //Keeps track of selected option
+    		let typeForAttributeInput= document.getElementById("typeForAttribute"); //Keeps track of the hidden selected type ID
+    		
+    		
+    		var selectedTypeId = categorySelectOption.getAttribute("data-id");
+    		typeForAttributeInput.value = selectedTypeId;
+    		getNewAttributeList();
+    	}
+    	
     	function checkAttributeButtons()
     	{
     		let addAttributeButton	 = document.getElementById("addAttributeButton");
     		let updateAttributeButton= document.getElementById("updateAttributeButton");
     		let deleteAttributeButton= document.getElementById("deleteAttributeButton");
     		
-    		let attributeNameTextBox = document.getElementById("attributeName");
-    		let categorySelect 		 = document.getElementById("programTypeSelect");
-    		let categorySelectOption = categorySelect.options[categorySelect.selectedIndex];
-    		let attributeValueTextBox= document.getElementById("attributeValue");
-    		let typeForAttributeInput= document.getElementById("typeForAttribute");
+    		let categorySelect 		 = document.getElementById("programTypeSelect"); //Input (Select) for Fitness type
+    		let categorySelectOption = categorySelect.options[categorySelect.selectedIndex]; //Keeps track of selected option
+    		let specificAttributeSelect = document.getElementById("specificAttributeSelect"); // Input (Select) for Specific Attribute
+    		let specificAttributeSelectOption = specificAttributeSelect.options[specificAttributeSelect.selectedIndex]; //Keeps track of specific selected attribute
+    		let attributeNameTextBox = document.getElementById("attributeName"); //The attribute name text box
+    		let attributeValueTextBox= document.getElementById("attributeValue"); //The attribute value text box
+    		
+    		let typeForAttributeInput= document.getElementById("typeForAttribute"); //Hidden element (Keeping Id of selected Type)
+    		let selectedAttributeIdHiddenInput = document.getElementById("selectedAttributeId"); //Hidden element (Keeping Id of selected Attribute)
+    		
     		
     		
     		var selectedTypeId = categorySelectOption.getAttribute("data-id");
     		var selectedTypeName = categorySelectOption.getAttribute("data-name");
-    		typeForAttributeInput.value = selectedTypeId;
-    		getNewAttributeList();
+    		
+    		var selectedAttributeId = specificAttributeSelectOption.getAttribute("data-id");
+    		var selectedAttributeType = specificAttributeSelectOption.getAttribute("data-type");
+    		var selectedAttributeName = specificAttributeSelectOption.getAttribute("data-name");
+    		var selectedAttributeValue= specificAttributeSelectOption.getAttribute("data-value");
+    		
+    		
+    		
+    		
     		
     		
     		
@@ -101,12 +125,67 @@
     			addAttributeButton.disabled = true;
     			updateAttributeButton.disabled = true;
     			deleteAttributeButton.disabled = true;
+    			specificAttributeSelect.disabled = true;
+    			attributeNameTextBox.readOnly = true;
+    			attributeNameTextBox.value = "";
+    			attributeValueTextBox.readOnly = true;
+    			attributeValueTextBox.value = "";
     			return;
     			}
     		else //if a type IS selected... :
     			{
-    			
+    			specificAttributeSelect.disabled = false;
+    			attributeNameTextBox.readOnly = false;
+    			attributeValueTextBox.readOnly = false;
     			}
+    		
+    		if(selectedAttributeIdHiddenInput.value.length == 0)  //condition for disabling delete button
+    			{
+    			deleteAttributeButton.disabled = true;
+    			}
+    		else
+    			{
+    			deleteAttributeButton.disabled = false;
+    			}
+    		
+    		if(selectedAttributeIdHiddenInput.value.length == 0 || attributeNameTextBox.value.length == 0) //condition for disabling update button
+				{
+				updateAttributeButton.disabled = true;
+				}
+			else
+				{
+				updateAttributeButton.disabled = false;
+				}
+    		
+    		if(typeForAttributeInput.value.length == 0 || attributeNameTextBox.value.length == 0) //condition for disabling adding button
+    			{
+    			addAttributeButton.disabled = true;
+    			}
+    		else
+    			{
+    			addAttributeButton.disabled = false;
+    			}
+    		
+    		
+    	}
+    	
+    	function selectSpecificAttribute(){
+    		let specificAttributeSelect = document.getElementById("specificAttributeSelect"); // Input (Select) for Specific Attribute
+    		let specificAttributeSelectOption = specificAttributeSelect.options[specificAttributeSelect.selectedIndex]; //Keeps track of specific selected attribute
+    		let attributeNameTextBox = document.getElementById("attributeName"); //The attribute name text box
+    		let attributeValueTextBox= document.getElementById("attributeValue"); //The attribute value text box
+    		let typeForAttributeInput= document.getElementById("typeForAttribute"); //Hidden element (Keeping Id of selected Type)
+    		let selectedAttributeIdHidden = document.getElementById("selectedAttributeId"); //Hidden element (Keeping Id of selected Attribute)
+    		
+    		
+    		var selectedAttributeId = specificAttributeSelectOption.getAttribute("data-id");
+    		var selectedAttributeType = specificAttributeSelectOption.getAttribute("data-type");
+    		var selectedAttributeName = specificAttributeSelectOption.getAttribute("data-name");
+    		var selectedAttributeValue= specificAttributeSelectOption.getAttribute("data-value");
+    		
+    		selectedAttributeIdHidden.value = selectedAttributeId;
+    		attributeNameTextBox.value = selectedAttributeName;
+    		attributeValueTextBox.value = (selectedAttributeValue == "null" || selectedAttributeValue == null) ? "" : selectedAttributeValue;
     	}
     	
     	function getNewAttributeList(){
@@ -212,7 +291,7 @@
         <form id="specificAttributeForm" method="POST" class="fixed-width-form fixed-height-form">
         	<h2 class="form-title">Specific Attributes</h2>
             <label for="programTypeSelect" class="input-field-descriptor">Program Type:</label>
-            <select id="programTypeSelect" name="programTypeSelect" class="input-field select-input" onchange="checkAttributeButtons();">
+            <select id="programTypeSelect" name="programTypeSelect" class="input-field select-input" onchange="changeType();checkAttributeButtons();">
             <option data-id="" data-name="">(none)</option>
                 <% 
                 for(FitnessProgramType programType : allTypes)
@@ -224,18 +303,19 @@
             </select>
             <input type="hidden" name="typeForAttribute" id="typeForAttribute">
             <label for="attributeList" class="input-field-descriptor">Specific attributes:</label>
-            <select id="specificAttributeSelect" class="input-field select-input">
+            <select id="specificAttributeSelect" class="input-field select-input" onchange="selectSpecificAttribute();checkAttributeButtons();" disabled>
             <option data-name="" data-value="">(none)</option>
             <!-- Attribute list will be displayed here, depending on selected Fitness Program Type -->
             </select>
             <label for="attributeName" class="input-field-descriptor">Attribute Name:</label>
-            <input type="text" id="attributeName" name="attributeName" class="input-field" placeholder=" " oninput="checkAttributeButtons();">
+            <input type="text" id="attributeName" name="attributeName" class="input-field" placeholder=" " oninput="checkAttributeButtons();" readonly>
             <label for="attributeValue" class="input-field-descriptor">Attribute value:</label>
-            <input type="text" id="attributeValue" name="attributeValue" class="input-field" placeholder=" " oninput="checkAttributeButtons();">
+            <input type="text" id="attributeValue" name="attributeValue" class="input-field" placeholder=" " oninput="checkAttributeButtons();" readonly>
+            <input type="hidden" name="selectedAttributeId" id="selectedAttributeId">
             <div class="buttons-area">
-	            <button type="submit" id="addAttributeButton" disabled>Add Attribute</button>
-	            <button type="submit" id="updateAttributeButton" disabled>Update Attribute</button>
-	            <button type="submit" id="deleteAttributeButton" disabled>Delete Attribute</button>
+	            <button type="submit" id="addAttributeButton" 	 formaction="/gym_admin_control/Controller?action=attributeAdd" disabled>Add Attribute</button>
+	            <button type="submit" id="updateAttributeButton" formaction="/gym_admin_control/Controller?action=attributeUpdate" disabled>Update Attribute</button>
+	            <button type="submit" id="deleteAttributeButton" formaction="/gym_admin_control/Controller?action=attributeDelete" disabled>Delete Attribute</button>
             </div>
         </form>
         </div>

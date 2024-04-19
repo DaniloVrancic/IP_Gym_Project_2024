@@ -153,17 +153,13 @@ import net.etfbl.ip.gym_admin.util.Util;
 				removeUserFromRepository(request, response);
 				return;
 			}
-			else if ("specificAttributes".equals(action)) {
+			else if ("specificAttributes".equals(action)) { //This is a special case when selecting Attributes in the Category tab
 			    int programTypeId = Integer.parseInt(request.getParameter("programTypeId"));
 			    
 			    
 			    // Call a method to retrieve specific attributes based on programTypeId
 			    List<SpecificProgramAttribute> attributes = SpecificProgramAttributeDAO.selectByFitnessProgramTypeId(programTypeId);
 			    
-			    for(SpecificProgramAttribute attribu : attributes)
-			    {
-			    	System.out.println(attribu);
-			    }
 			    // Manually construct JSON string
 			    StringBuilder jsonBuilder = new StringBuilder("[");
 			    for (int i = 0; i < attributes.size(); i++) {
@@ -174,6 +170,7 @@ import net.etfbl.ip.gym_admin.util.Util;
 			        jsonBuilder.append("\"attributeValue\":\"").append(attribute.getValue()).append("\",");
 			        jsonBuilder.append("\"programType\":").append(attribute.getProgramType());
 			        jsonBuilder.append("}");
+			    // End of manually constructing JSON string
 			        if (i < attributes.size() - 1) {
 			            jsonBuilder.append(",");
 			        }
@@ -192,6 +189,21 @@ import net.etfbl.ip.gym_admin.util.Util;
 			        e.printStackTrace();
 			    }
 			    return;
+			}
+			else if("attributeAdd".equals(action))
+			{
+				addAttributeInRepository(request, response);
+				return;
+			}
+			else if("attributeUpdate".equals(action))
+			{
+				updateAttributeInRepository(request,response);
+				return;
+			}
+			else if("attributeDelete".equals(action))
+			{
+				removeAttributeFromRepository(request, response);
+				return;
 			}
 			request.getRequestDispatcher(address).forward(request, response);
 
@@ -294,6 +306,69 @@ import net.etfbl.ip.gym_admin.util.Util;
 				if(UserDAO.remove(userId))
 				{
 					System.out.println("Successfuly removed user with ID: " + userId);
+				}
+			}
+			catch(Exception ex)
+			{
+				System.out.println(ex.getLocalizedMessage());
+			}
+		}
+		
+		private void addAttributeInRepository(HttpServletRequest request, HttpServletResponse response)
+		{
+			Integer typeId = Integer.parseInt(request.getParameter("typeForAttribute"));
+			String attributeName = request.getParameter("attributeName");
+			String attributeValue = (request.getParameter("attributeValue").length() == 0) ? null : request.getParameter("attributeValue");
+			
+			SpecificProgramAttribute newAttribute = new SpecificProgramAttribute();
+			newAttribute.setProgramType(typeId);
+			newAttribute.setAttributeName(attributeName);
+			newAttribute.setValue(attributeValue);
+			try {
+				if(SpecificProgramAttributeDAO.insert(newAttribute))
+				{
+					System.out.println("Successfuly Added new attribute. ");
+				}
+			}
+			catch(Exception ex)
+			{
+				System.out.println(ex.getLocalizedMessage());
+			}
+		}
+		
+		private void updateAttributeInRepository(HttpServletRequest request, HttpServletResponse response)
+		{
+			Integer attributeId = Integer.parseInt(request.getParameter("selectedAttributeId"));
+			Integer typeId = Integer.parseInt(request.getParameter("typeForAttribute"));
+			String attributeName = request.getParameter("attributeName");
+			String attributeValue = (request.getParameter("attributeValue").length() == 0) ? null : request.getParameter("attributeValue");
+			
+			SpecificProgramAttribute newAttribute = new SpecificProgramAttribute();
+			newAttribute.setId(attributeId);
+			newAttribute.setProgramType(typeId);
+			newAttribute.setAttributeName(attributeName);
+			newAttribute.setValue(attributeValue);
+			try {
+				if(SpecificProgramAttributeDAO.update(newAttribute))
+				{
+					System.out.println("Successfuly updated attribute. ");
+				}
+			}
+			catch(Exception ex)
+			{
+				System.out.println(ex.getLocalizedMessage());
+			}
+		}
+		
+		private void removeAttributeFromRepository(HttpServletRequest request, HttpServletResponse response)
+		{
+			Integer attributeId = Integer.parseInt(request.getParameter("selectedAttributeId"));
+			
+
+			try {
+				if(SpecificProgramAttributeDAO.remove(attributeId))
+				{
+					System.out.println("Successfuly removed attribute. ");
 				}
 			}
 			catch(Exception ex)
