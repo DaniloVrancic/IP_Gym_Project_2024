@@ -6,27 +6,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link rel="stylesheet" href="css/stylesLoginForm.css">
+   	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+25&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/stylesHeader.css">
+    <link rel="stylesheet" href="css/stylesAdminControl.css">
+    <link rel="stylesheet" href="css/stylesCategoriesPage.css">
+    <link rel="stylesheet" href="css/form-style.css">
 	<title>Admin Login</title>
 </head>
 <body>
-	
-	<div class="form-container">
-	<h3>Admin Control Page</h3>
-	
-	<form class="my-form" method="POST" action="/gym_admin_control/Controller?action=login">
-		<%-- Check if there's a notification message in the session --%>
-   	 <% String notification = (String) session.getAttribute("login_notification"); %>
-    	<% if (notification != null && !notification.isEmpty()) { %>
-        <div class="error-message" style="background-color:white;"><%= notification %></div>
-    	<% } %>
-		<label for="username">Username:</label>
-		<input type="text" name="username" id="username"/>
-		<label for="password">Password:</label>
-		<input type="password" name="password" id="password"/>
-		<button type="submit" name="submit">Login</button>
-	</form>
+	<div class="main-content-div">
+		<div class="centered-form">
+		
+		<form class="my-form" method="POST" action="/gym_admin_control/Controller?action=login">
+			<h1 class="form-title">Admin Control Page</h1>
+			<%-- Check if there's a notification message in the session --%>
+	   	 <% String notification = (String) session.getAttribute("login_notification"); %>
+	    	<% if (notification != null && !notification.isEmpty()) { %>
+	        <div class="error-message" style="background-color:white;"><%= notification %></div>
+	    	<% } %>
+			<label for="username" class="input-field-descriptor">Username:</label>
+			<input type="text" name="username" id="username" class="input-field" placeholder=" "/>
+			<label for="password" class="input-field-descriptor">Password:</label>
+			<input type="password" name="password" id="password" class="input-field" placeholder=" "/>
+			<br><br>
+			<div class="buttons-area">
+				<button type="submit" name="submit">Login</button>
+			</div>
+		</form>
+		</div>
 	</div>
 	
 
