@@ -18,24 +18,78 @@
     	{
     		var addButton = document.getElementById("addFitnessTypeButton");
     		var updateButton = document.getElementById("updateFitnessTypeButton");
-    		var removeButton = document.getElementById("deleteFitnessTypeButton");
+    		var deleteButton = document.getElementById("deleteFitnessTypeButton");
     		
     		var nameTextField = document.getElementById("fitnessTypeName");
-    		
-    		console.log(nameTextField.value.length > 0);
     		
     		var select = document.getElementById("existingProgramSelect");
     		var selectedOption = select.options[select.selectedIndex];
     		var selectedId = selectedOption.getAttribute("data-id");
     		var selectedName = selectedOption.getAttribute("data-name");
-    		console.log(selectedId);
     		
-    		if(selectedId.length > 0 && nameTextField.value.length > 0)
+    		
+    		if(nameTextField.value.length == 0)
     			{
-    				addButton.disabled = false;
+    				addButton.disabled = true;
     			}
     		else{
-    				addButton.disabled = true;
+    				addButton.disabled = false;
+    			}
+    		
+    		if(selectedId.length > 0)
+    			{
+    			deleteButton.disabled = false;
+    			}
+    		else
+    			{
+    			deleteButton.disabled = true;
+    			}
+    		if(selectedId.length > 0 && nameTextField.value.length > 0)
+    			{
+    			updateButton.disabled = false;
+    			}
+    		else{
+    			updateButton.disabled = true;
+    		}
+    	}
+    	
+    	function selectUpdateTextField()
+    	{
+    		let nameTextField = document.getElementById("fitnessTypeName");
+    		let fitnessTypeId = document.getElementById("fitnessTypeId");
+    		let select = document.getElementById("existingProgramSelect");
+    		let selectedOption = select.options[select.selectedIndex];
+    		let selectedId 	 = selectedOption.getAttribute("data-id");
+    		let selectedName = selectedOption.getAttribute("data-name");
+    		
+    		nameTextField.value = selectedName;
+    		fitnessTypeId.value = selectedId;
+    	}
+    	
+    	function checkAttributeButtons()
+    	{
+    		let addAttributeButton	 = document.getElementById("addAttributeButton");
+    		let updateAttributeButton= document.getElementById("updateAttributeButton");
+    		let deleteAttributeButton= document.getElementById("deleteAttributeButton");
+    		
+    		let attributeNameTextBox = document.getElementById("attributeName");
+    		let categorySelect 		 = document.getElementById("programTypeSelect");
+    		let categorySelectOption = categorySelect.options[categorySelect.selectedIndex];
+    		let attributeValueTextBox= document.getElementById("attributeValue");
+    		
+    		var selectedTypeId = categorySelectOption.getAttribute("data-id");
+    		var selectedTypeName = categorySelectOption.getAttribute("data-name");
+    		
+    		if(selectedTypeId.length == 0) //If no type is selected, all the buttons are disabled and no need to check further.
+    			{
+    			addAttributeButton.disabled = true;
+    			updateAttributeButton.disabled = true;
+    			deleteAttributeButton.disabled = true;
+    			return;
+    			}
+    		else //if a type IS selected... :
+    			{
+    			
     			}
     	}
     </script>
@@ -50,7 +104,7 @@
         <!-- Form for adding/updating fitness types -->
         <form id="fitnessTypeForm" method="POST">
         	<label for="existingProgramSelect">Program Type:</label>
-        	<select id="existingProgramSelect" name="existingProgramSelect" onchange="checkTypeButtons()">
+        	<select id="existingProgramSelect" name="existingProgramSelect" onchange="checkTypeButtons();selectUpdateTextField();">
             <option data-id="" data-name="">(none)</option>
                 <% 
                 for(FitnessProgramType programType : allTypes)
@@ -60,8 +114,9 @@
                 
                 %>
             </select>
+            <input type="hidden" id="fitnessTypeId" name="fitnessTypeId">
             <label for="fitnessTypeName">Name:</label>
-            <input type="text" id="fitnessTypeName" name="fitnessTypeName" oninput="checkTypeButtons()">
+            <input type="text" id="fitnessTypeName" name="fitnessTypeName" oninput="checkTypeButtons();">
             <button type="submit" id="addFitnessTypeButton" disabled>Add Fitness Type</button>
             <button type="submit" id="updateFitnessTypeButton" disabled>Update Fitness Type</button>
             <button type="submit" id="deleteFitnessTypeButton" disabled>Delete Fitness Type</button>
@@ -74,10 +129,8 @@
         <h2>Specific Attributes</h2>
         <!-- Form for adding/updating specific attributes -->
         <form id="specificAttributeForm" method="POST">
-            <label for="attributeName">Attribute Name:</label>
-            <input type="text" id="attributeName" name="attributeName">
             <label for="programTypeSelect">Program Type:</label>
-            <select id="programTypeSelect" name="programTypeSelect">
+            <select id="programTypeSelect" name="programTypeSelect" onchange="checkAttributeButtons();">
             <option data-id="" data-name="">(none)</option>
                 <% 
                 for(FitnessProgramType programType : allTypes)
@@ -87,15 +140,19 @@
                 
                 %>
             </select>
-            <label for="value">Attribute value:</label>
-            <input type="text" id="value" name="value">
+            <label for="attributeList">Specific attributes:</label>
+            <select>
+            <!-- Attribute list will be displayed here -->
+            </select>
+            <label for="attributeName">Attribute Name:</label>
+            <input type="text" id="attributeName" name="attributeName" oninput="checkAttributeButtons();">
+            <label for="attributeValue">Attribute value:</label>
+            <input type="text" id="attributeValue" name="attributeValue" oninput="checkAttributeButtons();">
             <button type="submit" id="addAttributeButton" disabled>Add Attribute</button>
             <button type="submit" id="updateAttributeButton" disabled>Update Attribute</button>
             <button type="submit" id="deleteAttributeButton" disabled>Delete Attribute</button>
         </form>
-        <div id="attributeList">
-            <!-- Attribute list will be displayed here -->
-        </div>
+        
     </div>
 </div>
 </body>
