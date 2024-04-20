@@ -10,6 +10,7 @@ import { DiaryComponent } from './home/main.page/diary/diary.component';
 import { PreviousPurchasesComponent } from './home/main.page/previous.purchases/previous.purchases.component';
 import { SubscriptionsComponent } from './home/main.page/subscriptions/subscriptions.component';
 import { MyProgramsComponent } from './home/main.page/my-programs/my-programs.component';
+import { MyMessingerComponent } from './home/main.page/my.messinger/my-messinger/my-messinger.component';
 
 export const routes: Routes = [
     { path: 'start-page', component: StartPageComponent},
@@ -23,5 +24,6 @@ export const routes: Routes = [
     { path: 'my-diary', component: DiaryComponent},
     { path: 'previous-purchases', component: PreviousPurchasesComponent},
     { path: 'subscriptions', component: SubscriptionsComponent},
-    { path: 'my-programs', component: MyProgramsComponent}
+    { path: 'my-programs', component: MyProgramsComponent},
+    { path: 'my-messinger', component: MyMessingerComponent}
 ];

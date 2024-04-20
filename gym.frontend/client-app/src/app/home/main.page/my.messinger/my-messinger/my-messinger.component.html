@@ -1,0 +1,24 @@
+<div class="button-container spacing-top spacing-bottom">
+    <button mat-fab extended id="chatUserButton" [disabled]="isMessageUserButtonDisabled" (click)="prepareForMessageFriend()" style="background-color: var(--secondary-color);">
+        <mat-icon>chat</mat-icon>
+        Message User
+      </button>
+      <button mat-fab extended id="chatAdvisorButton" [disabled]="isMessageAdvisorButtonDisabled" (click)="prepareForMessageAdvisor()" style="background-color: var(--advisor-button-color); color:ghostwhite;">
+        <mat-icon>question_answer</mat-icon>
+        Message Advisor
+      </button>
+    </div>
+      <br>
+      <div class="message-container">
+        <form>
+            <label for="to">To:</label>
+            <input type="text" name="to" id="to" [readOnly]="isMessageAdvisorButtonDisabled">
+            <br><br>
+            <label for="subject">Subject:</label>
+            <input type="text" name="subject" id="subject">
+            <br><br>
+            <label for="text-message">Message:</label>
+            <textarea name="text-message" id="text-message" style="max-height: 20rem; max-width: 90%;"></textarea>
+        </form>
+
+      </div>

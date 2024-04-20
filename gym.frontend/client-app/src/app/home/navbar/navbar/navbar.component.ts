@@ -83,4 +83,8 @@ myProgramsClick() {
    this.router.navigate(["/my-programs"]);
   }
 
+  myMessingerClick() {
+    this.router.navigate(["/my-messinger"]);
+  }
+
 }

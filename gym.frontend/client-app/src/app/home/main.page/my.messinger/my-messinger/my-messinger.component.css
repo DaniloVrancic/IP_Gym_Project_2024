@@ -1,0 +1,20 @@
+.spacing-top{
+    margin-top: 1rem;
+}
+
+.spacing-bottom{
+    margin-bottom: 1rem;
+}
+
+.button-container
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.style-resetter
+{
+    display: block;
+}
