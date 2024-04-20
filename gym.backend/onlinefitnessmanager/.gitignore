@@ -36,3 +36,6 @@ verification/
 
 ### VS Code ###
 .vscode/
+
+### Spring ###
+spring.log

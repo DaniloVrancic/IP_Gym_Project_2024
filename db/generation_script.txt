@@ -201,6 +201,7 @@ CREATE TABLE IF NOT EXISTS `db_online_fitness`.`chatroom` (
   `time_of_send` DATETIME NOT NULL DEFAULT NOW(),
   `text` TEXT NULL,
   `friend_id` INT NOT NULL,
+  `read_msg` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `fk_user_has_user_user1_idx` (`friend_id` ASC) VISIBLE,
   CONSTRAINT `fk_user_has_user_user1`
@@ -275,3 +276,14 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 ALTER TABLE `specific_program_attribute` DROP CONSTRAINT `fk_specific_program_attribute_fitness_program_type1`;
 
 ALTER TABLE `specific_program_attribute` ADD CONSTRAINT `fk_specific_program_attribute_fitness_program_type1` FOREIGN KEY(fitness_program_type_id) REFERENCES fitness_program_type(id) ON DELETE CASCADE;
+
+ALTER TABLE `db_online_fitness`.`purchase`
+DROP FOREIGN KEY `fk_fitness_program_has_user_user1`;
+
+ALTER TABLE `db_online_fitness`.`purchase`
+ADD CONSTRAINT `fk_fitness_program_has_user_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `db_online_fitness`.`user` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION;
+

@@ -19,6 +19,10 @@ public class ChatroomEntity {
     @Basic
     @Column(name = "text", nullable = true, length = -1)
     private String text;
+
+    @Basic
+    @Column(name = "read_msg", nullable = false)
+    private Boolean read_msg;
     @ManyToOne
     @JoinColumn(name = "friend_id", referencedColumnName = "id", nullable = false)
     private UserEntity user_friend;
@@ -47,17 +51,14 @@ public class ChatroomEntity {
         this.text = text;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ChatroomEntity that = (ChatroomEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(timeOfSend, that.timeOfSend) && Objects.equals(text, that.text);
+    public Boolean getRead()
+    {
+        return this.read_msg;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, timeOfSend, text);
+    public void setRead(Boolean read)
+    {
+        this.read_msg = read;
     }
 
     public UserEntity getUser_friend() {
@@ -67,4 +68,19 @@ public class ChatroomEntity {
     public void setUser_friend(UserEntity user_friend) {
         this.user_friend = user_friend;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChatroomEntity that = (ChatroomEntity) o;
+        return Objects.equals(id, that.id) && Objects.equals(timeOfSend, that.timeOfSend) && Objects.equals(text, that.text) && Objects.equals(read_msg, that.read_msg);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, timeOfSend, text, read_msg);
+    }
+
+
 }
