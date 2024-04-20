@@ -27,7 +27,7 @@
 			<%-- Check if there's a notification message in the session --%>
 	   	 <% String notification = (String) session.getAttribute("login_notification"); %>
 	    	<% if (notification != null && !notification.isEmpty()) { %>
-	        <div class="error-message" style="background-color:white;"><%= notification %></div>
+	        <div class="error-message form-title" style="background-color:#909090; border-radius: 0.4rem; padding:0.1rem; color: red;"><%= notification %></div>
 	    	<% } %>
 			<label for="username" class="input-field-descriptor">Username:</label>
 			<input type="text" name="username" id="username" class="input-field" placeholder=" "/>
