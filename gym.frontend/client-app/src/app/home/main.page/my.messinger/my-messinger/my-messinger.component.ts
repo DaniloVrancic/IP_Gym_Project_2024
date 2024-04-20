@@ -83,12 +83,15 @@ sendMessage() {
   let messageTextBox : HTMLInputElement = document.getElementById("text-message") as HTMLInputElement;
   let errorMessageDiv = document.getElementById("errorMessage");
   this.usernameReceiver = toTextBox.value;
+  let textToSend = messageTextBox.value;
   if(this.isMessageAdvisorButtonDisabled)
     {
-      this.usernameReceiver = 'advisor';
+      let newMessageForAdvisors: ChatroomEntity = {text: textToSend, user_sender: this.userService.getCurrentUser() as User, readMsg: false} as any;
+      this.myMessingerService.addChatToAllUsersWithType(newMessageForAdvisors, 2).subscribe(result => {console.log("Sent message to advisors."); console.log(result);});
+      return;
     }
 
-  let textToSend = messageTextBox.value;
+  
 
   this.userService.findUserByUsername(this.usernameReceiver).subscribe(
     resultingUser => {
@@ -97,7 +100,9 @@ sendMessage() {
                                                                               console.log(resultMessage);
                                                                               if (errorMessageDiv) {
                                                                                 errorMessageDiv.style.display = "none";
-                                                                              }})
+                                                                              }
+                                                                              alert("Successfully sent message!")
+                                                                            })
     },
   error => { // This is if the username is not found in the database
     console.log(error);

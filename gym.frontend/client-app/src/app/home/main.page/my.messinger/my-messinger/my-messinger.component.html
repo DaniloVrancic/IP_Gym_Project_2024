@@ -41,6 +41,11 @@
         <div div="received-messages">
             <h3 style="text-align: center; font-size: xx-large;">Received Messages</h3>
             <div class="message-container">
+                @if(this.allReceivedChats != null && this.allReceivedChats.length == 0)
+                {
+                    <h1 style="display: block; text-align: center;">No messages received yet.</h1>
+                }
+                @else{
                 @for(receivedChat of this.allReceivedChats; track receivedChat)
                 {
                     <div class="single-message-info" (click)="showCompleteMessage(receivedChat)">
@@ -49,6 +54,8 @@
                         <div style="flex: 9;">{{receivedChat.text}}</div>
                     </div>
                 }
+            }
+                
             </div>
         </div>
 

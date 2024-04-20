@@ -17,6 +17,10 @@ export class MyMessingerService {
     return this.http.post<ChatroomEntity>(`${this.apiServerUrl}/chatroom/add`, chatroomEntity);
   }
 
+  public addChatToAllUsersWithType(chatroomEntity: ChatroomEntity, typeId: number): Observable<ChatroomEntity[]> {
+    return this.http.post<ChatroomEntity[]>(`${this.apiServerUrl}/chatroom/add_to_users/${typeId}`, chatroomEntity);
+  }
+
   public markAsRead(chatroomEntity: ChatroomEntity): Observable<ChatroomEntity> {
     return this.http.put<ChatroomEntity>(`${this.apiServerUrl}/chatroom/mark_as_read`, chatroomEntity);
   }
