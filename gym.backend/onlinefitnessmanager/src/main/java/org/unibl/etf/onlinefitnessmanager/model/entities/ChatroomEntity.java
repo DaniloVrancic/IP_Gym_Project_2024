@@ -24,8 +24,12 @@ public class ChatroomEntity {
     @Column(name = "read_msg", nullable = false)
     private Boolean read_msg;
     @ManyToOne
-    @JoinColumn(name = "friend_id", referencedColumnName = "id", nullable = false)
-    private UserEntity user_friend;
+    @JoinColumn(name = "receiver_id", referencedColumnName = "id", nullable = false)
+    private UserEntity user_receiver;
+
+    @ManyToOne
+    @JoinColumn(name = "sender_id", referencedColumnName = "id", nullable = false)
+    private UserEntity user_sender;
 
     public Integer getId() {
         return id;
@@ -51,22 +55,30 @@ public class ChatroomEntity {
         this.text = text;
     }
 
-    public Boolean getRead()
+    public Boolean getReadMsg()
     {
         return this.read_msg;
     }
 
-    public void setRead(Boolean read)
+    public void setReadMsg(Boolean read)
     {
         this.read_msg = read;
     }
 
-    public UserEntity getUser_friend() {
-        return user_friend;
+    public UserEntity getUser_receiver() {
+        return user_receiver;
     }
 
-    public void setUser_friend(UserEntity user_friend) {
-        this.user_friend = user_friend;
+    public void setUser_receiver(UserEntity user_friend) {
+        this.user_receiver = user_friend;
+    }
+
+    public UserEntity getUser_sender() {
+        return user_sender;
+    }
+
+    public void setUser_sender(UserEntity user_sender) {
+        this.user_sender = user_sender;
     }
 
     @Override
