@@ -10,7 +10,7 @@ public class SpecificProgramAttribute implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer id;
     private String attributeName;
-    private String value;
+    private String attributeValue;
     private Integer programTypeId; // Reference to FitnessProgramType
 
     public Integer getId() {
@@ -31,12 +31,12 @@ public class SpecificProgramAttribute implements Serializable {
     
     public String getValue()
     {
-    	return this.value;
+    	return this.attributeValue;
     }
     
     public void setValue(String value)
     {
-    	this.value = value;
+    	this.attributeValue = value;
     }
 
     public Integer getProgramType() {
@@ -78,8 +78,9 @@ public class SpecificProgramAttribute implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("ID: ").append(this.id).append("\n");
+        sb.append("Program Type ID: ").append(this.programTypeId).append("\n");
         sb.append("Attribute Name: ").append(this.attributeName).append("\n");
-        sb.append("Program Type ID: ").append(this.programTypeId);
+        sb.append("Attribute Value: ").append(this.attributeValue);
         return sb.toString();
     }
 }

@@ -63,4 +63,8 @@ export class UserService {
   {
     return JSON.parse(sessionStorage.getItem(environment.userKeyString) as string);
   }
+
+  public findUserByUsername(username: string): Observable<User> {
+    return this.http.get<User>(`${this.apiServerUrl}/user/find_by_username/${username}`);
+  }
 }

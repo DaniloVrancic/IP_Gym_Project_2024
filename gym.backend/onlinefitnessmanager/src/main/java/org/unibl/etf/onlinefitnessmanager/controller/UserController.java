@@ -163,6 +163,18 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK); //executes if a user is found
     }
 
+    @GetMapping("/find_by_username/{username}")
+    public ResponseEntity<UserEntity> findUserByUsername(@PathVariable("username") String username) {
+        try {
+            UserEntity user = userService.findUserByUsername(username);
+            user.setPassword(""); // To hide password hash
+            return new ResponseEntity<>(user, HttpStatus.OK); //If a user is found
+        } catch (UserNotFoundException ex) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); //If user not found
+        }
+    }
+
+
     @GetMapping("/verify")
     public ResponseEntity<?> verifyUser(@RequestParam("activationToken") String token)
     {

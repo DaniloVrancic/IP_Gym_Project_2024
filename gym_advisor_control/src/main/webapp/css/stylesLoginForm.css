@@ -1,0 +1,47 @@
+body {
+    background-color: #d3d3d3;
+}
+
+h3 {
+    background-color: #4a286b;
+    border-radius: 0.65rem; 
+    padding: 10px;
+    font-size: 3.5rem;
+    color: white;
+    text-align: center; /* Center the text */
+}
+
+
+.error-message{
+	border: 1px solid black;
+	border-radius: 0.4rem;
+	font-size: 1.2rem;
+	color: red;
+	padding: 1rem;
+}
+
+label {
+    font-size: 2rem; /* Smaller font size for labels */
+}
+
+.my-form {
+    background-color: ghostwhite; /* Background color of the form */
+    padding: 20px;
+    border-radius: 10px; /* Rounded border */
+    margin: 0 auto; /* Center the form horizontally */
+    width: 50%;
+}
+
+.form-container {
+    margin-top: 50px;
+    text-align: center; /* Center the content within the container */
+}
+
+.form-container .my-form label,
+.form-container .my-form input {
+    display: block; /* Display each element on a new line */
+    margin: 0.5rem 0; /* Add margin between elements */
+    width: 100%;
+    box-sizing: border-box; /* Include padding and border in element's total width */
+}
+

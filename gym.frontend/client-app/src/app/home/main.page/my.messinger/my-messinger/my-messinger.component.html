@@ -1,0 +1,56 @@
+<div>
+<div class="button-container spacing-top spacing-bottom">
+    <button mat-fab extended id="chatUserButton" [disabled]="isMessageUserButtonDisabled" (click)="prepareForMessageFriend()" style="background-color: var(--secondary-color);">
+        <mat-icon>chat</mat-icon>
+        Message User
+      </button>
+      <button mat-fab extended id="chatAdvisorButton" [disabled]="isMessageAdvisorButtonDisabled" (click)="prepareForMessageAdvisor()" style="background-color: var(--advisor-button-color); color:ghostwhite;">
+        <mat-icon>question_answer</mat-icon>
+        Message Advisor
+      </button>
+    </div>
+      <br>
+      <div>
+        <form method="POST" class="centered-form">
+            <h2 class="form-title">Send a message</h2>
+            <div id="errorMessage">
+                ERROR: (To:) User hasn't been found.
+            </div>
+            <label class="input-field-descriptor" for="to">To:</label>
+            <input class="input-field" placeholder=" " type="text" name="to" id="to" [readOnly]="isMessageAdvisorButtonDisabled" (input)="checkIfFormValid()">
+            <br><br>
+            <label class="input-field-descriptor" for="text-message">Message:</label>
+            <textarea class="input-field" placeholder=" " name="text-message" id="text-message" style="max-height: 20rem; min-height: 2rem; max-width: 100%; min-width: 100%; padding-top: 1rem; font-size: larger; height: 7rem;" (input)="checkIfFormValid()"></textarea>
+            <br>
+            <div class="buttons-area">
+            <button id="sendButton" [disabled]="isSendButtonDisabled" type="button" (click)="sendMessage()" style="font-size: x-large; font-weight: 700;">Send Message</button>
+            </div>
+        </form>
+    </div>
+    <br><br>
+        <div id="selected-message-display" style="display: none;">
+            <h1 (click)="clearSelectedMessageDisplay()" style="cursor: pointer; color: var(--secondary-color); background-color: var(--primary-color); text-align: center;">X</h1>
+            <div id="selected-message-content">
+            <h1>Selected message:</h1>
+            <h2 id="selectedMessageFrom">SiteAdmin</h2>
+            <h2 id="selectedMessageTime">25.6.2024T02:24:29</h2>
+            <h3 id="selectedMessageText"></h3>
+            </div> 
+        </div>
+        <br><br><br><br>
+        <div div="received-messages">
+            <h3 style="text-align: center; font-size: xx-large;">Received Messages</h3>
+            <div class="message-container">
+                @for(receivedChat of this.allReceivedChats; track receivedChat)
+                {
+                    <div class="single-message-info" (click)="showCompleteMessage(receivedChat)">
+                        <div style="flex: 1;" id="envelope-icon"><mat-icon>{{receivedChat.readMsg ? "mail_outline" : "email"}}</mat-icon></div>
+                        <div style="flex: 2;">From: {{receivedChat.user_sender.username}} at: {{receivedChat.timeOfSend}}</div>
+                        <div style="flex: 9;">{{receivedChat.text}}</div>
+                    </div>
+                }
+            </div>
+        </div>
+
+</div>
+
