@@ -244,6 +244,7 @@ import net.etfbl.ip.gym_admin.util.Util;
             String avatar = request.getParameter("avatar").length() > 0 ? request.getParameter("avatar") : null;
             String email = request.getParameter("email");
             Boolean activated = Boolean.parseBoolean(request.getParameter("activated"));
+            Integer type = Integer.parseInt(request.getParameter("type"));
             
             User userToAdd = new User();
             userToAdd.setUsername(username);
@@ -255,8 +256,8 @@ import net.etfbl.ip.gym_admin.util.Util;
             userToAdd.setAvatar(avatar);
             userToAdd.setEmail(email);
             userToAdd.setActivated(activated);
-            userToAdd.setType(3); // Wanna make it so that admins from the control panel
-            					  //can only add User type users.
+            userToAdd.setType(type);
+
             
             
             
@@ -288,6 +289,7 @@ import net.etfbl.ip.gym_admin.util.Util;
             String avatar = request.getParameter("avatar").length() > 0 ? request.getParameter("avatar") : null;
             String email = request.getParameter("email");
             Boolean activated = Boolean.parseBoolean(request.getParameter("activated"));
+            Integer type = Integer.parseInt(request.getParameter("type"));
             
             User userToUpdate = UserDAO.selectById(userId);
             if(username.length() > 0) {userToUpdate.setUsername(username);}
@@ -299,6 +301,8 @@ import net.etfbl.ip.gym_admin.util.Util;
             else {userToUpdate.setAvatar(null);}
             if(email.length() > 0) {userToUpdate.setEmail(email);}
             userToUpdate.setActivated(activated);
+            userToUpdate.setType(type);
+            
             
             
             try {
