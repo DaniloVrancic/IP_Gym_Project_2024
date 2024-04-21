@@ -26,7 +26,13 @@ import net.etfbl.ip.gym_advisor.util.Util;
 
 		private static final String contextPath = "/gym_advisor_control";
 		private static final String advisorPagePath = "/WEB-INF/pages/advisorPage.jsp";
+		private static final String myMessagesPath = "/WEB-INF/pages/myMessages.jsp";
+		private static final String sendmessagePath = "/WEB-INF/pages/sendMessage.jsp";
+		private static final String notFoundPath = "/WEB-INF/pages/404NotFound.jsp";
+		
 		private static final String loginPagePath = "/loginForm.jsp";
+		
+		public static HttpSession session = null;
 
 		public Controller() {
 			super();
@@ -39,7 +45,7 @@ import net.etfbl.ip.gym_advisor.util.Util;
 			request.setCharacterEncoding("UTF-8");
 			String address = loginPagePath;
 			String action = request.getParameter("action");
-			HttpSession session = null;
+			
 			if(session == null)
 			{
 				session = request.getSession(true);
@@ -91,6 +97,32 @@ import net.etfbl.ip.gym_advisor.util.Util;
 			{
 				session.invalidate();
 				address = (loginPagePath);
+			}
+			else if("mymessages".equals(action))
+			{
+				if(!session.getAttribute("userBean").equals(null))
+				{
+					request.getRequestDispatcher(myMessagesPath).forward(request, response);
+					return;
+				}
+				else
+				{
+					request.getRequestDispatcher(notFoundPath).forward(request, response);
+					return;
+				}
+			}
+			else if("sendmessage".equals(action))
+			{
+				if(!session.getAttribute("userBean").equals(null))
+				{
+					request.getRequestDispatcher(sendmessagePath).forward(request, response);
+					return;
+				}
+				else
+				{
+					request.getRequestDispatcher(notFoundPath).forward(request, response);
+					return;
+				}
 			}
 			
 			request.getRequestDispatcher(address).forward(request, response);

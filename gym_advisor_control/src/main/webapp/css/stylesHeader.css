@@ -41,9 +41,9 @@ a{
 }
 
 .list-item{
-	color:white;
-	background-color:black;
-	border:1px solid black;
+	color:black;
+	background-color:ghostwhite;
+	border:1px solid gray;
 	border-radius: 0.6rem;
 	padding: 0.5rem 1.5rem;
 	margin: 0.1rem 0.3rem;
@@ -52,7 +52,7 @@ a{
 
 .list-item:hover{
 	background-color: #f3f3f3;
-	color: #d16a3b;
+	color: rgb(128, 255, 0);
 }
 
 @keyframes buttonAnimation {

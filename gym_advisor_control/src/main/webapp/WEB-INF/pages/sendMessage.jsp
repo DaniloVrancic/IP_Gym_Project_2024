@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body style="background-color:#909090">
-	<jsp:include page="/WEB-INF/partials/header.jsp"></jsp:include>
-	Welcome to loggedIn page.
+<jsp:include page="/WEB-INF/partials/header.jsp"></jsp:include>
+ Welcome to Send MEssage
 </body>
 </html>
