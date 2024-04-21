@@ -14,7 +14,6 @@
     
     <link rel="stylesheet" href="css/stylesHeader.css">
     <link rel="stylesheet" href="css/stylesAdminControl.css">
-    <link rel="stylesheet" href="css/stylesCategoriesPage.css">
     <link rel="stylesheet" href="css/form-style.css">
 	<title>Advisor Login</title>
 </head>

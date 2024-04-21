@@ -11,8 +11,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.etfbl.ip.gym_advisor.beans.UserBean;
-
+import net.etfbl.ip.gym_advisor.dao.ChatroomDAO;
 import net.etfbl.ip.gym_advisor.dao.UserDAO;
+import net.etfbl.ip.gym_advisor.dto.Chatroom;
 import net.etfbl.ip.gym_advisor.dto.User;
 import net.etfbl.ip.gym_advisor.util.Util;
 
@@ -123,6 +124,40 @@ import net.etfbl.ip.gym_advisor.util.Util;
 					request.getRequestDispatcher(notFoundPath).forward(request, response);
 					return;
 				}
+			}
+			else if("getMessageDetails".equals(action))
+			{
+			    int messageId = Integer.parseInt(request.getParameter("id"));
+			    
+			    
+			    // Query database for message details
+			    Chatroom message = ChatroomDAO.selectMessageById(messageId);
+			    ChatroomDAO.markAsRead(message);
+
+			    // Convert message object to JSON manually
+			    StringBuilder jsonBuilder = new StringBuilder("{");
+			    
+		        jsonBuilder.append("\"id\":").append(message.getId()).append(",");
+		        jsonBuilder.append("\"readMsg\":\"").append(message.getReadMsg()).append("\",");
+		        jsonBuilder.append("\"text\":\"").append(message.getText().replace("\n", "\\n")).append("\",");
+		        jsonBuilder.append("\"sender_id\":\"").append(message.getSenderId()).append("\",");
+		        jsonBuilder.append("\"timeOfSend\":").append("\"").append(message.getTimeOfSend()).append("\"");
+		        jsonBuilder.append("}");
+
+		        
+			    String json = jsonBuilder.toString();
+			    
+			    // Set response content type and character encoding
+			    response.setContentType("application/json");
+			    response.setCharacterEncoding("UTF-8");
+			    
+			    // Write JSON string to response
+			    try (PrintWriter out = response.getWriter()) {
+			        out.write(json);
+			    } catch (IOException e) {
+			        e.printStackTrace();
+			    }
+			    return;
 			}
 			
 			request.getRequestDispatcher(address).forward(request, response);

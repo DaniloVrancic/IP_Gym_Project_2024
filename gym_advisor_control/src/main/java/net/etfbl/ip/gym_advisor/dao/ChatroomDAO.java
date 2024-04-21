@@ -16,7 +16,7 @@ public class ChatroomDAO {
 	private static final String SQL_SELECT_ALL_BY_RECEIVER = "SELECT * FROM chatroom WHERE receiver_id=?";
 	private static final String SQL_SELECT_ALL_BY_SENDER = "SELECT * FROM chatroom WHERE sender_id=?";
 	private static final String SQL_SELECT_ALL_BY_READ = "SELECT * FROM chatroom WHERE read_msg=?"; //true or false
-	private static final String SQL_SELECT_BY_ID = "SELECT * FROM user WHERE id=?";
+	private static final String SQL_SELECT_BY_ID = "SELECT * FROM chatroom WHERE id=?";
 	
 	
 	private static final String SQL_DELETE = "DELETE FROM chatroom WHERE id=?";
@@ -43,6 +43,29 @@ public class ChatroomDAO {
 			connectionPool.checkIn(connection);
 		}
 		return listOfUsers;
+	}
+	
+	public static Chatroom selectMessageById(Integer id)
+	{
+		Chatroom foundChatroom = new Chatroom();
+		Connection connection = null;
+		ResultSet rs = null;
+		Object values[] = {id}; //Will search for messages with received messages;
+		try {
+			connection = connectionPool.checkOut();
+			PreparedStatement pstmt = DAOUtil.prepareStatement(connection,
+					SQL_SELECT_BY_ID, false, values);
+			rs = pstmt.executeQuery();
+			while (rs.next()){
+				foundChatroom = new Chatroom(rs.getInt("id"), rs.getString("time_of_send"), rs.getString("text"), rs.getBoolean("read_msg"), rs.getInt("receiver_id"), rs.getInt("sender_id"));
+			}
+			pstmt.close();
+		} catch (SQLException exp) {
+			exp.printStackTrace();
+		} finally {
+			connectionPool.checkIn(connection);
+		}
+		return foundChatroom;
 	}
 	
 	public static boolean markAsRead(Chatroom chatMessage) {

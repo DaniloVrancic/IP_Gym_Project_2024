@@ -9,5 +9,6 @@
 <body style="background-color:#909090">
 <jsp:include page="/WEB-INF/partials/header.jsp"></jsp:include>
  Welcome to Send MEssage
+ 
 </body>
 </html>
