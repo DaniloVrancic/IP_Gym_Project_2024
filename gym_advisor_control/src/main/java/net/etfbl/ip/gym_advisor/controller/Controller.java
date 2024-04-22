@@ -1,15 +1,31 @@
 package net.etfbl.ip.gym_advisor.controller;
 
 	import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Properties;
+
+import org.apache.tomcat.util.http.fileupload.util.mime.MimeUtility;
+
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+
+
+import jakarta.mail.*;
+import jakarta.mail.internet.*;
+import jakarta.mail.util.ByteArrayDataSource;
+import jakarta.activation.*;
+
+
+
 import net.etfbl.ip.gym_advisor.beans.UserBean;
 import net.etfbl.ip.gym_advisor.dao.ChatroomDAO;
 import net.etfbl.ip.gym_advisor.dao.UserDAO;
@@ -18,6 +34,11 @@ import net.etfbl.ip.gym_advisor.dto.User;
 import net.etfbl.ip.gym_advisor.util.Util;
 
 	@WebServlet({"/Controller", ""})
+	@MultipartConfig(
+		    fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+		    maxFileSize = 1024 * 1024 * 10,      // 10MB
+		    maxRequestSize = 1024 * 1024 * 50    // 50MB
+		)
 	public class Controller extends HttpServlet{
 
 		/**
@@ -159,6 +180,23 @@ import net.etfbl.ip.gym_advisor.util.Util;
 			    }
 			    return;
 			}
+			else if("sendEmail".equals(action))
+			{
+				 	String to = request.getParameter("to");
+			        String message = request.getParameter("message");
+			        Part filePart = null;
+			        InputStream fileContent = null;
+			        if(request.getPart("attachment") != null) {
+			            filePart = request.getPart("attachment");
+			            fileContent = filePart.getInputStream();			        	
+			        }
+			        
+
+			     // Send email with (optional) attachment
+			        sendEmail(to, "Answer to your question", message, fileContent, "advisor@fitcheck.com");
+			        return;
+			}
+			
 			
 			request.getRequestDispatcher(address).forward(request, response);
 
@@ -170,5 +208,62 @@ import net.etfbl.ip.gym_advisor.util.Util;
 
 			doGet(request, response);
 		}
+		
+		 private void sendEmail(String to, String subject, String message, InputStream attachment, String from) throws IOException {
+		
+			 /*
+			 MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap(); 
+			 mc.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html"); 
+			 mc.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml"); 
+			 mc.addMailcap("text/plain;; x-java-content-handler=com.sun.mail.handlers.text_plain"); 
+			 mc.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed"); 
+			 mc.addMailcap("message/rfc822;; x-java-content- handler=com.sun.mail.handlers.message_rfc822"); 
+			 */
+			 
+		        String host = "localhost"; // MailDev server host
+		        int port = 1025; // MailDev server port
+		        
+
+		        Properties props = new Properties();
+		        props.put("mail.smtp.host", host);
+		        props.put("mail.smtp.port", port);
+
+		        Session session = Session.getInstance(props);
+
+		        MimeMessage emailMessage = new MimeMessage(session);
+		        try {
+		            emailMessage.setFrom(new InternetAddress(from));
+		            emailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+		            emailMessage.setSubject(subject);
+		            
+		            
+		            // Create multipart message
+		            Multipart multipart = new MimeMultipart();
+		            
+		            //Text message Body part
+		            MimeBodyPart messageBodyPart = new MimeBodyPart();
+		            messageBodyPart.setText(message);
+		            multipart.addBodyPart(messageBodyPart);
+		            
+		            
+
+		            // Add attachment
+		            if (attachment != null) {
+		                MimeBodyPart attachmentPart = new MimeBodyPart();
+		                ByteArrayDataSource source = new ByteArrayDataSource(attachment, "application/octet-stream");
+		                DataHandler handler = new DataHandler(source);
+		                attachmentPart.setDataHandler(handler);
+		                attachmentPart.setHeader("Content-ID", "<Logo>");
+		                multipart.addBodyPart(attachmentPart);
+		            }
+
+		            emailMessage.setContent(multipart);
+		            Transport.send(emailMessage);
+		            // Send message
+		            System.out.println("Email sent successfully.");
+		        } catch (MessagingException e) {
+		            e.printStackTrace();
+		        }
+		    }
 	}
 	

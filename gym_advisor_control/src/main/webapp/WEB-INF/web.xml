@@ -10,4 +10,18 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>loginForm.jsp</welcome-file>
   </welcome-file-list>
+  
+  <servlet>
+    <servlet-name>Controller</servlet-name>
+    <servlet-class>net.etfbl.ip.gym_admin.controller.Controller</servlet-class>
+    <multipart-config>
+        <file-size-threshold>2621440</file-size-threshold> <!-- 2MB -->
+        <max-file-size>10485760</max-file-size>           <!-- 10MB -->
+        <max-request-size>52428800</max-request-size>     <!-- 50MB -->
+    </multipart-config>
+</servlet>
+<servlet-mapping>
+    <servlet-name>Controller</servlet-name>
+    <url-pattern>/Controller/*</url-pattern>
+</servlet-mapping>
 </web-app>
