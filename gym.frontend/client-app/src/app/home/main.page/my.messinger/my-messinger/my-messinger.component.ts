@@ -87,7 +87,7 @@ sendMessage() {
   if(this.isMessageAdvisorButtonDisabled)
     {
       let newMessageForAdvisors: ChatroomEntity = {text: textToSend, user_sender: this.userService.getCurrentUser() as User, readMsg: false} as any;
-      this.myMessingerService.addChatToAllUsersWithType(newMessageForAdvisors, 2).subscribe(result => {console.log("Sent message to advisors."); console.log(result);});
+      this.myMessingerService.addChatToAllUsersWithType(newMessageForAdvisors, 2).subscribe(result => {console.log("Sent message to advisors."); console.log(result); alert("Sent message to advisors.")});
       return;
     }
 
