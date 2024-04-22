@@ -10,7 +10,7 @@
 </head>
 <body style="background-color:#909090">
 <jsp:include page="/WEB-INF/partials/header.jsp"></jsp:include>
-<div style="margin: 20px;">
+<div style="margin: 25px;">
     
     <div class="form-container">
     <form method="post" enctype="multipart/form-data">
