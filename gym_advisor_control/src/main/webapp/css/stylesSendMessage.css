@@ -1,0 +1,27 @@
+.form-container{
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+
+.flex-inputs-row{
+	display: flex;
+	flex-direction: row;
+}
+
+.form-label{
+	color: ghostwhite;
+	font-size: large;
+	flex: 2;
+}
+
+.form-input{
+	flex: 8
+}
+
+.play-jersey-font{
+	font-family: "Play", "Jersey 25", "sans-serif";
+	font-size: 14px;
+	font-weight: bold;
+	color: var(--input-descriptor-main-text-color);
+}
