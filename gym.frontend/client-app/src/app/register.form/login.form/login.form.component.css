@@ -37,7 +37,7 @@
   .example-full-width {
     width: 100%;
   }
-
+ /*HIDE THE ORIGINAL (UGLY) LOOK OF THE FILE INPUT CONTROL*/
   input[type="file"]
   {
     display: none;
