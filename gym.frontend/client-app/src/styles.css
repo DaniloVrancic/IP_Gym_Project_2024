@@ -9,12 +9,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     --secondary-color: hsl(44, 90%, 80%);
     --button-color: rgba(225, 205, 165, 0.785);
 
-<<<<<<< HEAD
-    --advisor-button-color: rgb(30, 85, 165); /*Advisor button color */
-=======
     --advisor-button-color: rgb(30, 85, 165);
-    --advisor-button-color2: rgb(100, 85, 165);
->>>>>>> 784724e396fa44b82c3f3e7ee876dee7e6ffc49a
+    --advisor-button-color2: rgb(100, 85, 165); /*Secondary color for advisor button*/
 
     --title-main-text-color: #181818;
     --input-main-text-color: #181818;
