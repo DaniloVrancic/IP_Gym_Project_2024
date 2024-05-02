@@ -1,3 +1,3 @@
 TYPE_ID	-	TYPE	-	PROGRAM_ID	-	PROGRAM_NAME	-	PROGRAM_DURATION	-	PROGRAM_PRICE	-	USER_ID	-	USER_NAME	-	USER_LOCATION	-	USER_EMAIL	-	DATE
-1#Strength#10#Weight Lifting#25#59.99#1#user1#Tokyo#mrKap@student.etf.unibl.org#2024-04-10T18:25:38.620469600
-3#Speed#11#CSGO Training#180#1000.0#1#user1#Banja Luka#danilo.vrancic@student.etf.unibl.org#2024-04-10T22:02:24.621895300
+2#Cardio#13#Half-Marathon#420#19.99#14#davra#Luka#danilov98@hotmail.com#2024-04-22T17:08:15.867967400
+2#Cardio#14#IP#180#39.99#1#user1#Tokyo#mrKap@student.etf.unibl.org#2024-04-23T11:27:54.611015600

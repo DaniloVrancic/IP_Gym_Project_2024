@@ -6,7 +6,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
+<body style="background-color:#909090">
+	<jsp:include page="/WEB-INF/partials/header.jsp"></jsp:include>
 	Welcome to loggedIn page.
 </body>
 </html>

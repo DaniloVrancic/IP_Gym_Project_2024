@@ -41,6 +41,17 @@ public class ChatroomController {
         }
     }
 
+    @PostMapping("/add_to_users/{typeId}")
+    public ResponseEntity<List<ChatroomEntity>> addChatToAllUsersWithType(@RequestBody ChatroomEntity chatroomEntity, @PathVariable("typeId") Integer typeId) {
+        List<ChatroomEntity> newChats = null;
+        newChats = chatroomService.addChatToAllUsersWithType(chatroomEntity, typeId);
+        if (newChats != null) {
+            return ResponseEntity.ok(newChats);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
     @GetMapping("/receiver_chats/{receiverId}")
     public ResponseEntity<List<ChatroomEntity>> getAllReceiverChats(@PathVariable("receiverId") Integer receiverId) {
         List<ChatroomEntity> receiverChats = chatroomService.getAllReceiverChats(receiverId);

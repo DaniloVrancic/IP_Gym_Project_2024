@@ -50,6 +50,7 @@
             document.getElementById("addUserButton").disabled = true;
             document.getElementById("updateButton").disabled = true;
             document.getElementById("activatedNo").checked="checked";
+            document.getElementById("typeUser").checked="checked"
         }
         
         function enableUpdateButton() {
@@ -76,6 +77,8 @@
             var avatar = selectedOption.getAttribute("data-avatar");
             var email = selectedOption.getAttribute("data-email");
             var activated = selectedOption.getAttribute("data-activated");
+            var selectedType	 = selectedOption.getAttribute("data-type");
+            
 
             // Assign values to corresponding text-boxes
             document.getElementById("userId").value = id;
@@ -85,15 +88,20 @@
             document.getElementById("lastName").value = lastName;
             document.getElementById("avatar").value = avatar;
             document.getElementById("email").value = email;
-            console.log(activated);
-            if(activated == "false")
-            	{
-            	document.getElementById("activatedNo").checked = "checked";
-            	}
-            else{
-            	document.getElementById("activatedYes").checked = "checked";
-            	}
+            
+            if (activated == "false") {
+                document.getElementById("activatedNo").checked = true;
+            } else {
+                document.getElementById("activatedYes").checked = true;
+            }
+
+            if (selectedType == "2") {
+                document.getElementById("typeAdvisor").checked = true;
+            } else {
+                document.getElementById("typeUser").checked = true;
+            }
             };
+            
     </script>
 </head>
 <body>
@@ -106,7 +114,7 @@
         <select id="userSelect" name="userSelect" class="input-field select-input" onchange="selectUser(); enableUpdateButton()">
         	<option data-id="" data-username="" data-city="" data-firstName="" data-lastName="" data-avatar="" data-email="">(none)</option>
             <% 
-            for(User regularUser : UserDAO.selectAllRegularUsers())
+            for(User regularUser : UserDAO.selectAllUsersAndAdvisors())
             {
             %> <option 
             data-id="<%=regularUser.getId()%>" 
@@ -116,7 +124,8 @@
             data-lastName="<%=regularUser.getLastName()%>" 
             data-avatar="<%=regularUser.getAvatar()%>" 
             data-email="<%=regularUser.getEmail()%>" 
-            data-activated="<%=regularUser.getActivated()%>">
+            data-activated="<%=regularUser.getActivated()%>" 
+            data-type="<%=regularUser.getType()%>">
             <%= regularUser.getUsername()%></option> <%
             }
             %>
@@ -152,6 +161,15 @@
 	    <label for="activatedYes">Yes</label>
 	    <input checked="checked" type="radio" id="activatedNo" name="activated" value="false" class="radio-input">
 	    <label for="activatedNo">No</label><br>
+	</div>
+	
+	<br>
+	<label for="type" class="input-field-descriptor">Type:</label>
+	<div class="input-field">
+	    <input type="radio" id="typeAdvisor" name="type" value="2" class="radio-input">
+	    <label for="typeAdvisor">Advisor</label>
+	    <input type="radio" checked="checked" id="typeUser" name="type" value="3" class="radio-input">
+	    <label for="typeUser">User</label>
 	</div>
     <br>
     <div class="buttons-area">

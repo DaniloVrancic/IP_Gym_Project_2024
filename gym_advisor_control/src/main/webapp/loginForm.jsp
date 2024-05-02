@@ -1,7 +1,7 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%@page import="net.etfbl.ip.gym_advisor.beans.UserBean"%>
+<%@ page import="net.etfbl.ip.gym_advisor.beans.UserBean"%>
 
 <!DOCTYPE html>
 <html>
@@ -14,7 +14,6 @@
     
     <link rel="stylesheet" href="css/stylesHeader.css">
     <link rel="stylesheet" href="css/stylesAdminControl.css">
-    <link rel="stylesheet" href="css/stylesCategoriesPage.css">
     <link rel="stylesheet" href="css/form-style.css">
 	<title>Advisor Login</title>
 </head>

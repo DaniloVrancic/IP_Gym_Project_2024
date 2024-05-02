@@ -10,6 +10,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     --button-color: rgba(225, 205, 165, 0.785);
 
     --advisor-button-color: rgb(30, 85, 165);
+    --advisor-button-color2: rgb(100, 85, 165); /*Secondary color for advisor button*/
 
     --title-main-text-color: #181818;
     --input-main-text-color: #181818;

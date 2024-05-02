@@ -15,6 +15,7 @@ public class UserDAO {
 	private static ConnectionPool connectionPool = ConnectionPool.getConnectionPool();
 	private static final String SQL_SELECT_BY_USERNAME = "SELECT * FROM user WHERE username=?";
 	private static final String SQL_SELECT_BY_USERNAME_AND_TYPE	= "SELECT * FROM user WHERE username=? AND type=?";
+	private static final String SQL_SELECT_USERS_AND_ADVISORS	= "SELECT * FROM user WHERE type=? OR type=?";
 	private static final String SQL_SELECT_BY_TYPE	= "SELECT * FROM user WHERE type=?";
 	private static final String SQL_SELECT_BY_EMAIL = "SELECT * FROM user WHERE email=?";
 	private static final String SQL_FIND_BY_USERNAME = "SELECT * FROM user WHERE username = ?";
@@ -68,6 +69,29 @@ public class UserDAO {
 			connectionPool.checkIn(connection);
 		}
 		return user;
+	}
+	
+	public static List<User> selectAllUsersAndAdvisors(){
+		List<User> listOfUsers = new ArrayList<>();
+		Connection connection = null;
+		ResultSet rs = null;
+		Object values[] = {2,3}; //Will search for type=3 users;
+		try {
+			connection = connectionPool.checkOut();
+			PreparedStatement pstmt = DAOUtil.prepareStatement(connection,
+					SQL_SELECT_USERS_AND_ADVISORS, false, values);
+			rs = pstmt.executeQuery();
+			while (rs.next()){
+				listOfUsers.add(new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"), rs.getString("first_name"), rs.getString("last_name"),
+						rs.getString("city"), rs.getString("avatar"), rs.getString("email"), rs.getBoolean("activated"), rs.getInt("type")));
+			}
+			pstmt.close();
+		} catch (SQLException exp) {
+			exp.printStackTrace();
+		} finally {
+			connectionPool.checkIn(connection);
+		}
+		return listOfUsers;
 	}
 
 	public static List<User> selectAllRegularUsers()
